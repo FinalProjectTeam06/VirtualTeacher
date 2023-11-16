@@ -32,7 +32,7 @@ public class Course {
     private User creator;
 
     @Column(name = "start_date")
-    private LocalDate createdAt;
+    private LocalDate startDate;
 
     public Course() {
     }
@@ -85,11 +85,11 @@ public class Course {
         this.creator = creator;
     }
 
-    public LocalDate getCreatedAt() {
-        return createdAt;
+    public LocalDate getStartDate() {
+        return startDate;
     }
 
-    public void setCreatedAt(LocalDate createdAt) {
-        this.createdAt = createdAt;
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
     }
 }
