@@ -1,12 +1,8 @@
-create table lectures
-(
-    lecture_id  int auto_increment
-        primary key,
-    title       varchar(50)    not null,
-    description varchar(1000)  null,
-    video_url   varchar(255)   not null,
-    assignment  varchar(10000) not null
-);
+drop database if exists virtual_teacher;
+
+create database virtual_teacher;
+
+use virtual_teacher;
 
 create table roles
 (
@@ -14,36 +10,12 @@ create table roles
         primary key,
     name    varchar(255) not null
 );
-
 create table topics
 (
     topic_id int auto_increment
         primary key,
     name     varchar(255) not null
 );
-
-create table courses
-(
-    course_id   int auto_increment
-        primary key,
-    title       varchar(50)   not null,
-    topic_id    int           not null,
-    description varchar(1000) null,
-    start_date  datetime      not null,
-    constraint courses_topics_topic_id_fk
-        foreign key (topic_id) references topics (topic_id)
-);
-
-create table course_lectures
-(
-    course_id  int not null,
-    lecture_id int not null,
-    constraint course_lectures_courses_course_id_fk
-        foreign key (course_id) references courses (course_id),
-    constraint course_lectures_lectures_lecture_id_fk
-        foreign key (lecture_id) references lectures (lecture_id)
-);
-
 create table users
 (
     user_id             int auto_increment
@@ -57,20 +29,21 @@ create table users
     constraint users_roles_role_id_fk
         foreign key (role_id) references roles (role_id)
 );
-
-create table course_comments
+create table courses
 (
-    comment_id int auto_increment
+    course_id    int auto_increment
         primary key,
-    user_id    int            not null,
-    course_id  int            not null,
-    content    varchar(10000) not null,
-    constraint course_comments_courses_course_id_fk
-        foreign key (course_id) references courses (course_id),
-    constraint course_comments_users_user_id_fk
-        foreign key (user_id) references users (user_id)
+    title        varchar(50)          not null,
+    topic_id     int                  not null,
+    description  varchar(1000)        null,
+    creator_id   int                  not null,
+    is_published tinyint(1) default 0 not null,
+    start_date   datetime             not null,
+    constraint courses_topics_topic_id_fk
+        foreign key (topic_id) references topics (topic_id),
+    constraint courses_users_user_id_fk
+        foreign key (creator_id) references users (user_id)
 );
-
 create table enrolled_courses
 (
     user_id   int not null,
@@ -80,4 +53,61 @@ create table enrolled_courses
     constraint enrolled_courses_users_user_id_fk
         foreign key (user_id) references users (user_id)
 );
-
+create table lectures
+(
+    lecture_id     int auto_increment
+        primary key,
+    title          varchar(50)    not null,
+    description    varchar(1000)  null,
+    video_url      varchar(255)   not null,
+    assignment_url varchar(10000) not null,
+    teacher_id     int            not null,
+    course_id      int            not null,
+    constraint lectures_courses_course_id_fk
+        foreign key (course_id) references courses (course_id),
+    constraint lectures_users_user_id_fk
+        foreign key (teacher_id) references users (user_id)
+);
+create table comments
+(
+    comment_id int auto_increment
+        primary key,
+    user_id    int           not null,
+    lecture_id int           not null,
+    content    varchar(1000) not null,
+    constraint comments_lectures_lecture_id_fk
+        foreign key (lecture_id) references lectures (lecture_id),
+    constraint comments_users_user_id_fk
+        foreign key (user_id) references users (user_id)
+);
+create table course_lectures
+(
+    course_id  int not null,
+    lecture_id int not null,
+    constraint course_lectures_courses_course_id_fk
+        foreign key (course_id) references courses (course_id),
+    constraint course_lectures_lectures_lecture_id_fk
+        foreign key (lecture_id) references lectures (lecture_id)
+);
+create table rates
+(
+    rate_id    int auto_increment
+        primary key,
+    course_id  int not null,
+    rate_value int null,
+    rate_count int not null,
+    constraint rates_courses_course_id_fk
+        foreign key (course_id) references courses (course_id)
+);
+create table users_lectures
+(
+    user_id                  int                  not null,
+    lecture_id               int                  not null,
+    isAttend                 tinyint(1) default 0 not null,
+    assigment_url_submission varchar(10000)       not null,
+    notes                    varchar(1000)        not null,
+    constraint users_lectures_lectures_lecture_id_fk
+        foreign key (lecture_id) references lectures (lecture_id),
+    constraint users_lectures_users_user_id_fk
+        foreign key (user_id) references users (user_id)
+);

@@ -5,6 +5,10 @@ import org.checkerframework.checker.units.qual.C;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+
 @Entity
 @Table(name = "courses")
 public class Course {
@@ -33,6 +37,9 @@ public class Course {
 
     @Column(name = "start_date")
     private LocalDate startDate;
+
+    @OneToMany(mappedBy = "post", fetch = FetchType.EAGER)
+    private Set<Lecture> lectures=new HashSet<>();
 
     public Course() {
     }
@@ -91,5 +98,18 @@ public class Course {
 
     public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Course course = (Course) o;
+        return id == course.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
