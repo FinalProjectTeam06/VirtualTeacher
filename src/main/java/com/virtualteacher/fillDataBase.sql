@@ -23,3 +23,37 @@ INSERT INTO virtual_teacher.roles (role_id, name) VALUES (1, 'student');
 INSERT INTO virtual_teacher.roles (role_id, name) VALUES (2, 'teacher');
 INSERT INTO virtual_teacher.roles (role_id, name) VALUES (3, 'admin');
 
+INSERT INTO virtual_teacher.lectures (lecture_id, title, description, video_url, assignment_url, teacher_id, course_id) VALUES (1, 'The birth of world literature', 'Professor Martin Puchner explores how the concept of World Literature came into being, describing the conversations of Johann Wolfgang von Goethe and Peter Eckermann.', 'https://www.youtube.com/watch?v=eOxP0ZZMrmk', 'The birth of world literature', 4, 6);
+INSERT INTO virtual_teacher.lectures (lecture_id, title, description, video_url, assignment_url, teacher_id, course_id) VALUES (2, ' Crash Course Astronomy', 'Welcome to the first episode of Crash Course Astronomy. Your host for this intergalactic adventure is the Bad Astronomer himself, Phil Plait. We begin with answering a question: "What is astronomy?" ', 'https://www.youtube.com/watch?v=0rHUDWjR5gg&list=PL8dPuuaLjXtPAJr1ysd5yGIyiSFuh0mIL', 'https://esroxs.com/wp-content/uploads/2020/03/Crash-Course-Astronomy-On-Line-Content.pdf', 5, 4);
+INSERT INTO virtual_teacher.lectures (lecture_id, title, description, video_url, assignment_url, teacher_id, course_id) VALUES (3, 'How the First Global Conflict Was Fought and Won', 'In his new book The Second World Wars, Victor Davis Hanson offers a stunning reinterpretation of history\'s deadliest conflict. One of the nation’s leading historians and commentators, Hanson draws on 3,000 years of military history to place this interconnected global war in context. Please join us for a spirited discussion of this seminal history.', 'https://www.youtube.com/watch?v=SkJRC3pcQ0Y', 'https://www.britannica.com/list/8-questions-about-world-war-i-answered', 6, 2);
+INSERT INTO virtual_teacher.lectures (lecture_id, title, description, video_url, assignment_url, teacher_id, course_id) VALUES (4, 'How did life begin on Earth?', 'The story starts around 3.5 billion years ago... ', 'https://www.youtube.com/watch?v=G0GyMvq_Fjg', 'https://blog.burbankids.com/biology-trivia-questions/', 4, 5);
+INSERT INTO virtual_teacher.lectures (lecture_id, title, description, video_url, assignment_url, teacher_id, course_id) VALUES (5, 'The Rise And Fall Of Ancient Rome ', 'Join Mary Beard as she charts the rise and eventual decline of Ancient Rome. Along the way discover how this enormous empire managed to function, what it meant to be a Roman citizen and who or what was responsible for the eventual fall of Rome.
+', 'https://www.youtube.com/watch?v=Wb_aruwUan8', 'https://quizizz.com/admin/quiz/5c65816a6850410020576bc4/the-rise-and-fall-of-the-roman-empire', 4, 1);
+INSERT INTO virtual_teacher.lectures (lecture_id, title, description, video_url, assignment_url, teacher_id, course_id) VALUES (6, 'Literary Genres and Subgenres', 'This video and worksheet teaches literary genres of fiction, nonfiction, drama, and poetry, as well as subgenres of each. Learners see an example of each genre and subgenre and practice identifying the genre and subgenre of several descriptions, then check their responses. This video was created by a US public school teacher for use with ESOL students learning mainstream English curriculum', 'https://www.youtube.com/watch?v=oarGRayak5o', 'https://study.com/academy/practice/quiz-worksheet-literary-genres.html', 5, 8);
+INSERT INTO virtual_teacher.lectures (lecture_id, title, description, video_url, assignment_url, teacher_id, course_id) VALUES (7, 'The Four Types of Social Movement', 'Sociologist Nick Lee discusses the four types of social movement: Alterative, Redemptive, Reformative, and Transformative according to David Aberle.', 'https://www.youtube.com/watch?v=U-uYfZkq5SA', 'https://socialsci.libretexts.org/Bookshelves/Sociology/Introduction_to_Sociology/Sociology_(Boundless)/21%3A_Social_Change/21.03%3A_Social_Movements/21.3B%3A_Types_of_Social_Movements', 6, 3);
+
+INSERT INTO virtual_teacher.enrolled_courses (user_id, course_id) VALUES (1, 4);
+INSERT INTO virtual_teacher.enrolled_courses (user_id, course_id) VALUES (2, 5);
+INSERT INTO virtual_teacher.enrolled_courses (user_id, course_id) VALUES (3, 6);
+INSERT INTO virtual_teacher.enrolled_courses (user_id, course_id) VALUES (1, 1);
+INSERT INTO virtual_teacher.enrolled_courses (user_id, course_id) VALUES (2, 2);
+INSERT INTO virtual_teacher.enrolled_courses (user_id, course_id) VALUES (3, 3);
+INSERT INTO virtual_teacher.enrolled_courses (user_id, course_id) VALUES (1, 2);
+
+INSERT INTO virtual_teacher.course_lectures (course_id, lecture_id) VALUES (1, 5);
+INSERT INTO virtual_teacher.course_lectures (course_id, lecture_id) VALUES (2, 3);
+INSERT INTO virtual_teacher.course_lectures (course_id, lecture_id) VALUES (3, 7);
+INSERT INTO virtual_teacher.course_lectures (course_id, lecture_id) VALUES (4, 2);
+INSERT INTO virtual_teacher.course_lectures (course_id, lecture_id) VALUES (5, 4);
+INSERT INTO virtual_teacher.course_lectures (course_id, lecture_id) VALUES (6, 1);
+
+INSERT INTO virtual_teacher.rates (rate_id, course_id, rate_value, rate_count) VALUES (1, 1, 5, 9);
+INSERT INTO virtual_teacher.rates (rate_id, course_id, rate_value, rate_count) VALUES (2, 2, 6, 8);
+INSERT INTO virtual_teacher.rates (rate_id, course_id, rate_value, rate_count) VALUES (3, 3, 7, 7);
+INSERT INTO virtual_teacher.rates (rate_id, course_id, rate_value, rate_count) VALUES (4, 4, 8, 6);
+
+INSERT INTO virtual_teacher.users_lectures (user_id, lecture_id, isAttend, assigment_url_submission, notes) VALUES (1, 4, 1, 'https://esroxs.com/wp-content/uploads/2020/03/Crash-Course-Astronomy-On-Line-Content.pdf', 'good');
+INSERT INTO virtual_teacher.users_lectures (user_id, lecture_id, isAttend, assigment_url_submission, notes) VALUES (2, 5, 1, 'https://www.britannica.com/list/8-questions-about-world-war-i-answered', 'good');
+INSERT INTO virtual_teacher.users_lectures (user_id, lecture_id, isAttend, assigment_url_submission, notes) VALUES (3, 6, 0, 'https://blog.burbankids.com/biology-trivia-questions/', 'excellent');
+INSERT INTO virtual_teacher.users_lectures (user_id, lecture_id, isAttend, assigment_url_submission, notes) VALUES (1, 4, 0, 'https://quizizz.com/admin/quiz/5c65816a6850410020576bc4/the-rise-and-fall-of-the-roman-empire', 'excellent');
+INSERT INTO virtual_teacher.users_lectures (user_id, lecture_id, isAttend, assigment_url_submission, notes) VALUES (2, 5, 1, 'https://study.com/academy/practice/quiz-worksheet-literary-genres.html', 'poor');
