@@ -25,7 +25,7 @@ public class Lecture {
 
     @ManyToOne
     @JoinColumn(name = "teacher_id")
-    private User teacher_id;
+    private User teacher;
     @ManyToOne
     @JoinColumn(name = "course_id")
     private Course course;
@@ -73,12 +73,12 @@ public class Lecture {
         this.assignmentUrl = assignmentUrl;
     }
 
-    public User getTeacher_id() {
-        return teacher_id;
+    public User getTeacher() {
+        return teacher;
     }
 
-    public void setTeacher_id(User teacher_id) {
-        this.teacher_id = teacher_id;
+    public void setTeacher(User teacher) {
+        this.teacher = teacher;
     }
 
     public Course getCourse() {
