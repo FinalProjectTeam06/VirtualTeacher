@@ -1,0 +1,97 @@
+package com.virtualteacher.controllers;
+
+
+import com.virtualteacher.exceptions.AuthorizationException;
+import com.virtualteacher.exceptions.EntityNotFoundException;
+import com.virtualteacher.helpers.AuthenticationHelper;
+import com.virtualteacher.helpers.LectureMapper;
+import com.virtualteacher.models.Lecture;
+import com.virtualteacher.models.User;
+import com.virtualteacher.models.dto.LectureDto;
+import com.virtualteacher.services.contacts.LectureService;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/lectures")
+public class LectureRestController {
+
+
+    private final LectureService lectureService;
+    private final AuthenticationHelper authenticationHelper;
+    private final LectureMapper lectureMapper;
+
+    @Autowired
+    public LectureRestController(LectureService lectureService, AuthenticationHelper authenticationHelper, LectureMapper lectureMapper) {
+        this.lectureService = lectureService;
+        this.authenticationHelper = authenticationHelper;
+        this.lectureMapper = lectureMapper;
+    }
+
+
+    @GetMapping()
+    public List<Lecture> getAll() {
+        return lectureService.getAll();
+    }
+
+    @GetMapping("/{id}")
+    public Lecture getById(@RequestHeader HttpHeaders headers, @PathVariable int id) {
+        try {
+            User user = authenticationHelper.tryGetUser(headers);
+            return lectureService.getById(id);
+        } catch (AuthorizationException e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+    }
+
+    @PostMapping()
+    public Lecture create(@RequestHeader HttpHeaders headers, @Valid @RequestBody LectureDto lectureDto) {
+        try {
+            User creator = authenticationHelper.tryGetUser(headers);
+            return lectureService.create(lectureDto, creator);
+
+        } catch (AuthorizationException e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+    }
+    @PutMapping("/{lectureId}")
+    public Lecture update(@RequestHeader HttpHeaders headers,@PathVariable int lectureId,
+                          @Valid @RequestBody LectureDto lectureDto) {
+        try {
+            User creator = authenticationHelper.tryGetUser(headers);
+            return lectureService.update(lectureDto, creator, lectureId);
+        } catch (AuthorizationException e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@RequestHeader HttpHeaders headers,@PathVariable int id) {
+        try {
+            User user = authenticationHelper.tryGetUser(headers);
+            lectureService.delete(id, user);
+        } catch (AuthorizationException e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+
+
+
+
+
+    }
+
+}

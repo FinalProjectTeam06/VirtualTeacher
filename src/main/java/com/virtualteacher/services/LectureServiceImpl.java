@@ -2,6 +2,7 @@ package com.virtualteacher.services;
 
 import com.virtualteacher.exceptions.AuthorizationExceptions;
 import com.virtualteacher.exceptions.EntityNotFoundException;
+import com.virtualteacher.helpers.LectureMapper;
 import com.virtualteacher.models.Lecture;
 import com.virtualteacher.models.User;
 import com.virtualteacher.models.dto.LectureDto;
@@ -19,10 +20,13 @@ public class LectureServiceImpl implements LectureService {
     public static final String MODIFY_THE_LECTURE = "Only creator or admin can modify the lecture.";
     private final LectureRepository lectureRepository;
 
+    private final LectureMapper mapper;
+
 
     @Autowired
-    public LectureServiceImpl(LectureRepository lectureRepository){
+    public LectureServiceImpl(LectureRepository lectureRepository, LectureMapper mapper){
         this.lectureRepository =lectureRepository;
+        this.mapper = mapper;
     }
 
 
@@ -40,9 +44,10 @@ public class LectureServiceImpl implements LectureService {
     }
 
     @Override
-    public void create(Lecture lecture, User creator) {
-        checkPermission(lecture.getId(),creator);
-        lectureRepository.create(lecture);
+    public Lecture create(LectureDto lectureDto, User creator) {
+        Lecture lecture1 = mapper.fromDto(lectureDto,creator);
+        checkPermission(lecture1.getId(),creator);
+       return lectureRepository.create(lecture1);
     }
 
     @Override

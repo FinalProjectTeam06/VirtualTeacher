@@ -1,5 +1,6 @@
 package com.virtualteacher.models.dto;
 
+import com.virtualteacher.models.Course;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -9,7 +10,7 @@ public class LectureDto {
     @Size(min = 5, max = 50, message = "Title should be between 5 and 50 symbols.")
     private String title;
 
-    @NotNull(message = "Description can't be empty.")
+
     @Size(max = 1000, message = "Description can't be at most 1000 symbols.")
     private String description;
 
@@ -18,6 +19,9 @@ public class LectureDto {
 
     @NotNull
     private String assignment;
+
+    @NotNull
+    private int courseId;
 
 public LectureDto(){
 
@@ -53,5 +57,13 @@ public LectureDto(){
 
     public void setAssignment(String assignment) {
         this.assignment = assignment;
+    }
+
+    public int getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(int courseId) {
+        this.courseId = courseId;
     }
 }

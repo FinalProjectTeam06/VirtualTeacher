@@ -14,7 +14,7 @@ public interface LectureService {
 
     Lecture getById(int id);
 
-    void create(Lecture lecture, User creator);
+     Lecture create(LectureDto lectureDto, User creator);
 
     Lecture update(LectureDto lectureDto,User user,int lectureId);
 
