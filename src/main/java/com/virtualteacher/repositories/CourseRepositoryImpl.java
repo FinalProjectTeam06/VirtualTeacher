@@ -2,6 +2,7 @@ package com.virtualteacher.repositories;
 
 import com.virtualteacher.exceptions.EntityNotFoundException;
 import com.virtualteacher.models.Course;
+import com.virtualteacher.models.User;
 import com.virtualteacher.repositories.contracts.CourseRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -32,11 +33,38 @@ public class CourseRepositoryImpl implements CourseRepository {
         try (Session session= sessionFactory.openSession()){
             Course course=session.get(Course.class, id);
             if (course== null) {
-                throw new EntityNotFoundException("Tag", id);
+                throw new EntityNotFoundException("Course", id);
             }
             return course;
         }
     }
 
+    @Override
+    public Course create(Course course) {
+        try (Session session= sessionFactory.openSession()){
+            session.beginTransaction();
+            session.persist(course);
+            session.getTransaction().commit();
+        }
+        return course;
+    }
 
+    @Override
+    public Course update(Course course) {
+        try (Session session= sessionFactory.openSession()){
+            session.beginTransaction();
+            session.merge(course);
+            session.getTransaction().commit();
+        }
+        return course;
+    }
+
+    @Override
+    public void delete(Course course) {
+        try (Session session= sessionFactory.openSession()){
+            session.beginTransaction();
+            session.remove(course);
+            session.getTransaction().commit();
+        }
+    }
 }

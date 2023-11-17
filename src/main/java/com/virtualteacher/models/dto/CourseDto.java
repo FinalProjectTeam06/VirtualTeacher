@@ -1,16 +1,21 @@
-package com.virtualteacher.models.dtos;
+package com.virtualteacher.models.dto;
 
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
 
 public class CourseDto {
+    @NotNull
     @Size(min = 5, max = 50, message = "Title should be between 5 and 50 characters long.")
     private String title;
 
+    @NotNull
     @Size(max = 1000, message = "Description can be be at most 1000 symbols in length.")
     private String description;
+    @NotNull
     private int topicId;
+    @NotNull
     private LocalDate startDate;
 
     public CourseDto(String title, String description, int topicId, LocalDate startDate) {
