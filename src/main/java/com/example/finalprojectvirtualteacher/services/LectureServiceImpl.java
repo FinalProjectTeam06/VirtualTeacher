@@ -1,6 +1,8 @@
 package com.example.finalprojectvirtualteacher.services;
 
+import com.example.finalprojectvirtualteacher.exceptions.AuthorizationException;
 import com.example.finalprojectvirtualteacher.helpers.LectureMapper;
+import com.example.finalprojectvirtualteacher.models.Course;
 import com.example.finalprojectvirtualteacher.models.dto.LectureDto;
 import com.example.finalprojectvirtualteacher.exceptions.AuthorizationExceptions;
 import com.example.finalprojectvirtualteacher.exceptions.EntityNotFoundException;
@@ -17,9 +19,8 @@ import java.util.List;
 public class LectureServiceImpl implements LectureService {
 
     public static final String PERMISSION_ERROR = "You don't have a permission.";
-    public static final String MODIFY_THE_LECTURE = "Only creator or admin can modify the lecture.";
-    private final LectureRepository lectureRepository;
 
+    private final LectureRepository lectureRepository;
     private final LectureMapper mapper;
 
 
@@ -45,44 +46,37 @@ public class LectureServiceImpl implements LectureService {
 
     @Override
     public Lecture create(LectureDto lectureDto, User creator) {
-        Lecture lecture1 = mapper.fromDto(lectureDto, creator);
-        checkPermission(lecture1.getId(), creator);
-        return lectureRepository.create(lecture1);
+        Lecture lecture = mapper.fromDto(lectureDto, creator);
+        checkCreatePermission(creator);
+        return lectureRepository.create(lecture);
     }
 
     @Override
     public Lecture update(LectureDto lectureDto, User user, int lectureId) {
-        checkPermission(lectureId, user);
-
         Lecture lecture = getById(lectureId);
-        lecture.setTitle(lectureDto.getTitle());
-        lecture.setDescription(lectureDto.getDescription());
-
+        mapper.fromDtoUpdate(lectureDto, lecture);
+        checkPermission(lecture, user);
         return lectureRepository.update(lecture);
     }
 
     @Override
     public void delete(int id, User user) {
-        checkPermission(id, user);
+        Lecture lecture = getById(id);
+        checkPermission(lecture, user);
         lectureRepository.delete(id);
-
     }
 
-
-    private void isTeacher(User user) {
-        if (user.getRole().getName().equals("student")) {
+    private void checkCreatePermission(User user) {
+        if (!user.getRole().getName().equals("admin")
+                && !user.getRole().getName().equals("teacher")) {
             throw new AuthorizationExceptions(PERMISSION_ERROR);
         }
     }
 
-    private void checkPermission(int id, User user) {
-        Lecture lecture = getById(id);
-        if (user.getId() == lecture.getTeacher().getId()
-                || !user.getRole().getName().equals("admin")) {
-            throw new AuthorizationExceptions(MODIFY_THE_LECTURE);
-
+    private void checkPermission(Lecture lecture, User user) {
+        if (!lecture.getTeacher().equals(user) && !user.getRole().getName().equals("admin")) {
+            throw new AuthorizationException(PERMISSION_ERROR);
         }
     }
-
-
 }
+
