@@ -43,7 +43,7 @@ public class LectureRestController {
     @GetMapping("/{id}")
     public Lecture getById(@RequestHeader HttpHeaders headers, @PathVariable int id) {
         try {
-            User user = authenticationHelper.tryGetUser(headers);
+            authenticationHelper.tryGetUser(headers);
             return lectureService.getById(id);
         } catch (AuthorizationException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
@@ -60,9 +60,8 @@ public class LectureRestController {
 
         } catch (AuthorizationException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
-        } catch (EntityNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
+
     }
     @PutMapping("/{lectureId}")
     public Lecture update(@RequestHeader HttpHeaders headers,@PathVariable int lectureId,

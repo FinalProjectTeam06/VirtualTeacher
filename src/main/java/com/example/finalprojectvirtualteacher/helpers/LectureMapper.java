@@ -21,11 +21,18 @@ public class LectureMapper {
         Lecture lecture = new Lecture();
         lecture.setTitle(lectureDto.getTitle());
         lecture.setDescription(lectureDto.getDescription());
-        lecture.setAssignmentUrl(lectureDto.getAssignment());
+        lecture.setAssignmentUrl(lectureDto.getAssignmentUrl());
         lecture.setVideoUrl(lectureDto.getVideoUrl());
         lecture.setTeacher(creator);
         lecture.setCourse(courseService.getById(lectureDto.getCourseId()));
 
         return lecture;
+    }
+
+    public Lecture fromDtoUpdate (LectureDto lectureDto,Lecture lecture){
+        lecture.setTitle(lectureDto.getTitle());
+        lecture.setDescription(lectureDto.getDescription());
+        lecture.setAssignmentUrl(lectureDto.getAssignmentUrl());
+        return  lecture;
     }
 }
