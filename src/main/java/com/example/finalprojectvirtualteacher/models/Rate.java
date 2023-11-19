@@ -1,6 +1,9 @@
 package com.example.finalprojectvirtualteacher.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
+import java.util.Objects;
 
 @Entity
 @Table(name = "rates")
@@ -13,13 +16,19 @@ public class Rate {
 
     @ManyToOne
     @JoinColumn(name = "course_id")
+    @JsonIgnore
     private Course course;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @JsonIgnore
+    private User user;
 
     @Column(name = "rate_value")
     private int rateValue;
 
-    @Column(name = "rate_count")
-    private int count;
+    @Column(name = "comment")
+    private String comment;
 
     public Rate() {
     }
@@ -40,6 +49,14 @@ public class Rate {
         this.course = course;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public int getRateValue() {
         return rateValue;
     }
@@ -48,11 +65,24 @@ public class Rate {
         this.rateValue = rateValue;
     }
 
-    public int getCount() {
-        return count;
+    public String getComment() {
+        return comment;
     }
 
-    public void setCount(int count) {
-        this.count = count;
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Rate rate = (Rate) o;
+        return id == rate.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

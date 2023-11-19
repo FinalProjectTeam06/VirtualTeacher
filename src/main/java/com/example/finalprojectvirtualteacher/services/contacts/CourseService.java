@@ -3,6 +3,7 @@ package com.example.finalprojectvirtualteacher.services.contacts;
 import com.example.finalprojectvirtualteacher.models.dto.CourseDto;
 import com.example.finalprojectvirtualteacher.models.Course;
 import com.example.finalprojectvirtualteacher.models.User;
+import com.example.finalprojectvirtualteacher.models.dto.RateDto;
 
 import java.util.List;
 
@@ -16,5 +17,8 @@ public interface CourseService {
     Course update(CourseDto courseDto, User user, int courseId);
 
     void delete(int courseId, User user);
+
+    Course rateCourse(int courseId, User user, RateDto rateDto);
+    Double getCourseRating(Course course);
 
 }

@@ -1,7 +1,6 @@
 package com.example.finalprojectvirtualteacher.models.dto;
 
 import jakarta.validation.constraints.*;
-import org.checkerframework.common.aliasing.qual.Unique;
 
 
 public class UserDtoUpdate {
@@ -12,9 +11,9 @@ public class UserDtoUpdate {
     @Size(min = 2, max = 20, message = "Last name should be between 2 and 20 symbols.")
     private String lastName;
 
-    @NotNull
-    @Size(min = 8)
-//    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$", message = "regex not match") todo regex not working
+    @NotNull(message = "password not null")
+    @Size(min = 8, message = "password size")
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$", message = "regex not match")
     private String password;
 
     @NotNull(message = "Confirm password should matches password field.")

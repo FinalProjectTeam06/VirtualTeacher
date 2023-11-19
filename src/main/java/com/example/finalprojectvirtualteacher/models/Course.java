@@ -40,7 +40,17 @@ public class Course {
 
     @OneToMany(mappedBy = "course", fetch = FetchType.EAGER)
     @JsonIgnore
-    private Set<Lecture> lectures=new HashSet<>();
+    private Set<Lecture> lectures = new HashSet<>();
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "enrolled_courses",
+            joinColumns = @JoinColumn(name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    @JsonIgnore
+    private Set<User> enrolledUsers = new HashSet<>();
+
+    @OneToMany(mappedBy = "course", fetch = FetchType.EAGER)
+    private Set<Rate> rates = new HashSet<>();
 
     public Course() {
     }
@@ -100,6 +110,39 @@ public class Course {
     public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
+
+    public Set<Lecture> getLectures() {
+        return lectures;
+    }
+
+    public void setLectures(Set<Lecture> lectures) {
+        this.lectures = lectures;
+    }
+
+    public Set<User> getEnrolledUsers() {
+        return enrolledUsers;
+    }
+
+    public void setEnrolledUsers(Set<User> enrolledUsers) {
+        this.enrolledUsers = enrolledUsers;
+    }
+
+    public void addUserToCourse(User user) {
+        enrolledUsers.add(user);
+    }
+
+    public Set<Rate> getRates() {
+        return rates;
+    }
+
+    public void setRates(Set<Rate> rates) {
+        this.rates = rates;
+    }
+
+    public void addRateToCourse(Rate rate) {
+        rates.add(rate);
+    }
+
 
     @Override
     public boolean equals(Object o) {

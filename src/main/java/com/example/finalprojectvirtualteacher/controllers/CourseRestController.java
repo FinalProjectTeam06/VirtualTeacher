@@ -4,8 +4,10 @@ import com.example.finalprojectvirtualteacher.exceptions.AuthorizationException;
 import com.example.finalprojectvirtualteacher.helpers.AuthenticationHelper;
 import com.example.finalprojectvirtualteacher.exceptions.EntityNotFoundException;
 import com.example.finalprojectvirtualteacher.models.Course;
+import com.example.finalprojectvirtualteacher.models.Rate;
 import com.example.finalprojectvirtualteacher.models.User;
 import com.example.finalprojectvirtualteacher.models.dto.CourseDto;
+import com.example.finalprojectvirtualteacher.models.dto.RateDto;
 import com.example.finalprojectvirtualteacher.services.contacts.CourseService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,6 +68,30 @@ public class CourseRestController {
         try {
             User user = authenticationHelper.tryGetUser(httpHeaders);
             courseService.delete(courseId, user);
+        } catch (AuthorizationException e) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage());
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+    }
+
+    @PostMapping("/rating/{courseId}")
+    public Course rateCourse(@RequestHeader HttpHeaders httpHeaders,
+                             @PathVariable int courseId, @Valid @RequestBody RateDto rateDto){
+        try {
+            User user= authenticationHelper.tryGetUser(httpHeaders);
+            return courseService.rateCourse(courseId, user,rateDto);
+        } catch (AuthorizationException e) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage());
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+    }
+
+    @GetMapping("/rating/{courseId}")
+    public String getCourseRate(@PathVariable int courseId){
+        try {
+            return courseService.getCourseRating(courseService.getById(courseId)).toString();
         } catch (AuthorizationException e) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage());
         } catch (EntityNotFoundException e) {

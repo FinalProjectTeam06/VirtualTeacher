@@ -3,6 +3,7 @@ package com.example.finalprojectvirtualteacher.models;
 import jakarta.persistence.*;
 
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -30,6 +31,12 @@ public class User {
 
     @Column(name = "profile_picture_url")
     private String profilePictureUrl;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "enrolled_courses",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "course_id"))
+    private Set<Course> courses;
 
     public User() {
     }
@@ -88,6 +95,17 @@ public class User {
 
     public void setProfilePictureUrl(String profilePictureUrl) {
         this.profilePictureUrl = profilePictureUrl;
+    }
+
+    public Set<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(Set<Course> courses) {
+        this.courses = courses;
+    }
+    public void addCourse(Course course) {
+        courses.add(course);
     }
 
     @Override

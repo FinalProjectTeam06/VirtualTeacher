@@ -1,8 +1,8 @@
 package com.example.finalprojectvirtualteacher.services;
 
+import com.example.finalprojectvirtualteacher.exceptions.AuthorizationException;
 import com.example.finalprojectvirtualteacher.helpers.LectureMapper;
 import com.example.finalprojectvirtualteacher.models.dto.LectureDto;
-import com.example.finalprojectvirtualteacher.exceptions.AuthorizationExceptions;
 import com.example.finalprojectvirtualteacher.exceptions.EntityNotFoundException;
 import com.example.finalprojectvirtualteacher.models.Lecture;
 import com.example.finalprojectvirtualteacher.models.User;
@@ -71,7 +71,7 @@ public class LectureServiceImpl implements LectureService {
 
     private void isTeacher(User user) {
         if (user.getRole().getName().equals("student")) {
-            throw new AuthorizationExceptions(PERMISSION_ERROR);
+            throw new AuthorizationException(PERMISSION_ERROR);
         }
     }
 
@@ -79,7 +79,7 @@ public class LectureServiceImpl implements LectureService {
         Lecture lecture = getById(id);
         if (user.getId() == lecture.getTeacher().getId()
                 || !user.getRole().getName().equals("admin")) {
-            throw new AuthorizationExceptions(MODIFY_THE_LECTURE);
+            throw new AuthorizationException(MODIFY_THE_LECTURE);
 
         }
     }

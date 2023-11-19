@@ -1,5 +1,6 @@
 package com.example.finalprojectvirtualteacher.services.contacts;
 
+import com.example.finalprojectvirtualteacher.models.Course;
 import com.example.finalprojectvirtualteacher.models.UserFilterOptions;
 import com.example.finalprojectvirtualteacher.models.dto.UserDtoUpdate;
 import com.example.finalprojectvirtualteacher.models.User;
@@ -18,4 +19,5 @@ public interface UserService {
 
     void deleteUser(int id, User user);
 
+    User enrollCourse(User user, int courseId);
 }

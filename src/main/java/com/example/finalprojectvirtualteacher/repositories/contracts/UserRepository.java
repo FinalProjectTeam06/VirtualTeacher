@@ -19,5 +19,4 @@ public interface UserRepository {
 
     List<User> get(UserFilterOptions userFilterOptions);
 
-    User addProfilePhoto(User user);
 }

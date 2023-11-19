@@ -2,8 +2,10 @@ package com.example.finalprojectvirtualteacher.services;
 
 import com.example.finalprojectvirtualteacher.exceptions.AuthorizationException;
 import com.example.finalprojectvirtualteacher.exceptions.EntityDuplicateException;
+import com.example.finalprojectvirtualteacher.models.Course;
 import com.example.finalprojectvirtualteacher.models.UserFilterOptions;
 import com.example.finalprojectvirtualteacher.models.dto.UserDtoUpdate;
+import com.example.finalprojectvirtualteacher.services.contacts.CourseService;
 import com.example.finalprojectvirtualteacher.services.contacts.UserService;
 import com.example.finalprojectvirtualteacher.exceptions.EntityNotFoundException;
 import com.example.finalprojectvirtualteacher.models.User;
@@ -19,10 +21,12 @@ public class UserServiceImpl implements UserService {
     public static final String PERMISSION_ERROR = "You don't have permission.";
 
     private final UserRepository userRepository;
+    private final CourseService courseService;
 
     @Autowired
-    public UserServiceImpl(UserRepository repository) {
+    public UserServiceImpl(UserRepository repository, CourseService courseService) {
         this.userRepository = repository;
+        this.courseService = courseService;
     }
 
     @Override
@@ -78,7 +82,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(int id, User user) {
         checkPermission(user, id);
-        userRepository.deleteUser(user);
+        User userToDelete=getById(id);
+        userRepository.deleteUser(userToDelete);
+    }
+
+    @Override
+    public User enrollCourse(User user, int courseId) {
+        Course course=courseService.getById(courseId);
+        user.addCourse(course);
+        return userRepository.updateUser(user);
     }
 
     private void checkPermission(User user, int userId){

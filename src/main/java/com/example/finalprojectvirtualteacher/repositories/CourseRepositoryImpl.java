@@ -2,6 +2,7 @@ package com.example.finalprojectvirtualteacher.repositories;
 
 import com.example.finalprojectvirtualteacher.exceptions.EntityNotFoundException;
 import com.example.finalprojectvirtualteacher.models.Course;
+import com.example.finalprojectvirtualteacher.models.Rate;
 import com.example.finalprojectvirtualteacher.repositories.contracts.CourseRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -37,6 +38,18 @@ public class CourseRepositoryImpl implements CourseRepository {
         }
     }
 
+
+    public Rate getRating(int courseId, int userId) {
+        try (Session session= sessionFactory.openSession()){
+            Query<Rate> query=session.createQuery("from Rate r where r.course.id= :courseId AND r.user.id= :userId", Rate.class);
+            query.setParameter("courseId", courseId);
+            query.setParameter("userId", userId);
+            if (query.list().isEmpty()) {
+                throw new EntityNotFoundException("Rate", "courseId", courseId);
+            }
+            return query.list().get(0);
+        }
+    }
     @Override
     public Course create(Course course) {
         try (Session session= sessionFactory.openSession()){
@@ -65,4 +78,24 @@ public class CourseRepositoryImpl implements CourseRepository {
             session.getTransaction().commit();
         }
     }
+    @Override
+    public Course rateCourse(Rate rate) {
+        try (Session session= sessionFactory.openSession()){
+            session.beginTransaction();
+            session.persist(rate);
+            session.getTransaction().commit();
+        }
+        return rate.getCourse();
+    }
+
+    @Override
+    public Course updateRating(Rate rate) {
+        try (Session session= sessionFactory.openSession()){
+            session.beginTransaction();
+            session.merge(rate);
+            session.getTransaction().commit();
+        }
+        return rate.getCourse();
+    }
+
 }

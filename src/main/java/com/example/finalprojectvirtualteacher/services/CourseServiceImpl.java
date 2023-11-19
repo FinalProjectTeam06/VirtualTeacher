@@ -1,16 +1,20 @@
 package com.example.finalprojectvirtualteacher.services;
 
 import com.example.finalprojectvirtualteacher.exceptions.AuthorizationException;
+import com.example.finalprojectvirtualteacher.exceptions.EntityNotFoundException;
 import com.example.finalprojectvirtualteacher.helpers.CourseMapper;
 import com.example.finalprojectvirtualteacher.models.Course;
+import com.example.finalprojectvirtualteacher.models.Rate;
 import com.example.finalprojectvirtualteacher.models.User;
 import com.example.finalprojectvirtualteacher.models.dto.CourseDto;
+import com.example.finalprojectvirtualteacher.models.dto.RateDto;
 import com.example.finalprojectvirtualteacher.repositories.contracts.CourseRepository;
 import com.example.finalprojectvirtualteacher.services.contacts.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class CourseServiceImpl implements CourseService {
@@ -36,14 +40,14 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public Course create(CourseDto courseDto, User creator) {
-        Course course=courseMapper.fromDtoIn(courseDto, creator);
+        Course course = courseMapper.fromDtoIn(courseDto, creator);
         checkCreatePermission(creator);
         return courseRepository.create(course);
     }
 
     @Override
     public Course update(CourseDto courseDto, User user, int courseId) {
-        Course course=getById(courseId);
+        Course course = getById(courseId);
         courseMapper.fromDtoUpdate(courseDto, course);
         checkPermission(course, user);
         return courseRepository.update(course);
@@ -51,19 +55,56 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public void delete(int courseId, User user) {
-        Course course=getById(courseId);
+        Course course = getById(courseId);
         checkPermission(course, user);
         courseRepository.delete(course);
     }
 
-    private void checkCreatePermission(User user){
-        if (!user.getRole().getName().equals("admin") && !user.getRole().getName().equals("teacher")){
+    @Override
+    public Course rateCourse(int courseId, User user, RateDto rateDto) {
+        Course course = getById(courseId);
+        try {
+            Rate rate =courseRepository.getRating(courseId, user.getId());
+        } catch (EntityNotFoundException e) {
+            if (!course.getRates().stream().map(Rate::getUser).toList().contains(user)) {
+                Rate rate = new Rate();
+                rate.setUser(user);
+                rate.setCourse(getById(courseId));
+                rate.setRateValue(rateDto.getRateValue());
+                rate.setComment(rateDto.getComment());
+                course.addRateToCourse(rate);
+                return courseRepository.rateCourse(rate);
+            }
+        }
+        Rate rate =courseRepository.getRating(courseId, user.getId());
+        if (!rateDto.getComment().isEmpty()){
+            rate.setComment(rateDto.getComment());
+        }
+        rate.setRateValue(rateDto.getRateValue());
+        return courseRepository.updateRating(rate);
+    }
+    @Override
+    public Double getCourseRating(Course course){
+        Set<Rate> rates=course.getRates();
+        if (course.getRates().isEmpty()){
+            return 5.0;
+        }
+        double sum=0.0;
+        for (Rate rate : rates) {
+            sum+= rate.getRateValue();
+        }
+
+        return sum/rates.size();
+    }
+
+    private void checkCreatePermission(User user) {
+        if (!user.getRole().getName().equals("admin") && !user.getRole().getName().equals("teacher")) {
             throw new AuthorizationException(PERMISSION_ERROR);
         }
     }
 
-    private void checkPermission(Course course, User user){
-        if (!course.getCreator().equals(user) && !user.getRole().getName().equals("admin")){
+    private void checkPermission(Course course, User user) {
+        if (!course.getCreator().equals(user) && !user.getRole().getName().equals("admin")) {
             throw new AuthorizationException(PERMISSION_ERROR);
         }
     }

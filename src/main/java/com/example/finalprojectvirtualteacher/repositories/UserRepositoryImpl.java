@@ -1,6 +1,7 @@
 package com.example.finalprojectvirtualteacher.repositories;
 
 import com.example.finalprojectvirtualteacher.exceptions.EntityNotFoundException;
+import com.example.finalprojectvirtualteacher.models.Course;
 import com.example.finalprojectvirtualteacher.models.UserFilterOptions;
 import com.example.finalprojectvirtualteacher.repositories.contracts.UserRepository;
 import com.example.finalprojectvirtualteacher.models.User;
@@ -79,6 +80,8 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public void deleteUser(User user) {
         try (Session session = sessionFactory.openSession()) {
+            deleteCoursesFromUser(user.getId());
+            deleteUserCourses(user.getId());
             session.beginTransaction();
             session.remove(user);
             session.getTransaction().commit();
@@ -113,17 +116,27 @@ public class UserRepositoryImpl implements UserRepository {
 
             Query<User> query = session.createQuery(queryString.toString(), User.class);
             query.setProperties(params);
-            List <User> users=query.list();
             return query.list();
         }
     }
-    @Override
-    public User addProfilePhoto(User user) {
+    private void deleteCoursesFromUser(int userId) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            session.merge(user);
+            Query<?> query = session.createNativeQuery(
+                    "delete from enrolled_courses where user_id= :userId", User.class);
+            query.setParameter("userId", userId);
+            query.executeUpdate();
             session.getTransaction().commit();
         }
-        return user;
+    }
+    private void deleteUserCourses(int userId) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            Query<?> query = session.createNativeQuery(
+                    "delete from courses where creator_id= :userId", Course.class);
+            query.setParameter("userId", userId);
+            query.executeUpdate();
+            session.getTransaction().commit();
+        }
     }
 }
