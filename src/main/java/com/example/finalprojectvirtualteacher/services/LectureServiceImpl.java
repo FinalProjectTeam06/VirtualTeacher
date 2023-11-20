@@ -2,6 +2,7 @@ package com.example.finalprojectvirtualteacher.services;
 
 import com.example.finalprojectvirtualteacher.exceptions.AuthorizationException;
 import com.example.finalprojectvirtualteacher.helpers.LectureMapper;
+import com.example.finalprojectvirtualteacher.models.Note;
 import com.example.finalprojectvirtualteacher.models.dto.LectureDto;
 import com.example.finalprojectvirtualteacher.exceptions.EntityNotFoundException;
 import com.example.finalprojectvirtualteacher.models.Lecture;
@@ -18,6 +19,7 @@ public class LectureServiceImpl implements LectureService {
 
     public static final String PERMISSION_ERROR = "You don't have a permission.";
     public static final String MODIFY_THE_LECTURE = "Only creator or admin can modify the lecture.";
+    public static final String USER_IS_NOT_ENROLLED = "User is not enrolled in this course";
     private final LectureRepository lectureRepository;
 
     private final LectureMapper mapper;
@@ -68,6 +70,28 @@ public class LectureServiceImpl implements LectureService {
 
     }
 
+    @Override
+    public Note getNote(int lectureId, int userId) {
+        return lectureRepository.getNote(lectureId, userId);
+    }
+
+    @Override
+    public Note createNote(int lectureId, User user, String text) {
+        if (!user.getCourses().contains(getById(lectureId).getCourse())) {
+            throw new EntityNotFoundException(USER_IS_NOT_ENROLLED);
+        }
+        try {
+            Note note=getNote(lectureId, user.getId());
+            note.setText(text);
+            return lectureRepository.updateNote(note);
+        }catch (EntityNotFoundException e){
+            Note note = new Note();
+            note.setLecture(getById(lectureId));
+            note.setText(text);
+            note.setUser(user);
+            return lectureRepository.createNote(note);
+        }
+    }
 
     private void isTeacher(User user) {
         if (user.getRole().getName().equals("student")) {
@@ -83,6 +107,7 @@ public class LectureServiceImpl implements LectureService {
 
         }
     }
+
 
 
 }

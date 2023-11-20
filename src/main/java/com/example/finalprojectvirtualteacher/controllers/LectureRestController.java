@@ -1,11 +1,11 @@
 package com.example.finalprojectvirtualteacher.controllers;
 
 
-import com.example.finalprojectvirtualteacher.helpers.LectureMapper;
 import com.example.finalprojectvirtualteacher.exceptions.AuthorizationException;
 import com.example.finalprojectvirtualteacher.exceptions.EntityNotFoundException;
 import com.example.finalprojectvirtualteacher.helpers.AuthenticationHelper;
 import com.example.finalprojectvirtualteacher.models.Lecture;
+import com.example.finalprojectvirtualteacher.models.Note;
 import com.example.finalprojectvirtualteacher.models.User;
 import com.example.finalprojectvirtualteacher.models.dto.LectureDto;
 import com.example.finalprojectvirtualteacher.services.contacts.LectureService;
@@ -25,13 +25,11 @@ public class LectureRestController {
 
     private final LectureService lectureService;
     private final AuthenticationHelper authenticationHelper;
-    private final LectureMapper lectureMapper;
 
     @Autowired
-    public LectureRestController(LectureService lectureService, AuthenticationHelper authenticationHelper, LectureMapper lectureMapper) {
+    public LectureRestController(LectureService lectureService, AuthenticationHelper authenticationHelper) {
         this.lectureService = lectureService;
         this.authenticationHelper = authenticationHelper;
-        this.lectureMapper = lectureMapper;
     }
 
 
@@ -63,8 +61,9 @@ public class LectureRestController {
         }
 
     }
+
     @PutMapping("/{lectureId}")
-    public Lecture update(@RequestHeader HttpHeaders headers,@PathVariable int lectureId,
+    public Lecture update(@RequestHeader HttpHeaders headers, @PathVariable int lectureId,
                           @Valid @RequestBody LectureDto lectureDto) {
         try {
             User creator = authenticationHelper.tryGetUser(headers);
@@ -77,7 +76,7 @@ public class LectureRestController {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@RequestHeader HttpHeaders headers,@PathVariable int id) {
+    public void delete(@RequestHeader HttpHeaders headers, @PathVariable int id) {
         try {
             User user = authenticationHelper.tryGetUser(headers);
             lectureService.delete(id, user);
@@ -86,7 +85,18 @@ public class LectureRestController {
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
+    }
 
+    @PostMapping("/{lectureId}/note")
+    public Note createNote(@RequestHeader HttpHeaders httpHeaders, @RequestBody String text, @PathVariable int lectureId) {
+        try {
+            User user = authenticationHelper.tryGetUser(httpHeaders);
+            return lectureService.createNote(lectureId, user, text);
+        } catch (AuthorizationException e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
+        }catch (EntityNotFoundException e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 
 }
