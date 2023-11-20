@@ -59,14 +59,15 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public User create(User user){
-        try(Session session = sessionFactory.openSession()){
+    public User create(User user) {
+        try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             session.persist(user);
             session.getTransaction().commit();
         }
         return user;
     }
+
     @Override
     public User updateUser(User updatedUser) {
         try (Session session = sessionFactory.openSession()) {
@@ -80,8 +81,6 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public void deleteUser(User user) {
         try (Session session = sessionFactory.openSession()) {
-            deleteCoursesFromUser(user.getId());
-            deleteUserCourses(user.getId());
             session.beginTransaction();
             session.remove(user);
             session.getTransaction().commit();
@@ -116,6 +115,7 @@ public class UserRepositoryImpl implements UserRepository {
 
             Query<User> query = session.createQuery(queryString.toString(), User.class);
             query.setProperties(params);
+            List<User> users = query.list();
             return query.list();
         }
     }
@@ -130,6 +130,9 @@ public class UserRepositoryImpl implements UserRepository {
         }
     }
     private void deleteUserCourses(int userId) {
+
+    @Override
+    public User addProfilePhoto(User user) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             Query<?> query = session.createNativeQuery(
@@ -138,5 +141,6 @@ public class UserRepositoryImpl implements UserRepository {
             query.executeUpdate();
             session.getTransaction().commit();
         }
+        return user;
     }
 }

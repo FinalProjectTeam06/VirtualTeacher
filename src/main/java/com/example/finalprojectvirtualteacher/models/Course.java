@@ -52,6 +52,14 @@ public class Course {
     @OneToMany(mappedBy = "course", fetch = FetchType.EAGER)
     private Set<Rate> rates = new HashSet<>();
 
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "enrolled_courses",
+    joinColumns = @JoinColumn(name="user_id"),
+    inverseJoinColumns = @JoinColumn(referencedColumnName = "course_id"))
+    private Set<User> students = new HashSet<>();
+
+
+
     public Course() {
     }
 

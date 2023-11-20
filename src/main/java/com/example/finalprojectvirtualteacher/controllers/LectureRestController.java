@@ -1,11 +1,11 @@
 package com.example.finalprojectvirtualteacher.controllers;
 
 
+import com.example.finalprojectvirtualteacher.helpers.LectureMapper;
 import com.example.finalprojectvirtualteacher.exceptions.AuthorizationException;
 import com.example.finalprojectvirtualteacher.exceptions.EntityNotFoundException;
 import com.example.finalprojectvirtualteacher.helpers.AuthenticationHelper;
 import com.example.finalprojectvirtualteacher.models.Lecture;
-import com.example.finalprojectvirtualteacher.models.Note;
 import com.example.finalprojectvirtualteacher.models.User;
 import com.example.finalprojectvirtualteacher.models.dto.LectureDto;
 import com.example.finalprojectvirtualteacher.services.contacts.LectureService;
@@ -25,11 +25,13 @@ public class LectureRestController {
 
     private final LectureService lectureService;
     private final AuthenticationHelper authenticationHelper;
+    private final LectureMapper lectureMapper;
 
     @Autowired
-    public LectureRestController(LectureService lectureService, AuthenticationHelper authenticationHelper) {
+    public LectureRestController(LectureService lectureService, AuthenticationHelper authenticationHelper, LectureMapper lectureMapper) {
         this.lectureService = lectureService;
         this.authenticationHelper = authenticationHelper;
+        this.lectureMapper = lectureMapper;
     }
 
 
@@ -61,9 +63,8 @@ public class LectureRestController {
         }
 
     }
-
     @PutMapping("/{lectureId}")
-    public Lecture update(@RequestHeader HttpHeaders headers, @PathVariable int lectureId,
+    public Lecture update(@RequestHeader HttpHeaders headers,@PathVariable int lectureId,
                           @Valid @RequestBody LectureDto lectureDto) {
         try {
             User creator = authenticationHelper.tryGetUser(headers);

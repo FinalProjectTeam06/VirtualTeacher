@@ -1,6 +1,5 @@
 package com.example.finalprojectvirtualteacher.services.contacts;
 
-import com.example.finalprojectvirtualteacher.models.Note;
 import com.example.finalprojectvirtualteacher.models.dto.LectureDto;
 import com.example.finalprojectvirtualteacher.models.Lecture;
 import com.example.finalprojectvirtualteacher.models.User;
@@ -25,4 +24,7 @@ public interface LectureService {
 
     Note createNote(int lectureId, User user, String note);
 
+    void addAssignment(Lecture lecture, String assignment);
+
+    void uploadSubmission(int userId, int lectureId, String assignment);
 }

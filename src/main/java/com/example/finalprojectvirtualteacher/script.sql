@@ -104,10 +104,11 @@ create table users_lectures
     user_id                  int                  not null,
     lecture_id               int                  not null,
     isAttend                 tinyint(1) default 0 not null,
-    assigment_url_submission varchar(10000)       not null,
+    assignment_url_submission varchar(10000)       not null,
     notes                    varchar(1000)        not null,
     constraint users_lectures_lectures_lecture_id_fk
         foreign key (lecture_id) references lectures (lecture_id),
     constraint users_lectures_users_user_id_fk
         foreign key (user_id) references users (user_id)
 );
+
