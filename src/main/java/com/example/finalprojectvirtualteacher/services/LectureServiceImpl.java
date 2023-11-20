@@ -93,6 +93,7 @@ public class LectureServiceImpl implements LectureService {
         }
     }
 
+
     private void isTeacher(User user) {
         if (user.getRole().getName().equals("student")) {
             throw new AuthorizationException(PERMISSION_ERROR);

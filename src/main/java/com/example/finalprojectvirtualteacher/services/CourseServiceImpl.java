@@ -64,7 +64,7 @@ public class CourseServiceImpl implements CourseService {
     public Course rateCourse(int courseId, User user, RateDto rateDto) {
         Course course = getById(courseId);
         try {
-            Rate rate =courseRepository.getRating(courseId, user.getId());
+            Rate rate = courseRepository.getRating(courseId, user.getId());
         } catch (EntityNotFoundException e) {
             if (!course.getRates().stream().map(Rate::getUser).toList().contains(user)) {
                 Rate rate = new Rate();
@@ -76,25 +76,26 @@ public class CourseServiceImpl implements CourseService {
                 return courseRepository.rateCourse(rate);
             }
         }
-        Rate rate =courseRepository.getRating(courseId, user.getId());
-        if (!rateDto.getComment().isEmpty()){
+        Rate rate = courseRepository.getRating(courseId, user.getId());
+        if (!rateDto.getComment().isEmpty()) {
             rate.setComment(rateDto.getComment());
         }
         rate.setRateValue(rateDto.getRateValue());
         return courseRepository.updateRating(rate);
     }
+
     @Override
-    public Double getCourseRating(Course course){
-        Set<Rate> rates=course.getRates();
-        if (course.getRates().isEmpty()){
+    public Double getCourseRating(Course course) {
+        Set<Rate> rates = course.getRates();
+        if (course.getRates().isEmpty()) {
             return 5.0;
         }
-        double sum=0.0;
+        double sum = 0.0;
         for (Rate rate : rates) {
-            sum+= rate.getRateValue();
+            sum += rate.getRateValue();
         }
 
-        return sum/rates.size();
+        return sum / rates.size();
     }
 
     private void checkCreatePermission(User user) {

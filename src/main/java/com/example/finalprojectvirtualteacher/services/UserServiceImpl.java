@@ -2,15 +2,14 @@ package com.example.finalprojectvirtualteacher.services;
 
 import com.example.finalprojectvirtualteacher.exceptions.AuthorizationException;
 import com.example.finalprojectvirtualteacher.exceptions.EntityDuplicateException;
+import com.example.finalprojectvirtualteacher.exceptions.EntityNotFoundException;
 import com.example.finalprojectvirtualteacher.models.Course;
+import com.example.finalprojectvirtualteacher.models.User;
 import com.example.finalprojectvirtualteacher.models.UserFilterOptions;
-import com.example.finalprojectvirtualteacher.models.dto.UserDto;
 import com.example.finalprojectvirtualteacher.models.dto.UserDtoUpdate;
+import com.example.finalprojectvirtualteacher.repositories.contracts.UserRepository;
 import com.example.finalprojectvirtualteacher.services.contacts.CourseService;
 import com.example.finalprojectvirtualteacher.services.contacts.UserService;
-import com.example.finalprojectvirtualteacher.exceptions.EntityNotFoundException;
-import com.example.finalprojectvirtualteacher.models.User;
-import com.example.finalprojectvirtualteacher.repositories.contracts.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -83,19 +82,19 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(int id, User user) {
         checkPermission(user, id);
-        User userToDelete=getById(id);
+        User userToDelete = getById(id);
         userRepository.deleteUser(userToDelete);
     }
 
     @Override
     public User enrollCourse(User user, int courseId) {
-        Course course=courseService.getById(courseId);
+        Course course = courseService.getById(courseId);
         user.addCourse(course);
         return userRepository.updateUser(user);
     }
 
-    private void checkPermission(User user, int userId){
-        if (!user.getRole().getName().equals("admin") && user.getId()!=userId){
+    private void checkPermission(User user, int userId) {
+        if (!user.getRole().getName().equals("admin") && user.getId() != userId) {
             throw new AuthorizationException(PERMISSION_ERROR);
         }
     }

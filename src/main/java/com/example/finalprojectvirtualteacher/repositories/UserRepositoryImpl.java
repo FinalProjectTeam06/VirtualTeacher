@@ -33,6 +33,7 @@ public class UserRepositoryImpl implements UserRepository {
             return query.list();
         }
     }
+
     @Override
     public User getById(int id) {
         try (Session session = sessionFactory.openSession()) {
@@ -119,6 +120,7 @@ public class UserRepositoryImpl implements UserRepository {
             return query.list();
         }
     }
+
     private void deleteCoursesFromUser(int userId) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
@@ -128,19 +130,5 @@ public class UserRepositoryImpl implements UserRepository {
             query.executeUpdate();
             session.getTransaction().commit();
         }
-    }
-    private void deleteUserCourses(int userId) {
-
-    @Override
-    public User addProfilePhoto(User user) {
-        try (Session session = sessionFactory.openSession()) {
-            session.beginTransaction();
-            Query<?> query = session.createNativeQuery(
-                    "delete from courses where creator_id= :userId", Course.class);
-            query.setParameter("userId", userId);
-            query.executeUpdate();
-            session.getTransaction().commit();
-        }
-        return user;
     }
 }

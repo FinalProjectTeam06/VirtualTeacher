@@ -75,6 +75,7 @@ public class LectureRepositoryImpl implements LectureRepository {
         return updatedLecture;
     }
 
+
     @Override
     public void delete(int id) {
         Lecture lecture = getById(id);

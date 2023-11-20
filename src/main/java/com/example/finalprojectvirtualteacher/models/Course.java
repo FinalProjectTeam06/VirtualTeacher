@@ -54,10 +54,9 @@ public class Course {
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "enrolled_courses",
-    joinColumns = @JoinColumn(name="user_id"),
-    inverseJoinColumns = @JoinColumn(referencedColumnName = "course_id"))
+    joinColumns = @JoinColumn(name="course_id"),
+    inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> students = new HashSet<>();
-
 
 
     public Course() {
@@ -151,6 +150,13 @@ public class Course {
         rates.add(rate);
     }
 
+    public Set<User> getStudents() {
+        return students;
+    }
+
+    public void setStudents(Set<User> students) {
+        this.students = students;
+    }
 
     @Override
     public boolean equals(Object o) {
