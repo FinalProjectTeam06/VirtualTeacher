@@ -42,6 +42,14 @@ public class Course {
     @JsonIgnore
     private Set<Lecture> lectures=new HashSet<>();
 
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "enrolled_courses",
+    joinColumns = @JoinColumn(name="user_id"),
+    inverseJoinColumns = @JoinColumn(referencedColumnName = "course_id"))
+    private Set<User> students = new HashSet<>();
+
+
+
     public Course() {
     }
 

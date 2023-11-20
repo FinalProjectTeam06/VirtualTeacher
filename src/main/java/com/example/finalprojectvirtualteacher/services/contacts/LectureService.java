@@ -20,9 +20,7 @@ public interface LectureService {
 
     void delete (int id,User user);
 
+    void addAssignment(Lecture lecture, String assignment);
 
-
-
-
-
+    void uploadSubmission(int userId, int lectureId, String assignment);
 }

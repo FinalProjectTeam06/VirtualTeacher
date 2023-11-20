@@ -9,7 +9,7 @@ public class LectureDto {
     @Size(min = 5, max = 50, message = "Title should be between 5 and 50 symbols.")
     private String title;
 
-@NotNull
+    @NotNull
     @Size(max = 1000, message = "Description can't be at most 1000 symbols.")
     private String description;
 
@@ -22,16 +22,17 @@ public class LectureDto {
     @NotNull
     private int courseId;
 
-public LectureDto(){
+    public LectureDto() {
 
-}
-public LectureDto(String title,String description,String videoUrl,String assignment,int courseId){
-    this.title=title;
-    this.description=description;
-    this.videoUrl=videoUrl;
-    this.assignmentUrl =assignment;
-    this.courseId=courseId;
-}
+    }
+
+    public LectureDto(String title, String description, String videoUrl, String assignment, int courseId) {
+        this.title = title;
+        this.description = description;
+        this.videoUrl = videoUrl;
+        this.assignmentUrl = assignment;
+        this.courseId = courseId;
+    }
 
     public String getTitle() {
         return title;

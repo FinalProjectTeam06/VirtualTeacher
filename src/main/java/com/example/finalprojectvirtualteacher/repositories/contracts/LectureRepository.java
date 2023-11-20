@@ -17,4 +17,6 @@ public interface LectureRepository {
 
     Lecture update(Lecture updatedLecture);
 
+    Lecture addAssignment(Lecture lecture);
+
 }

@@ -2,6 +2,7 @@ package com.example.finalprojectvirtualteacher.repositories;
 
 import com.example.finalprojectvirtualteacher.exceptions.EntityNotFoundException;
 import com.example.finalprojectvirtualteacher.models.Lecture;
+import com.example.finalprojectvirtualteacher.models.User;
 import com.example.finalprojectvirtualteacher.repositories.contracts.LectureRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -30,6 +31,7 @@ public class LectureRepositoryImpl implements LectureRepository {
             return query.list();
         }
     }
+
     @Override
     public Lecture getById(int id) {
         try (Session session = sessionFactory.openSession()) {
@@ -43,16 +45,17 @@ public class LectureRepositoryImpl implements LectureRepository {
 
     @Override
     public Lecture create(Lecture lecture) {
-            try (Session session = sessionFactory.openSession()){
-                session.beginTransaction();
-                session.persist(lecture);
-                session.getTransaction().commit();
-            }
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            session.persist(lecture);
+            session.getTransaction().commit();
+        }
         return lecture;
     }
+
     @Override
-    public Lecture update (Lecture updatedLecture) {
-        try (Session session = sessionFactory.openSession()){
+    public Lecture update(Lecture updatedLecture) {
+        try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             session.merge(updatedLecture);
             session.getTransaction().commit();
@@ -64,7 +67,7 @@ public class LectureRepositoryImpl implements LectureRepository {
     @Override
     public void delete(int id) {
         Lecture lecture = getById(id);
-        try (Session session = sessionFactory.openSession()){
+        try (Session session = sessionFactory.openSession()) {
             deleteLecture(id);
             session.beginTransaction();
             session.remove(lecture);
@@ -72,17 +75,28 @@ public class LectureRepositoryImpl implements LectureRepository {
         }
     }
 
-    private void deleteLecture(int id){
-        try(Session session = sessionFactory.openSession()){
-    session.beginTransaction();
-    Query<?>query = session.createNativeQuery(
-            "delete from virtual_teacher.course_lectures where lecture_id=:id",Lecture.class);
-    query.setParameter("id",id);
-    query.executeUpdate();
-    session.getTransaction().commit();
+    private void deleteLecture(int id) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            Query<?> query = session.createNativeQuery(
+                    "delete from virtual_teacher.course_lectures where lecture_id=:id", Lecture.class);
+            query.setParameter("id", id);
+            query.executeUpdate();
+            session.getTransaction().commit();
 
         }
     }
+    @Override
+    public Lecture addAssignment(Lecture lecture){
+        try (Session session = sessionFactory.openSession()){
+            session.beginTransaction();
+            session.merge(lecture);
+            session.getTransaction().commit();
+        }
+        return lecture;
+    }
+
+
 
 
 }

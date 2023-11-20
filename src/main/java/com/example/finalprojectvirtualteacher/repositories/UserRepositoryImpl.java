@@ -32,6 +32,7 @@ public class UserRepositoryImpl implements UserRepository {
             return query.list();
         }
     }
+
     @Override
     public User getById(int id) {
         try (Session session = sessionFactory.openSession()) {
@@ -58,14 +59,15 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public User create(User user){
-        try(Session session = sessionFactory.openSession()){
+    public User create(User user) {
+        try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             session.persist(user);
             session.getTransaction().commit();
         }
         return user;
     }
+
     @Override
     public User updateUser(User updatedUser) {
         try (Session session = sessionFactory.openSession()) {
@@ -113,10 +115,11 @@ public class UserRepositoryImpl implements UserRepository {
 
             Query<User> query = session.createQuery(queryString.toString(), User.class);
             query.setProperties(params);
-            List <User> users=query.list();
+            List<User> users = query.list();
             return query.list();
         }
     }
+
     @Override
     public User addProfilePhoto(User user) {
         try (Session session = sessionFactory.openSession()) {
@@ -126,4 +129,5 @@ public class UserRepositoryImpl implements UserRepository {
         }
         return user;
     }
+
 }

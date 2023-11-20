@@ -63,8 +63,9 @@ public class LectureRestController {
         }
 
     }
+
     @PutMapping("/{lectureId}")
-    public Lecture update(@RequestHeader HttpHeaders headers,@PathVariable int lectureId,
+    public Lecture update(@RequestHeader HttpHeaders headers, @PathVariable int lectureId,
                           @Valid @RequestBody LectureDto lectureDto) {
         try {
             User creator = authenticationHelper.tryGetUser(headers);
@@ -77,7 +78,7 @@ public class LectureRestController {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@RequestHeader HttpHeaders headers,@PathVariable int id) {
+    public void delete(@RequestHeader HttpHeaders headers, @PathVariable int id) {
         try {
             User user = authenticationHelper.tryGetUser(headers);
             lectureService.delete(id, user);
@@ -86,7 +87,6 @@ public class LectureRestController {
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
-
     }
 
 }

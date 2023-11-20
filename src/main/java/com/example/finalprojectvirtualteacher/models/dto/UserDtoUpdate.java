@@ -14,7 +14,7 @@ public class UserDtoUpdate {
 
     @NotNull
     @Size(min = 8)
-    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$", message = "regex not match")
+    @Pattern(regexp = "^(?=.*[A-Z])(?=.*\\d)(?=.*[^\\w\\s]).{8,}$", message = "regex not match")
     private String password;
 
     @NotNull(message = "Confirm password should matches password field.")

@@ -3,6 +3,7 @@ package com.example.finalprojectvirtualteacher.services;
 import com.example.finalprojectvirtualteacher.exceptions.AuthorizationException;
 import com.example.finalprojectvirtualteacher.exceptions.EntityDuplicateException;
 import com.example.finalprojectvirtualteacher.models.UserFilterOptions;
+import com.example.finalprojectvirtualteacher.models.dto.UserDto;
 import com.example.finalprojectvirtualteacher.models.dto.UserDtoUpdate;
 import com.example.finalprojectvirtualteacher.services.contacts.UserService;
 import com.example.finalprojectvirtualteacher.exceptions.EntityNotFoundException;
@@ -86,4 +87,5 @@ public class UserServiceImpl implements UserService {
             throw new AuthorizationException(PERMISSION_ERROR);
         }
     }
+
 }

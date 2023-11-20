@@ -2,13 +2,13 @@ package com.example.finalprojectvirtualteacher.services;
 
 import com.example.finalprojectvirtualteacher.exceptions.AuthorizationException;
 import com.example.finalprojectvirtualteacher.helpers.LectureMapper;
-import com.example.finalprojectvirtualteacher.models.Course;
 import com.example.finalprojectvirtualteacher.models.dto.LectureDto;
 import com.example.finalprojectvirtualteacher.exceptions.AuthorizationExceptions;
 import com.example.finalprojectvirtualteacher.exceptions.EntityNotFoundException;
 import com.example.finalprojectvirtualteacher.models.Lecture;
 import com.example.finalprojectvirtualteacher.models.User;
 import com.example.finalprojectvirtualteacher.repositories.contracts.LectureRepository;
+import com.example.finalprojectvirtualteacher.repositories.contracts.UserRepository;
 import com.example.finalprojectvirtualteacher.services.contacts.LectureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,11 +23,14 @@ public class LectureServiceImpl implements LectureService {
     private final LectureRepository lectureRepository;
     private final LectureMapper mapper;
 
+    private final UserRepository userRepository;
+
 
     @Autowired
-    public LectureServiceImpl(LectureRepository lectureRepository, LectureMapper mapper) {
+    public LectureServiceImpl(LectureRepository lectureRepository, LectureMapper mapper, UserRepository userRepository) {
         this.lectureRepository = lectureRepository;
         this.mapper = mapper;
+        this.userRepository = userRepository;
     }
 
 
@@ -78,5 +81,29 @@ public class LectureServiceImpl implements LectureService {
             throw new AuthorizationException(PERMISSION_ERROR);
         }
     }
+
+    @Override
+    public void addAssignment(Lecture lecture, String assignment) {
+        User creator = lecture.getTeacher();
+        if (creator.getId() == lecture.getTeacher().getId()) {
+            lecture.setAssignmentUrl(assignment);
+        }
+        lectureRepository.addAssignment(lecture);
+    }
+
+
+    @Override
+    public void uploadSubmission(int userId, int lectureId, String assignment) {
+        Lecture lecture = lectureRepository.getById(lectureId);
+        User user = userRepository.getById(userId);
+        if (user.getRole().getName().equals("student")) {
+            lecture.setAssignmentUrl(assignment);
+        } else {
+            throw new AuthorizationExceptions(PERMISSION_ERROR);
+        }
+
+    }
 }
+
+
 
