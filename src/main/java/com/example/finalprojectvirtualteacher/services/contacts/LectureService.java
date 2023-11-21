@@ -10,8 +10,6 @@ import java.util.List;
 
 public interface LectureService {
 
-
-
     List<Lecture> getAll();
 
     Lecture getById(int id);
@@ -25,8 +23,6 @@ public interface LectureService {
     void delete (int id,User user);
 
     Note getNote(int lectureId, int userId);
-
-    void addAssignment(Lecture lecture, String assignment);
 
     Note createNote(int lectureId, User user, String note);
 

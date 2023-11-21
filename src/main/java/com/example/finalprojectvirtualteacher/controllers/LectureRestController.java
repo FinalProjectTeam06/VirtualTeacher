@@ -28,13 +28,11 @@ public class LectureRestController {
 
     private final LectureService lectureService;
     private final AuthenticationHelper authenticationHelper;
-    private final LectureMapper lectureMapper;
 
     @Autowired
-    public LectureRestController(LectureService lectureService, AuthenticationHelper authenticationHelper, LectureMapper lectureMapper) {
+    public LectureRestController(LectureService lectureService, AuthenticationHelper authenticationHelper) {
         this.lectureService = lectureService;
         this.authenticationHelper = authenticationHelper;
-        this.lectureMapper = lectureMapper;
     }
 
 

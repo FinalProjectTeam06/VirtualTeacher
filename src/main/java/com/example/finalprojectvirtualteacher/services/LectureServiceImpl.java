@@ -92,14 +92,6 @@ public class LectureServiceImpl implements LectureService {
     public Note getNote(int lectureId, int userId) {
         return lectureRepository.getNote(lectureId, userId);
     }
-    @Override
-        public void addAssignment (Lecture lecture, String assignment){
-            User creator = lecture.getTeacher();
-            if (creator.getId() == lecture.getTeacher().getId()) {
-                lecture.setAssignmentUrl(assignment);
-            }
-            lectureRepository.addAssignment(lecture);
-        }
 
 
     @Override

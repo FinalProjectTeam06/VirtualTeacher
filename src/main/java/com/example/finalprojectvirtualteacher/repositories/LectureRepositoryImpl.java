@@ -70,13 +70,6 @@ public class LectureRepositoryImpl implements LectureRepository {
     }
 
 
-    @Override
-    public long lectureCount() {
-        try (Session session = sessionFactory.openSession()) {
-            Query<Long> count = session.createQuery("SELECT count (u) from Lecture u");
-            return count.getSingleResult();
-        }
-    }
 
 
     @Override
@@ -158,18 +151,12 @@ public class LectureRepositoryImpl implements LectureRepository {
         }
 
     @Override
-    public Lecture addAssignment(Lecture lecture) {
-        return null;
-    }
-
-    @Override
     public Lecture submitAssignment(Assignment assignment) {
         try (Session session = sessionFactory.openSession()){
             session.beginTransaction();
             session.persist(assignment);
             session.getTransaction().commit();
         }
-        Lecture lecture=assignment.getLecture();
         return assignment.getLecture();
     }
 }
