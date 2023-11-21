@@ -58,6 +58,9 @@ public class Course {
     inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> students = new HashSet<>();
 
+    @Column(name = "minimum_grade")
+    private int minGrade;
+
 
     public Course() {
     }
@@ -156,6 +159,14 @@ public class Course {
 
     public void setStudents(Set<User> students) {
         this.students = students;
+    }
+
+    public int getMinGrade() {
+        return minGrade;
+    }
+
+    public void setMinGrade(int minGrade) {
+        this.minGrade = minGrade;
     }
 
     @Override

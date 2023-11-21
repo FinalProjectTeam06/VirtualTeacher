@@ -1,5 +1,6 @@
 package com.example.finalprojectvirtualteacher.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -27,6 +28,7 @@ public class Lecture {
     private User teacher;
     @ManyToOne
     @JoinColumn(name = "course_id")
+    @JsonIgnore
     private Course course;
 
     public Lecture() {

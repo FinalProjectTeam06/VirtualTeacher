@@ -1,5 +1,6 @@
 package com.example.finalprojectvirtualteacher.repositories.contracts;
 
+import com.example.finalprojectvirtualteacher.models.Assignment;
 import com.example.finalprojectvirtualteacher.models.Lecture;
 import com.example.finalprojectvirtualteacher.models.Note;
 
@@ -24,4 +25,5 @@ public interface LectureRepository {
 
     Note updateNote(Note note);
 
+    Lecture submitAssignment(Assignment assignment);
 }
