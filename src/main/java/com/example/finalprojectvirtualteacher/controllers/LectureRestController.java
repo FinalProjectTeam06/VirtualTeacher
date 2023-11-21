@@ -5,6 +5,7 @@ import com.example.finalprojectvirtualteacher.helpers.LectureMapper;
 import com.example.finalprojectvirtualteacher.exceptions.AuthorizationException;
 import com.example.finalprojectvirtualteacher.exceptions.EntityNotFoundException;
 import com.example.finalprojectvirtualteacher.helpers.AuthenticationHelper;
+import com.example.finalprojectvirtualteacher.models.Assignment;
 import com.example.finalprojectvirtualteacher.models.Lecture;
 import com.example.finalprojectvirtualteacher.models.Note;
 import com.example.finalprojectvirtualteacher.models.User;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -101,4 +103,18 @@ public class LectureRestController {
         }
     }
 
+    @PostMapping("/{lectureId}/assignment")
+    public Lecture submitAssignment(@RequestHeader HttpHeaders httpHeaders,
+                                    @RequestBody MultipartFile file,
+                                    @PathVariable int lectureId) {
+        try {
+            User user=authenticationHelper.tryGetUser(httpHeaders);
+            Lecture lecture=lectureService.getById(lectureId);
+            return lectureService.submitAssignment(user, lectureId, file);
+        }catch (AuthorizationException e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
+        }catch (EntityNotFoundException e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+    }
 }

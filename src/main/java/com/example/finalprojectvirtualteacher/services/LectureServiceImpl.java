@@ -1,7 +1,10 @@
 package com.example.finalprojectvirtualteacher.services;
 
 import com.example.finalprojectvirtualteacher.exceptions.AuthorizationException;
+import com.example.finalprojectvirtualteacher.exceptions.FileUploadException;
+import com.example.finalprojectvirtualteacher.helpers.AssignmentsHelper;
 import com.example.finalprojectvirtualteacher.helpers.LectureMapper;
+import com.example.finalprojectvirtualteacher.models.Assignment;
 import com.example.finalprojectvirtualteacher.models.Note;
 
 import com.example.finalprojectvirtualteacher.exceptions.EntityNotFoundException;
@@ -13,7 +16,9 @@ import com.example.finalprojectvirtualteacher.repositories.contracts.LectureRepo
 import com.example.finalprojectvirtualteacher.services.contacts.LectureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -22,15 +27,18 @@ public class LectureServiceImpl implements LectureService {
     public static final String PERMISSION_ERROR = "You don't have a permission.";
     public static final String MODIFY_THE_LECTURE = "Only creator or admin can modify the lecture.";
     public static final String USER_IS_NOT_ENROLLED = "User is not enrolled in this course";
+    public static final String FILE_UPLOAD_ERROR = "File can't be uploaded.";
     private final LectureRepository lectureRepository;
 
     private final LectureMapper mapper;
+    private final AssignmentsHelper assignmentsHelper;
 
 
     @Autowired
-    public LectureServiceImpl(LectureRepository lectureRepository, LectureMapper mapper) {
+    public LectureServiceImpl(LectureRepository lectureRepository, LectureMapper mapper, AssignmentsHelper assignmentsHelper) {
         this.lectureRepository = lectureRepository;
         this.mapper = mapper;
+        this.assignmentsHelper = assignmentsHelper;
     }
 
 
@@ -112,6 +120,20 @@ public class LectureServiceImpl implements LectureService {
         }
     }
 
+    @Override
+    public Lecture submitAssignment(User user, int lectureId, MultipartFile multipartFile) {
+        try {
+            Lecture lecture=getById(lectureId);
+            String assignmentUrl= assignmentsHelper.uploadImage(multipartFile);
+            Assignment assignment=new Assignment();
+            assignment.setAssignmentUrl(assignmentUrl);
+            assignment.setUser(user);
+            assignment.setLecture(lecture);
+            return lectureRepository.submitAssignment(assignment);
+        }catch (IOException e) {
+            throw new FileUploadException(FILE_UPLOAD_ERROR);
+        }
+    }
 
     private void isTeacher(User user) {
         if (user.getRole().getName().equals("student")) {

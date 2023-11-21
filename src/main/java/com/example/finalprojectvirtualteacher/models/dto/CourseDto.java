@@ -18,6 +18,9 @@ public class CourseDto {
     @NotNull
     private LocalDate startDate;
 
+    @NotNull
+    private int minGrade;
+
     public CourseDto(String title, String description, int topicId, LocalDate startDate) {
         this.title = title;
         this.description = description;
@@ -55,5 +58,13 @@ public class CourseDto {
 
     public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
+    }
+
+    public int getMinGrade() {
+        return minGrade;
+    }
+
+    public void setMinGrade(int minGrade) {
+        this.minGrade = minGrade;
     }
 }

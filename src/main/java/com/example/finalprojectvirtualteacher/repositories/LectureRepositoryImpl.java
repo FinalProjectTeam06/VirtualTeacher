@@ -1,6 +1,7 @@
 package com.example.finalprojectvirtualteacher.repositories;
 
 import com.example.finalprojectvirtualteacher.exceptions.EntityNotFoundException;
+import com.example.finalprojectvirtualteacher.models.Assignment;
 import com.example.finalprojectvirtualteacher.models.Lecture;
 import com.example.finalprojectvirtualteacher.models.Note;
 import com.example.finalprojectvirtualteacher.repositories.contracts.LectureRepository;
@@ -159,6 +160,17 @@ public class LectureRepositoryImpl implements LectureRepository {
     @Override
     public Lecture addAssignment(Lecture lecture) {
         return null;
+    }
+
+    @Override
+    public Lecture submitAssignment(Assignment assignment) {
+        try (Session session = sessionFactory.openSession()){
+            session.beginTransaction();
+            session.persist(assignment);
+            session.getTransaction().commit();
+        }
+        Lecture lecture=assignment.getLecture();
+        return assignment.getLecture();
     }
 }
 

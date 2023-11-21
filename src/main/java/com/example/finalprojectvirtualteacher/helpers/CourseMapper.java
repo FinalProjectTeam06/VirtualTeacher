@@ -22,6 +22,7 @@ public class CourseMapper {
         course.setPublished(false);
         course.setCreator(creator);
         course.setStartDate(courseDto.getStartDate());
+        course.setMinGrade(courseDto.getMinGrade());
         return course;
     }
 

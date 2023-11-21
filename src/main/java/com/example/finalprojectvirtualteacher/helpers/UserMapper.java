@@ -1,5 +1,6 @@
 package com.example.finalprojectvirtualteacher.helpers;
 
+import com.example.finalprojectvirtualteacher.models.dto.RegisterMvcDto;
 import com.example.finalprojectvirtualteacher.models.dto.UserDto;
 import com.example.finalprojectvirtualteacher.models.dto.UserDtoUpdate;
 import com.example.finalprojectvirtualteacher.models.User;
@@ -25,12 +26,22 @@ public class UserMapper {
         return user;
     }
 
-    public UserDtoUpdate toDto(User user){
-        UserDtoUpdate userDtoUpdate=new UserDtoUpdate();
-        userDtoUpdate.setFirstName(user.getFirstName());
-        userDtoUpdate.setLastName(user.getLastName());
-        userDtoUpdate.setPasswordConfirm(user.getPassword());
-        return userDtoUpdate;
+    public User fromRegisterMvcDto(RegisterMvcDto registerMvcDto){
+        User user=new User();
+        user.setFirstName(registerMvcDto.getFirstName());
+        user.setLastName(registerMvcDto.getLastName());
+        user.setEmail(registerMvcDto.getEmail());
+
+        if (registerMvcDto.isTeacher()){
+            user.setRole(roleService.getById(2));
+        } else{
+            user.setRole(roleService.getById(1));
+        }
+
+        user.setPassword(registerMvcDto.getPassword());
+        user.setProfilePictureUrl("url");
+
+        return user;
     }
 
 

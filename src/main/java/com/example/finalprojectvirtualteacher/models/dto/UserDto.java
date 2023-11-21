@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import org.checkerframework.common.aliasing.qual.Unique;
 
-public class UserDto {
+public class UserDto extends LoginDto {
 
     @NotNull(message = "First name can't be empty")
     @Size(min = 2, max = 20, message = "First name should be between 2 and 20 symbols.")
@@ -21,10 +21,10 @@ public class UserDto {
     @NotNull
     private int roleId;
 
-    @NotNull(message = "password not null")
-    @Size(min = 8, message = "password size")
+    @NotNull(message = "Password can't be empty.")
+    @Size(min = 8, message = "Password should be at least 8 symbols.")
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$", message = "regex not match")
-    private String password;
+    private String passwordConfirm;
 
 
     public UserDto() {
@@ -62,12 +62,12 @@ public class UserDto {
         this.roleId = roleId;
     }
 
-    public String getPassword() {
-        return password;
+    public String getPasswordConfirm() {
+        return passwordConfirm;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPasswordConfirm(String passwordConfirm) {
+        this.passwordConfirm = passwordConfirm;
     }
 }
 
