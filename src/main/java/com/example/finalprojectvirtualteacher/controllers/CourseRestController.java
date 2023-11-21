@@ -3,8 +3,10 @@ package com.example.finalprojectvirtualteacher.controllers;
 import com.example.finalprojectvirtualteacher.exceptions.AuthorizationException;
 import com.example.finalprojectvirtualteacher.helpers.AuthenticationHelper;
 import com.example.finalprojectvirtualteacher.exceptions.EntityNotFoundException;
+import com.example.finalprojectvirtualteacher.helpers.CourseMapper;
 import com.example.finalprojectvirtualteacher.models.Course;
 import com.example.finalprojectvirtualteacher.models.Rate;
+import com.example.finalprojectvirtualteacher.models.FilterOptions;
 import com.example.finalprojectvirtualteacher.models.User;
 import com.example.finalprojectvirtualteacher.models.dto.CourseDto;
 import com.example.finalprojectvirtualteacher.models.dto.RateDto;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/courses")
@@ -32,9 +35,17 @@ public class CourseRestController {
     }
 
     @GetMapping()
-    public List<Course> getAll() {
-        return courseService.getAll();
+    public List<Course> getAll(
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String topic,
+            @RequestParam(required = false) Integer teacherId,
+            @RequestParam(required = false) Double rating,
+            @RequestParam(required = false) String sortBy,
+            @RequestParam(required = false) String sortOrder) {
+
+            return courseService.getAll(new FilterOptions(title,topic,teacherId,rating,sortBy, sortOrder));
     }
+
 
     @GetMapping("/{id}")
     public Course getById(@PathVariable int id) {

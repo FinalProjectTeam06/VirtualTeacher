@@ -15,13 +15,17 @@ public interface LectureService {
 
     Lecture getById(int id);
 
-     Lecture create(LectureDto lectureDto, User creator);
+    List<Lecture> getByCourseId(int id);
+
+    Lecture create(LectureDto lectureDto, User creator);
 
     Lecture update(LectureDto lectureDto,User user,int lectureId);
 
     void delete (int id,User user);
 
     Note getNote(int lectureId, int userId);
+
+    void addAssignment(Lecture lecture, String assignment);
 
     Note createNote(int lectureId, User user, String note);
 

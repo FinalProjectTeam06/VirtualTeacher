@@ -3,35 +3,36 @@ package com.example.finalprojectvirtualteacher.repositories;
 import com.example.finalprojectvirtualteacher.exceptions.EntityNotFoundException;
 import com.example.finalprojectvirtualteacher.models.Course;
 import com.example.finalprojectvirtualteacher.models.Rate;
+import com.example.finalprojectvirtualteacher.models.FilterOptions;
+import com.example.finalprojectvirtualteacher.models.Lecture;
+import com.example.finalprojectvirtualteacher.models.User;
 import com.example.finalprojectvirtualteacher.repositories.contracts.CourseRepository;
+import com.example.finalprojectvirtualteacher.repositories.contracts.UserRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.util.*;
+
+import static java.lang.String.format;
+import static java.util.Collections.sort;
 
 @Repository
 public class CourseRepositoryImpl implements CourseRepository {
     private final SessionFactory sessionFactory;
 
+
     public CourseRepositoryImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
-    }
 
-    @Override
-    public List<Course> getAll() {
-        try (Session session= sessionFactory.openSession()){
-            Query<Course> query=session.createQuery("from Course", Course.class);
-            return query.list();
-        }
     }
 
     @Override
     public Course getById(int id) {
-        try (Session session= sessionFactory.openSession()){
-            Course course=session.get(Course.class, id);
-            if (course== null) {
+        try (Session session = sessionFactory.openSession()) {
+            Course course = session.get(Course.class, id);
+            if (course == null) {
                 throw new EntityNotFoundException("Course", id);
             }
             return course;
@@ -39,9 +40,71 @@ public class CourseRepositoryImpl implements CourseRepository {
     }
 
 
+    @Override
+    public List<Course> getAll(FilterOptions filterOptions) {
+        try (
+                Session session = sessionFactory.openSession()) {
+            List<String> filters = new ArrayList<>();
+            Map<String, Object> params = new HashMap<>();
+
+            filterOptions.getTitle().ifPresent(value -> {
+                filters.add("title like :title");
+                params.put("title", String.format("%%%s%%", value));
+            });
+
+            filterOptions.getTopic().ifPresent(value -> {
+                filters.add("topic.name like :topic");
+                params.put("topic", String.format("%%%s%%", value));
+            });
+            filterOptions.getTeacherId().ifPresent(value -> {
+                filters.add("creator.id like :teacherId");
+                params.put("teacherId", value);
+            });
+            filterOptions.getRating().ifPresent(value -> {
+                    filters.add("rate.rateValue == :rating");
+                    params.put("rating", value);
+
+            });
+            StringBuilder queryString = new StringBuilder("FROM Course");
+            if (!filters.isEmpty()) {
+                queryString.append(" where ")
+                        .append(String.join(" and ", filters));
+            }
+            if (filterOptions.getSortBy().isPresent()) {
+                if (!filterOptions.getSortBy().get().equals("")) {
+                    queryString.append(generateOrderBy(filterOptions));
+                }
+            }
+            Query<Course> query = session.createQuery(queryString.toString(), Course.class);
+            query.setProperties(params);
+            return query.list();
+            }
+        }
+    public String generateOrderBy(FilterOptions filterOptions) {
+        if (filterOptions.getSortBy().isEmpty()) {
+            return "";
+        }
+        String orderBy = "";
+        switch (filterOptions.getSortBy().get()) {
+            case "title":
+                orderBy = "title";
+                break;
+            case "rating":
+                orderBy = "rating";
+        }
+        orderBy = String.format(" order by %s", orderBy);
+
+        if (filterOptions.getSortOrder().isPresent() &&
+                filterOptions.getSortOrder().get().equalsIgnoreCase("desc")) {
+            orderBy = String.format("%s desc", orderBy);
+        }
+        return orderBy;
+    }
+
+
     public Rate getRating(int courseId, int userId) {
-        try (Session session= sessionFactory.openSession()){
-            Query<Rate> query=session.createQuery("from Rate r where r.course.id= :courseId AND r.user.id= :userId", Rate.class);
+        try (Session session = sessionFactory.openSession()) {
+            Query<Rate> query = session.createQuery("from Rate r where r.course.id= :courseId AND r.user.id= :userId", Rate.class);
             query.setParameter("courseId", courseId);
             query.setParameter("userId", userId);
             if (query.list().isEmpty()) {
@@ -50,9 +113,10 @@ public class CourseRepositoryImpl implements CourseRepository {
             return query.list().get(0);
         }
     }
+
     @Override
     public Course create(Course course) {
-        try (Session session= sessionFactory.openSession()){
+        try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             session.persist(course);
             session.getTransaction().commit();
@@ -62,7 +126,7 @@ public class CourseRepositoryImpl implements CourseRepository {
 
     @Override
     public Course update(Course course) {
-        try (Session session= sessionFactory.openSession()){
+        try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             session.merge(course);
             session.getTransaction().commit();
@@ -72,15 +136,26 @@ public class CourseRepositoryImpl implements CourseRepository {
 
     @Override
     public void delete(Course course) {
-        try (Session session= sessionFactory.openSession()){
+        try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             session.remove(course);
             session.getTransaction().commit();
         }
     }
+
+    @Override
+    public List<Lecture> getAllByTeacherId(int id) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Lecture> query = session.createQuery(
+                    ("from Lecture l where l.teacher.id = :id"), Lecture.class);
+            query.setParameter("id", id);
+            return query.list();
+        }
+    }
+
     @Override
     public Course rateCourse(Rate rate) {
-        try (Session session= sessionFactory.openSession()){
+        try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             session.persist(rate);
             session.getTransaction().commit();
@@ -90,12 +165,13 @@ public class CourseRepositoryImpl implements CourseRepository {
 
     @Override
     public Course updateRating(Rate rate) {
-        try (Session session= sessionFactory.openSession()){
+        try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             session.merge(rate);
             session.getTransaction().commit();
         }
         return rate.getCourse();
     }
+
 
 }

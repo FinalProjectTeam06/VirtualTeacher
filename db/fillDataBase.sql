@@ -13,18 +13,14 @@ INSERT INTO virtual_teacher.users (user_id, first_name, last_name, email, passwo
 INSERT INTO virtual_teacher.users (user_id, first_name, last_name, email, password, role_id, profile_picture_url) VALUES (5, 'Maria', 'Petrova', 'maria.petrova@example.com', 'Maria.petrova@123', 2, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9yZyF373WSegLRC8Oo6ugxmprvSOEgF07Og&usqp=CAU');
 INSERT INTO virtual_teacher.users (user_id, first_name, last_name, email, password, role_id, profile_picture_url) VALUES (6, 'Polina', 'Uzunova', 'polina.uzunova@example.com', 'Polina.uzunova@123', 2, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYxsG3Ac8-CCLG3PzEvZXAfVoQxmjHleJqjg&usqp=CAU');
 
-INSERT INTO virtual_teacher.courses (course_id, title, topic_id, description, creator_id, is_published, start_date) VALUES (1, 'Rise and Fall of Ancient ', 1, 'Explore the compelling rise and eventual decline of ancient civilizations across the globe. From the majestic empires of Mesopotamia to the enigmatic Mayan culture, delve into the societal, political, and economic factors that propelled these civilizations to greatness and ultimately led to their downfall.', 4, 1, '2023-11-17 16:24:08');
-INSERT INTO virtual_teacher.courses (course_id, title, topic_id, description, creator_id, is_published, start_date) VALUES (2, 'World Wars: Global Conflicts ', 1, 'Delve into the cataclysmic events of the 20th century, exploring the origins, strategies, and consequences of World War I and II. Understand the socio-political upheavals, technological advancements, and the lasting impact of these conflicts on global geopolitics and societal structures.', 5, 1, '2023-11-15 16:24:59');
-INSERT INTO virtual_teacher.courses (course_id, title, topic_id, description, creator_id, is_published, start_date) VALUES (3, 'Revolutionary Movements: Ideology and Change', 1, 'Explore the revolutionary movements that have shaped the course of history, from the Enlightenment to modern-day social upheavals. Analyze the ideologies, key figures, and socio-political transformations brought about by these movements across various continents.', 6, 0, '2023-11-03 16:25:35');
-INSERT INTO virtual_teacher.courses (course_id, title, topic_id, description, creator_id, is_published, start_date) VALUES (4, 'Exploring the Universe: Astronomy ', 2, 'Embark on a captivating journey through the vastness of space and time. From the celestial bodies within our solar system to the expansive mysteries of the cosmos, this course explores the principles of astronomy and cosmology, shedding light on the evolution of our understanding of the universe.', 4, 1, '2023-11-13 16:26:35');
-INSERT INTO virtual_teacher.courses (course_id, title, topic_id, description, creator_id, is_published, start_date) VALUES (5, 'The Wonders of Life: Biology ', 2, 'Delve into the intricate web of life on Earth, from the tiniest microorganisms to the complexities of ecosystems. This course explores the fundamental principles of biology, genetics, evolution, and ecology, unraveling the mysteries of life itself.', 5, 0, '2023-11-17 16:27:03');
-INSERT INTO virtual_teacher.courses (course_id, title, topic_id, description, creator_id, is_published, start_date) VALUES (6, 'Classics of World Literature: Exploring ', 3, 'Embark on a literary odyssey through some of the most influential and enduring works in world literature. This course delves into the timeless themes, characters, and cultural impacts of classic literary masterpieces from diverse eras and regions.', 4, 1, '2023-11-03 16:27:59');
-INSERT INTO virtual_teacher.courses (course_id, title, topic_id, description, creator_id, is_published, start_date) VALUES (7, 'Literary Theory and Criticism: Analyzing ', 3, 'Delve into the fascinating world of literary theory and criticism, exploring various lenses through which literature can be analyzed and interpreted. This course introduces critical frameworks and methodologies to dissect and understand texts from diverse perspectives.', 5, 0, '2023-11-02 16:28:02');
-INSERT INTO virtual_teacher.courses (course_id, title, topic_id, description, creator_id, is_published, start_date) VALUES (8, 'The Evolution of Literary Genres: From Poetry ', 3, 'Explore the rich tapestry of literary genres across different time periods and cultures. This course delves into the development, characteristics, and significance of various genres, from poetry and drama to science fiction and beyond.', 6, 1, '2023-11-11 16:28:05');
-
-
-
-
+INSERT INTO virtual_teacher.courses (course_id, title, topic_id, description, creator_id, is_published, start_date,minimum_grade) VALUES (1, 'Rise and Fall of Ancient ', 1, 'Explore the compelling rise and eventual decline of ancient civilizations across the globe. From the majestic empires of Mesopotamia to the enigmatic Mayan culture, delve into the societal, political, and economic factors that propelled these civilizations to greatness and ultimately led to their downfall.', 4, 1, '2023-11-17 16:24:08',5);
+INSERT INTO virtual_teacher.courses (course_id, title, topic_id, description, creator_id, is_published, start_date,minimum_grade) VALUES (2, 'World Wars: Global Conflicts ', 1, 'Delve into the cataclysmic events of the 20th century, exploring the origins, strategies, and consequences of World War I and II. Understand the socio-political upheavals, technological advancements, and the lasting impact of these conflicts on global geopolitics and societal structures.', 5, 1, '2023-11-15 16:24:59',3);
+INSERT INTO virtual_teacher.courses (course_id, title, topic_id, description, creator_id, is_published, start_date,minimum_grade) VALUES (3, 'Revolutionary Movements: Ideology and Change', 1, 'Explore the revolutionary movements that have shaped the course of history, from the Enlightenment to modern-day social upheavals. Analyze the ideologies, key figures, and socio-political transformations brought about by these movements across various continents.', 6, 0, '2023-11-03 16:25:35',4);
+INSERT INTO virtual_teacher.courses (course_id, title, topic_id, description, creator_id, is_published, start_date,minimum_grade) VALUES (4, 'Exploring the Universe: Astronomy ', 2, 'Embark on a captivating journey through the vastness of space and time. From the celestial bodies within our solar system to the expansive mysteries of the cosmos, this course explores the principles of astronomy and cosmology, shedding light on the evolution of our understanding of the universe.', 4, 1, '2023-11-13 16:26:35',3);
+INSERT INTO virtual_teacher.courses (course_id, title, topic_id, description, creator_id, is_published, start_date,minimum_grade) VALUES (5, 'The Wonders of Life: Biology ', 2, 'Delve into the intricate web of life on Earth, from the tiniest microorganisms to the complexities of ecosystems. This course explores the fundamental principles of biology, genetics, evolution, and ecology, unraveling the mysteries of life itself.', 5, 0, '2023-11-17 16:27:03',2);
+INSERT INTO virtual_teacher.courses (course_id, title, topic_id, description, creator_id, is_published, start_date,minimum_grade) VALUES (6, 'Classics of World Literature: Exploring ', 3, 'Embark on a literary odyssey through some of the most influential and enduring works in world literature. This course delves into the timeless themes, characters, and cultural impacts of classic literary masterpieces from diverse eras and regions.', 4, 1, '2023-11-03 16:27:59',3);
+INSERT INTO virtual_teacher.courses (course_id, title, topic_id, description, creator_id, is_published, start_date,minimum_grade) VALUES (7, 'Literary Theory and Criticism: Analyzing ', 3, 'Delve into the fascinating world of literary theory and criticism, exploring various lenses through which literature can be analyzed and interpreted. This course introduces critical frameworks and methodologies to dissect and understand texts from diverse perspectives.', 5, 0, '2023-11-02 16:28:02',2);
+INSERT INTO virtual_teacher.courses (course_id, title, topic_id, description, creator_id, is_published, start_date,minimum_grade) VALUES (8, 'The Evolution of Literary Genres: From Poetry ', 3, 'Explore the rich tapestry of literary genres across different time periods and cultures. This course delves into the development, characteristics, and significance of various genres, from poetry and drama to science fiction and beyond.', 6, 1, '2023-11-11 16:28:05',3);
 
 
 INSERT INTO virtual_teacher.lectures (lecture_id, title, description, video_url, assignment_url, teacher_id, course_id) VALUES (1, 'The birth of world literature', 'Professor Martin Puchner explores how the concept of World Literature came into being, describing the conversations of Johann Wolfgang von Goethe and Peter Eckermann.', 'https://www.youtube.com/watch?v=eOxP0ZZMrmk', 'The birth of world literature', 4, 6);
@@ -36,6 +32,17 @@ INSERT INTO virtual_teacher.lectures (lecture_id, title, description, video_url,
 INSERT INTO virtual_teacher.lectures (lecture_id, title, description, video_url, assignment_url, teacher_id, course_id) VALUES (6, 'Literary Genres and Subgenres', 'This video and worksheet teaches literary genres of fiction, nonfiction, drama, and poetry, as well as subgenres of each. Learners see an example of each genre and subgenre and practice identifying the genre and subgenre of several descriptions, then check their responses. This video was created by a US public school teacher for use with ESOL students learning mainstream English curriculum', 'https://www.youtube.com/watch?v=oarGRayak5o', 'https://study.com/academy/practice/quiz-worksheet-literary-genres.html', 5, 8);
 INSERT INTO virtual_teacher.lectures (lecture_id, title, description, video_url, assignment_url, teacher_id, course_id) VALUES (7, 'The Four Types of Social Movement', 'Sociologist Nick Lee discusses the four types of social movement: Alterative, Redemptive, Reformative, and Transformative according to David Aberle.', 'https://www.youtube.com/watch?v=U-uYfZkq5SA', 'https://socialsci.libretexts.org/Bookshelves/Sociology/Introduction_to_Sociology/Sociology_(Boundless)/21%3A_Social_Change/21.03%3A_Social_Movements/21.3B%3A_Types_of_Social_Movements', 6, 3);
 
+
+INSERT INTO virtual_teacher.comments (comment_id, user_id, lecture_id, content) VALUES (1, 1, 1, 'good lecture');
+INSERT INTO virtual_teacher.comments (comment_id, user_id, lecture_id, content) VALUES (2, 2, 2, 'excellent lecture');
+INSERT INTO virtual_teacher.comments (comment_id, user_id, lecture_id, content) VALUES (3, 3, 3, 'good lecture');
+INSERT INTO virtual_teacher.comments (comment_id, user_id, lecture_id, content) VALUES (4, 4, 4, 'excellent lecture');
+INSERT INTO virtual_teacher.comments (comment_id, user_id, lecture_id, content) VALUES (5, 1, 5, 'good lecture');
+INSERT INTO virtual_teacher.comments (comment_id, user_id, lecture_id, content) VALUES (6, 2, 6, 'good lecture');
+INSERT INTO virtual_teacher.comments (comment_id, user_id, lecture_id, content) VALUES (7, 3, 7, 'excellent lecture');
+
+
+
 INSERT INTO virtual_teacher.enrolled_courses (user_id, course_id) VALUES (1, 4);
 INSERT INTO virtual_teacher.enrolled_courses (user_id, course_id) VALUES (2, 5);
 INSERT INTO virtual_teacher.enrolled_courses (user_id, course_id) VALUES (3, 6);
@@ -44,6 +51,8 @@ INSERT INTO virtual_teacher.enrolled_courses (user_id, course_id) VALUES (2, 2);
 INSERT INTO virtual_teacher.enrolled_courses (user_id, course_id) VALUES (3, 3);
 INSERT INTO virtual_teacher.enrolled_courses (user_id, course_id) VALUES (1, 2);
 
+
+
 INSERT INTO virtual_teacher.course_lectures (course_id, lecture_id) VALUES (1, 5);
 INSERT INTO virtual_teacher.course_lectures (course_id, lecture_id) VALUES (2, 3);
 INSERT INTO virtual_teacher.course_lectures (course_id, lecture_id) VALUES (3, 7);
@@ -51,13 +60,3 @@ INSERT INTO virtual_teacher.course_lectures (course_id, lecture_id) VALUES (4, 2
 INSERT INTO virtual_teacher.course_lectures (course_id, lecture_id) VALUES (5, 4);
 INSERT INTO virtual_teacher.course_lectures (course_id, lecture_id) VALUES (6, 1);
 
-INSERT INTO virtual_teacher.rates (rate_id, course_id, rate_value, rate_count) VALUES (1, 1, 5, 9);
-INSERT INTO virtual_teacher.rates (rate_id, course_id, rate_value, rate_count) VALUES (2, 2, 6, 8);
-INSERT INTO virtual_teacher.rates (rate_id, course_id, rate_value, rate_count) VALUES (3, 3, 7, 7);
-INSERT INTO virtual_teacher.rates (rate_id, course_id, rate_value, rate_count) VALUES (4, 4, 8, 6);
-
-INSERT INTO virtual_teacher.users_lectures (user_id, lecture_id, isAttend, assigment_url_submission, notes) VALUES (1, 4, 1, 'https://esroxs.com/wp-content/uploads/2020/03/Crash-Course-Astronomy-On-Line-Content.pdf', 'good');
-INSERT INTO virtual_teacher.users_lectures (user_id, lecture_id, isAttend, assigment_url_submission, notes) VALUES (2, 5, 1, 'https://www.britannica.com/list/8-questions-about-world-war-i-answered', 'good');
-INSERT INTO virtual_teacher.users_lectures (user_id, lecture_id, isAttend, assigment_url_submission, notes) VALUES (3, 6, 0, 'https://blog.burbankids.com/biology-trivia-questions/', 'excellent');
-INSERT INTO virtual_teacher.users_lectures (user_id, lecture_id, isAttend, assigment_url_submission, notes) VALUES (1, 4, 0, 'https://quizizz.com/admin/quiz/5c65816a6850410020576bc4/the-rise-and-fall-of-the-roman-empire', 'excellent');
-INSERT INTO virtual_teacher.users_lectures (user_id, lecture_id, isAttend, assigment_url_submission, notes) VALUES (2, 5, 1, 'https://study.com/academy/practice/quiz-worksheet-literary-genres.html', 'poor');

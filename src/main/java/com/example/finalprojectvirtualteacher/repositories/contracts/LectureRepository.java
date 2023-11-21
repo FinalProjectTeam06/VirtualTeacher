@@ -12,6 +12,12 @@ public interface LectureRepository {
     List<Lecture> getAll();
     Lecture getById(int id);
 
+    List<Lecture> lecturesByCourseId(int id);
+
+    Lecture getByTitle(String title);
+
+    long lectureCount();
+
     Lecture create(Lecture lecture);
 
     void delete(int id);
@@ -24,4 +30,5 @@ public interface LectureRepository {
 
     Note updateNote(Note note);
 
+    Lecture addAssignment(Lecture lecture);
 }

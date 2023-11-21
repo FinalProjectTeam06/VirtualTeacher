@@ -125,7 +125,7 @@ public class UserRepositoryImpl implements UserRepository {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             Query<?> query = session.createNativeQuery(
-                    "delete from enrolled_courses where user_id= :userId", User.class);
+                    "delete from virtual_teacher.enrolled_courses where user_id= :userId", User.class);
             query.setParameter("userId", userId);
             query.executeUpdate();
             session.getTransaction().commit();

@@ -2,6 +2,8 @@ package com.example.finalprojectvirtualteacher.models;
 
 import jakarta.persistence.*;
 
+import java.util.Objects;
+
 @Entity
 @Table(name = "comments")
 public class Comment {
@@ -55,5 +57,18 @@ public class Comment {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Comment comment = (Comment) o;
+        return id == comment.id && Objects.equals(creator, comment.creator) && Objects.equals(lecture, comment.lecture) && Objects.equals(content, comment.content);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, creator, lecture, content);
     }
 }

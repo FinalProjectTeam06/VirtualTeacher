@@ -5,6 +5,7 @@ import com.example.finalprojectvirtualteacher.exceptions.EntityNotFoundException
 import com.example.finalprojectvirtualteacher.helpers.CourseMapper;
 import com.example.finalprojectvirtualteacher.models.Course;
 import com.example.finalprojectvirtualteacher.models.Rate;
+import com.example.finalprojectvirtualteacher.models.FilterOptions;
 import com.example.finalprojectvirtualteacher.models.User;
 import com.example.finalprojectvirtualteacher.models.dto.CourseDto;
 import com.example.finalprojectvirtualteacher.models.dto.RateDto;
@@ -28,15 +29,17 @@ public class CourseServiceImpl implements CourseService {
         this.courseMapper = courseMapper;
     }
 
-    @Override
-    public List<Course> getAll() {
-        return courseRepository.getAll();
-    }
 
     @Override
     public Course getById(int id) {
         return courseRepository.getById(id);
     }
+
+    @Override
+    public List<Course> getAll(FilterOptions filterOptions){
+        return courseRepository.getAll(filterOptions);
+    }
+
 
     @Override
     public Course create(CourseDto courseDto, User creator) {
