@@ -25,6 +25,7 @@ dependencies {
     implementation 'org.mariadb.jdbc:mariadb-java-client'
     implementation group: 'com.cloudinary', name: 'cloudinary-http44', version: '1.32.2'
 
+
 }
 
 tasks.named('bootBuildImage') {

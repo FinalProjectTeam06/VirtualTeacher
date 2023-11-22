@@ -46,6 +46,16 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    public List<User> getAllTeachers() {
+        try (Session session = sessionFactory.openSession()) {
+            Query<User> query = session.createQuery("from User where role.id= :roleId", User.class);
+            query.setParameter("roleId", 2);
+
+            return query.list();
+        }
+    }
+
+    @Override
     public User getByEmail(String email) {
         try (Session session = sessionFactory.openSession()) {
             Query<User> query = session.createQuery("from User where email= :email", User.class);
@@ -90,7 +100,7 @@ public class UserRepositoryImpl implements UserRepository {
 
 
     @Override
-    public List<User> get(UserFilterOptions userFilterOptions) {
+    public List<User> getAll(UserFilterOptions userFilterOptions) {
         try (
                 Session session = sessionFactory.openSession()) {
             List<String> filters = new ArrayList<>();

@@ -1,6 +1,10 @@
 package com.example.finalprojectvirtualteacher.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "topics")
@@ -12,6 +16,10 @@ public class Topic {
 
     @Column(name = "name")
     private String name;
+
+    @OneToMany(mappedBy = "topic", fetch = FetchType.EAGER)
+    @JsonIgnore
+    Set<Course> courses = new HashSet<>();
 
     public Topic() {
     }
@@ -30,5 +38,13 @@ public class Topic {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Set<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(Set<Course> courses) {
+        this.courses = courses;
     }
 }

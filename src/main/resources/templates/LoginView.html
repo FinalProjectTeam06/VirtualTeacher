@@ -97,7 +97,9 @@
                                 <label class="error" th:errors="*{password}" style="color: red">Wrong email or password</label>
                             </div>
 
-
+                            <div class="load-more-btn text-center mb-3">
+                                <a class="rbt-btn-link" href="#" th:href="@{/auth/register}">Don't have account? Sign up<i class="feather-arrow-right"></i></a>
+                            </div>
                             <div class="form-submit-group">
                                 <button type="submit" class="rbt-btn btn-md btn-gradient hover-icon-reverse w-100">
                                     <span class="icon-reverse-wrapper">
