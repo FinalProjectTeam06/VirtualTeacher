@@ -6,11 +6,13 @@ import com.example.finalprojectvirtualteacher.helpers.AssignmentsHelper;
 import com.example.finalprojectvirtualteacher.helpers.LectureMapper;
 import com.example.finalprojectvirtualteacher.models.Assignment;
 import com.example.finalprojectvirtualteacher.models.Note;
-import com.example.finalprojectvirtualteacher.models.dto.LectureDto;
+
 import com.example.finalprojectvirtualteacher.exceptions.EntityNotFoundException;
 import com.example.finalprojectvirtualteacher.models.Lecture;
 import com.example.finalprojectvirtualteacher.models.User;
+import com.example.finalprojectvirtualteacher.models.dto.LectureDto;
 import com.example.finalprojectvirtualteacher.repositories.contracts.LectureRepository;
+
 import com.example.finalprojectvirtualteacher.services.contacts.LectureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,6 +54,14 @@ public class LectureServiceImpl implements LectureService {
         }
         return lectureRepository.getById(id);
     }
+    @Override
+    public List<Lecture> getByCourseId(int id){
+        try{
+            return lectureRepository.lecturesByCourseId(id);
+        } catch (EntityNotFoundException e) {
+            throw new EntityNotFoundException("Course",id);
+        }
+    }
 
     @Override
     public Lecture create(LectureDto lectureDto, User creator) {
@@ -82,6 +92,7 @@ public class LectureServiceImpl implements LectureService {
     public Note getNote(int lectureId, int userId) {
         return lectureRepository.getNote(lectureId, userId);
     }
+
 
     @Override
     public Note createNote(int lectureId, User user, String text) {
@@ -134,3 +145,4 @@ public class LectureServiceImpl implements LectureService {
 
 
 }
+

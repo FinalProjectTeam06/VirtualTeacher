@@ -1,3 +1,8 @@
+drop database if exists virtual_teacher;
+
+create database virtual_teacher;
+
+use virtual_teacher;
 create table roles
 (
     role_id int auto_increment
@@ -131,4 +136,5 @@ create table rates
     constraint rates_users_user_id_fk
         foreign key (user_id) references users (user_id)
 );
+
 

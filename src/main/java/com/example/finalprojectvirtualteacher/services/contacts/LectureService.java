@@ -10,13 +10,13 @@ import java.util.List;
 
 public interface LectureService {
 
-
-
     List<Lecture> getAll();
 
     Lecture getById(int id);
 
-     Lecture create(LectureDto lectureDto, User creator);
+    List<Lecture> getByCourseId(int id);
+
+    Lecture create(LectureDto lectureDto, User creator);
 
     Lecture update(LectureDto lectureDto,User user,int lectureId);
 

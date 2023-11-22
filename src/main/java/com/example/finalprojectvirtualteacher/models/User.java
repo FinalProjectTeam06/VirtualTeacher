@@ -1,5 +1,6 @@
 package com.example.finalprojectvirtualteacher.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -36,6 +37,7 @@ public class User {
     @JoinTable(name = "enrolled_courses",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "course_id"))
+    @JsonIgnore
     private Set<Course> courses;
 
     public User() {
