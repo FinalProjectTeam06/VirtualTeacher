@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface UserService {
     List<User> getAll(UserFilterOptions userFilterOptions);
+    List<User> getAll();
+    List<User> getAllTeachers();
 
     User getById(int id);
     User getByEmail(String currentEmail);

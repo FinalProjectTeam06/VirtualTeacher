@@ -2,21 +2,19 @@ package com.example.finalprojectvirtualteacher.repositories;
 
 import com.example.finalprojectvirtualteacher.exceptions.EntityNotFoundException;
 import com.example.finalprojectvirtualteacher.models.Course;
-import com.example.finalprojectvirtualteacher.models.Rate;
 import com.example.finalprojectvirtualteacher.models.FilterOptions;
 import com.example.finalprojectvirtualteacher.models.Lecture;
-import com.example.finalprojectvirtualteacher.models.User;
+import com.example.finalprojectvirtualteacher.models.Rate;
 import com.example.finalprojectvirtualteacher.repositories.contracts.CourseRepository;
-import com.example.finalprojectvirtualteacher.repositories.contracts.UserRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.*;
-
-import static java.lang.String.format;
-import static java.util.Collections.sort;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Repository
 public class CourseRepositoryImpl implements CourseRepository {
@@ -26,6 +24,14 @@ public class CourseRepositoryImpl implements CourseRepository {
     public CourseRepositoryImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
 
+    }
+
+    @Override
+    public List<Course> getAll() {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Course> query = session.createQuery("from Course ", Course.class);
+            return query.list();
+        }
     }
 
     @Override
@@ -52,9 +58,9 @@ public class CourseRepositoryImpl implements CourseRepository {
                 params.put("title", String.format("%%%s%%", value));
             });
 
-            filterOptions.getTopic().ifPresent(value -> {
-                filters.add("topic.name like :topic");
-                params.put("topic", String.format("%%%s%%", value));
+            filterOptions.getTopicId().ifPresent(value -> {
+                filters.add("topic.id like :topicId");
+                params.put("topicId", value);
             });
             filterOptions.getTeacherId().ifPresent(value -> {
                 filters.add("creator.id like :teacherId");

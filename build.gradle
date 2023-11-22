@@ -24,6 +24,8 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     implementation 'org.mariadb.jdbc:mariadb-java-client'
     implementation group: 'com.cloudinary', name: 'cloudinary-http44', version: '1.32.2'
+    implementation group: 'org.springframework.data', name: 'spring-data-jpa', version: '3.0.12'
+
 
 }
 

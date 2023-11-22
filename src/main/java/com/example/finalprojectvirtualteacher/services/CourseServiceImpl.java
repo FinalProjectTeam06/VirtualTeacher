@@ -29,17 +29,27 @@ public class CourseServiceImpl implements CourseService {
         this.courseMapper = courseMapper;
     }
 
-
-    @Override
-    public Course getById(int id) {
-        return courseRepository.getById(id);
-    }
-
     @Override
     public List<Course> getAll(FilterOptions filterOptions){
         return courseRepository.getAll(filterOptions);
     }
 
+    @Override
+    public List<Course> getAll() {
+        return courseRepository.getAll();
+    }
+
+    @Override
+    public Course getById(int id) {
+        return courseRepository.getById(id);
+    }
+    public int getAllEnrollments(){
+        int count=0;
+        for (Course course : getAll()) {
+            count+=course.getStudents().size();
+        }
+        return count;
+    }
 
     @Override
     public Course create(CourseDto courseDto, User creator) {
@@ -97,9 +107,10 @@ public class CourseServiceImpl implements CourseService {
         for (Rate rate : rates) {
             sum += rate.getRateValue();
         }
-
         return sum / rates.size();
     }
+
+
 
     private void checkCreatePermission(User user) {
         if (!user.getRole().getName().equals("admin") && !user.getRole().getName().equals("teacher")) {

@@ -5,7 +5,7 @@ import java.util.Optional;
 public class FilterOptions {
     private Optional<String> title;
 
-    private Optional<String> topic;
+    private Optional<Integer> topicId;
     private Optional<Integer> teacherId;
     private Optional<Double> rating;
 
@@ -13,14 +13,14 @@ public class FilterOptions {
     private Optional<String> sortOrder;
 
     public FilterOptions(String title,
-                         String topic,
+                         Integer topicId,
                          Integer teacherId,
                          Double rating,
                          String sortBy,
                          String sortOrder) {
 
         this.title = Optional.ofNullable(title);
-        this.topic = Optional.ofNullable(topic);
+        this.topicId = Optional.ofNullable(topicId);
         this.teacherId = Optional.ofNullable(teacherId);
         this.rating = Optional.ofNullable(rating);
         this.sortBy = Optional.ofNullable(sortBy);
@@ -31,8 +31,8 @@ public class FilterOptions {
         return title;
     }
 
-    public Optional<String> getTopic() {
-        return topic;
+    public Optional<Integer> getTopicId() {
+        return topicId;
     }
 
     public Optional<Integer> getTeacherId() {

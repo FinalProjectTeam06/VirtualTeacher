@@ -9,10 +9,11 @@ import com.example.finalprojectvirtualteacher.models.dto.RateDto;
 import java.util.List;
 
 public interface CourseService {
+    List<Course> getAll(FilterOptions filterOptions);
+    List<Course> getAll();
 
     Course getById(int id);
-
-    List<Course> getAll(FilterOptions filterOptions);
+    int getAllEnrollments();
 
     Course create(CourseDto courseDto, User creator);
 

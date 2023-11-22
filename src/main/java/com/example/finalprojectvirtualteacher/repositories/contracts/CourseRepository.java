@@ -1,18 +1,20 @@
 package com.example.finalprojectvirtualteacher.repositories.contracts;
 
-import com.example.finalprojectvirtualteacher.models.Course;
-import com.example.finalprojectvirtualteacher.models.FilterOptions;
-import com.example.finalprojectvirtualteacher.models.Lecture;
-import com.example.finalprojectvirtualteacher.models.Rate;
+import com.example.finalprojectvirtualteacher.models.*;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface CourseRepository {
+public interface CourseRepository{
+    List<Course> getAll(FilterOptions filterOptions);
+    List<Course> getAll();
 
     Course getById(int id);
     Rate getRating(int courseId, int userId);
 
-    List<Course> getAll(FilterOptions filterOptions);
 
     Course create(Course course);
 

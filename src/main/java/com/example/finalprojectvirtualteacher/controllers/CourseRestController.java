@@ -3,9 +3,7 @@ package com.example.finalprojectvirtualteacher.controllers;
 import com.example.finalprojectvirtualteacher.exceptions.AuthorizationException;
 import com.example.finalprojectvirtualteacher.helpers.AuthenticationHelper;
 import com.example.finalprojectvirtualteacher.exceptions.EntityNotFoundException;
-import com.example.finalprojectvirtualteacher.helpers.CourseMapper;
 import com.example.finalprojectvirtualteacher.models.Course;
-import com.example.finalprojectvirtualteacher.models.Rate;
 import com.example.finalprojectvirtualteacher.models.FilterOptions;
 import com.example.finalprojectvirtualteacher.models.User;
 import com.example.finalprojectvirtualteacher.models.dto.CourseDto;
@@ -13,13 +11,16 @@ import com.example.finalprojectvirtualteacher.models.dto.RateDto;
 import com.example.finalprojectvirtualteacher.services.contacts.CourseService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/courses")
@@ -34,16 +35,16 @@ public class CourseRestController {
         this.authenticationHelper = authenticationHelper;
     }
 
+
     @GetMapping()
     public List<Course> getAll(
             @RequestParam(required = false) String title,
-            @RequestParam(required = false) String topic,
+            @RequestParam(required = false) Integer topicId,
             @RequestParam(required = false) Integer teacherId,
             @RequestParam(required = false) Double rating,
             @RequestParam(required = false) String sortBy,
             @RequestParam(required = false) String sortOrder) {
-
-            return courseService.getAll(new FilterOptions(title,topic,teacherId,rating,sortBy, sortOrder));
+            return courseService.getAll(new FilterOptions(title,topicId,teacherId,rating,sortBy, sortOrder));
     }
 
 
