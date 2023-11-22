@@ -44,7 +44,7 @@ class UserServiceImplTests {
         // Arrange
         UserFilterOptions filterOptions = new UserFilterOptions("Doe", "john.doe@example.com", "John");
         List<User> mockUsers = new ArrayList<>();
-        when(userRepository.get(filterOptions)).thenReturn(mockUsers);
+        when(userRepository.getAll(filterOptions)).thenReturn(mockUsers);
 
         // Act
         List<User> result = userService.getAll(filterOptions);
@@ -59,7 +59,7 @@ class UserServiceImplTests {
         // Mocking
         UserFilterOptions filterOptions = new UserFilterOptions(null, null, null);
         List<User> mockUsers = new ArrayList<>();
-        when(userRepository.get(filterOptions)).thenReturn(mockUsers);
+        when(userRepository.getAll(filterOptions)).thenReturn(mockUsers);
 
         // Testing
         List<User> result = userService.getAll(filterOptions);
@@ -86,7 +86,7 @@ class UserServiceImplTests {
         List<User> users = new ArrayList<>();
         users.add(createMockUser());
         UserFilterOptions filterOptions = new UserFilterOptions(null, null, null);
-        when(userRepository.get(filterOptions)).thenReturn(users);
+        when(userRepository.getAll(filterOptions)).thenReturn(users);
 
         // Testing
         List<User> result = userService.getAll(filterOptions);
@@ -95,7 +95,7 @@ class UserServiceImplTests {
         assertEquals(users, result);
 
         // Verify that the getAll method was called with the correct filter options
-        verify(userRepository, times(1)).get(filterOptions);
+        verify(userRepository, times(1)).getAll(filterOptions);
     }
 
     @Test
