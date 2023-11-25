@@ -67,7 +67,7 @@ public class CourseRepositoryImpl implements CourseRepository {
                 params.put("teacherId", value);
             });
             filterOptions.getRating().ifPresent(value -> {
-                    filters.add("rate.rateValue == :rating");
+                    filters.add("rating >= :rating");
                     params.put("rating", value);
 
             });

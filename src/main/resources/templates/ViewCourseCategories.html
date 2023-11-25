@@ -80,10 +80,10 @@
                         <!-- End Breadcrumb Area  -->
 
                         <div class=" title-wrapper">
-                            <h1 class="title mb--0">All Courses</h1>
+                            <h1 class="title mb--0" th:text="'All courses from ' + ${topicName}">All Courses</h1>
+                            50 Courses
                             <a href="#" class="rbt-badge-2">
                                 <div class="image">🎉</div>
-                                50 Courses
                             </a>
                         </div>
 
@@ -101,7 +101,7 @@
                         <div class="rbt-sorting-list d-flex flex-wrap align-items-center">
 
                             <div class="rbt-short-item">
-                                <span class="course-index">Showing 1-9 of 19 results</span>
+                                <span class="course-index" th:text="'Showing ' + ${courses.size()} + ' results'">Showing 1-9 of 19 results</span>
                             </div>
                         </div>
                     </div>
@@ -138,7 +138,7 @@
                             <h4 class="rbt-widget-title">Ratings</h4>
                             <ul class="rbt-sidebar-list-wrapper rating-list-check">
                                 <li class="rbt-check-group">
-                                    <input id="cat-radio-1" type="radio" name="rbt-radio">
+                                    <input id="cat-radio-1" type="radio" th:field="*{rating}" th:value="5" name="rbt-radio">
                                     <label for="cat-radio-1">
                                             <span class="rating">
                             <i class="fas fa-star"></i>
@@ -151,7 +151,7 @@
                                     </label>
                                 </li>
                                 <li class="rbt-check-group">
-                                    <input id="cat-radio-2" type="radio" name="rbt-radio">
+                                    <input id="cat-radio-2" type="radio" th:field="*{rating}" th:value="4" name="rbt-radio">
                                     <label for="cat-radio-2">
                                             <span class="rating">
                             <i class="fas fa-star"></i>
@@ -164,7 +164,7 @@
                                     </label>
                                 </li>
                                 <li class="rbt-check-group">
-                                    <input id="cat-radio-3" type="radio" name="rbt-radio">
+                                    <input id="cat-radio-3" type="radio" th:field="*{rating}" th:value="3" name="rbt-radio">
                                     <label for="cat-radio-3">
                                             <span class="rating">
                             <i class="fas fa-star"></i>
@@ -177,7 +177,7 @@
                                     </label>
                                 </li>
                                 <li class="rbt-check-group">
-                                    <input id="cat-radio-4" type="radio" name="rbt-radio">
+                                    <input id="cat-radio-4" type="radio" th:field="*{rating}" th:value="2" name="rbt-radio">
                                     <label for="cat-radio-4">
                                             <span class="rating">
                             <i class="fas fa-star"></i>
@@ -191,7 +191,7 @@
                                 </li>
 
                                 <li class="rbt-check-group">
-                                    <input id="cat-radio-5" type="radio" name="rbt-radio">
+                                    <input id="cat-radio-5" type="radio" th:field="*{rating}" th:value="1" name="rbt-radio">
                                     <label for="cat-radio-5">
                                             <span class="rating">
                             <i class="fas fa-star"></i>

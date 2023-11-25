@@ -38,6 +38,9 @@ public class Course {
     @Column(name = "start_date")
     private LocalDate startDate;
 
+    @Column(name = "rating")
+    private double rating;
+
     @OneToMany(mappedBy = "course", fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<Lecture> lectures = new HashSet<>();
@@ -119,6 +122,14 @@ public class Course {
 
     public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
     }
 
     public Set<Lecture> getLectures() {

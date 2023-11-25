@@ -86,6 +86,8 @@ public class CourseServiceImpl implements CourseService {
                 rate.setRateValue(rateDto.getRateValue());
                 rate.setComment(rateDto.getComment());
                 course.addRateToCourse(rate);
+                course.setRating(getCourseRating(course));
+                courseRepository.update(course);
                 return courseRepository.rateCourse(rate);
             }
         }
@@ -94,6 +96,8 @@ public class CourseServiceImpl implements CourseService {
             rate.setComment(rateDto.getComment());
         }
         rate.setRateValue(rateDto.getRateValue());
+        course.setRating(getCourseRating(course));
+        courseRepository.update(course);
         return courseRepository.updateRating(rate);
     }
 

@@ -24,9 +24,9 @@ public class WikiPageServiceImpl {
     private final ObjectMapper objectMapper;
 
 
-    public WikiPageServiceImpl() {
+    public WikiPageServiceImpl(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
         this.httpClient = HttpClient.newHttpClient();
-        this.objectMapper = new ObjectMapper();
     }
 
     public List<WikiPage> searchWikiPages(String searchValue) {

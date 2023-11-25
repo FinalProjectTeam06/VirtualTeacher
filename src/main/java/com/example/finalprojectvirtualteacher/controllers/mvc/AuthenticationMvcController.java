@@ -7,7 +7,6 @@ import com.example.finalprojectvirtualteacher.helpers.UserMapper;
 import com.example.finalprojectvirtualteacher.models.User;
 import com.example.finalprojectvirtualteacher.models.dto.LoginDto;
 import com.example.finalprojectvirtualteacher.models.dto.RegisterMvcDto;
-import com.example.finalprojectvirtualteacher.models.dto.UserDto;
 import com.example.finalprojectvirtualteacher.services.contacts.UserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -38,14 +37,14 @@ public class AuthenticationMvcController {
     }
 
     @GetMapping("/login")
-    public String showLoginPage(Model model){
+    public String showLoginPage(Model model) {
         model.addAttribute("login", new LoginDto());
         return "LoginView";
     }
 
     @PostMapping("/login")
     public String handleLogin(@Valid @ModelAttribute("login") LoginDto loginDto,
-                              BindingResult bindingResult, HttpSession httpSession){
+                              BindingResult bindingResult, HttpSession httpSession) {
         if (bindingResult.hasErrors()) {
             return "LoginView";
         }
@@ -57,6 +56,12 @@ public class AuthenticationMvcController {
             bindingResult.rejectValue("password", "auth_error", e.getMessage());
             return "LoginView";
         }
+    }
+
+    @GetMapping("/logout")
+    public String handleLogout(HttpSession session) {
+        session.removeAttribute("currentUser");
+        return "redirect:/";
     }
 
     @GetMapping("/register")

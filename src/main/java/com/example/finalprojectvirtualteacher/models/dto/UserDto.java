@@ -14,9 +14,9 @@ public class UserDto extends LoginDto {
     @NotNull(message = "Last name can't be empty")
     @Size(min = 2, max = 20, message = "Last name should be between 2 and 20 symbols.")
     private String lastName;
-    @Email
-    @Unique
-    private String email;
+//    @Email
+//    @Unique
+//    private String email;
 
     @NotNull
     private int roleId;
@@ -46,13 +46,13 @@ public class UserDto extends LoginDto {
         this.lastName = lastName;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
+//    public String getEmail() {
+//        return email;
+//    }
+//
+//    public void setEmail(String email) {
+//        this.email = email;
+//    }
 
     public int getRoleId() {
         return roleId;
