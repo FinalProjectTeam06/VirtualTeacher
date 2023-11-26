@@ -22,4 +22,6 @@ public interface UserService {
     void deleteUser(int id, User user);
 
     User enrollCourse(User user, int courseId);
+
+    User addProfilePhoto(User user, String url);
 }

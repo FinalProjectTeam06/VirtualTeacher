@@ -37,7 +37,7 @@
 
 <body>
 <!-- Start Header Area -->
-<header class="rbt-header rbt-header-10">
+<header class="rbt-header rbt-header-10" th:fragment="HeaderStudent">
     <div class="rbt-sticky-placeholder"></div>
     <div class="rbt-header-wrapper header-space-betwween header-sticky">
         <div class="container-fluid">
@@ -201,7 +201,7 @@
                     <ul class="quick-access">
 
                         <li class="account-access rbt-user-wrapper d-none d-xl-block">
-                            <a href="#" th:href="@{/auth/logout}"><i class="feather-user"></i>Profile</a>
+                            <a href="#"><i class="feather-user"></i>Profile</a>
                             <div class="rbt-user-menu-list-wrapper">
                                 <div class="inner">
                                     <div class="rbt-admin-profile">
@@ -213,7 +213,7 @@
                                             <span class="name"
                                                   th:text="${loggedIn.firstName} + ' ' + ${loggedIn.lastName}"></span>
                                             <a class="rbt-btn-link color-primary" href="profile.html"
-                                               th:href="@{/users}">View Profile</a>
+                                               th:href="@{/users/profile}">View Profile</a>
                                         </div>
                                     </div>
                                     <ul class="user-list-wrapper">
@@ -256,7 +256,7 @@
                                     <hr class="mt--10 mb--10">
                                     <ul class="user-list-wrapper">
                                         <li>
-                                            <a href="instructor-settings.html">
+                                            <a href="ProfileSettings.html" th:href="@{/users/update}">
                                                 <i class="feather-settings"></i>
                                                 <span>Settings</span>
                                             </a>
@@ -347,7 +347,7 @@
                                     <hr class="mt--10 mb--10">
                                     <ul class="user-list-wrapper">
                                         <li>
-                                            <a href="instructor-settings.html">
+                                            <a href="instructor-settings.html" th:href="@{/users/update}">
                                                 <i class="feather-settings"></i>
                                                 <span>Settings</span>
                                             </a>
@@ -364,6 +364,11 @@
                         </li>
 
                     </ul>
+                    <div class="rbt-btn-wrapper d-none d-xl-block">
+                        <a class="rbt-btn rbt-marquee-btn marquee-auto btn-border-gradient radius-round btn-sm hover-transform-none" href="#">
+                            <span data-text="Enroll Now">Enroll Now</span>
+                        </a>
+                    </div>
 
                 </div>
             </div>
@@ -1065,7 +1070,7 @@
                                             <ul class="dashboard-mainmenu rbt-default-sidebar-list">
                                                 <li><a href="student-dashboard.html"><i class="feather-home"></i><span>Dashboard</span></a>
                                                 </li>
-                                                <li><a href="student-profile.html"><i class="feather-user"></i><span>My Profile</span></a>
+                                                <li><a href="student-profile.html" th:href="@{/users/profile}"><i class="feather-user"></i><span>My Profile</span></a>
                                                 </li>
                                                 <li><a href="student-enrolled-courses.html" th:href="@{/courses/enrolled}"><i
                                                         class="feather-book-open"></i><span>Enrolled Courses</span></a>
@@ -1080,7 +1085,7 @@
 
                                         <nav class="mainmenu-nav">
                                             <ul class="dashboard-mainmenu rbt-default-sidebar-list">
-                                                <li><a href="student-settings.html"><i
+                                                <li><a href="ProfileSettings.html" th:href="@{/users/update}"><i
                                                         class="feather-settings"></i><span>Settings</span></a></li>
                                                 <li><a href="index.html" th:href="@{/auth/logout}"><i
                                                         class="feather-log-out"></i><span>Logout</span></a></li>

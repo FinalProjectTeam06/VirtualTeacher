@@ -37,7 +37,7 @@
 
 <body>
 <!-- Start Header Area -->
-<header class="rbt-header rbt-header-10">
+<header class="rbt-header rbt-header-10" th:fragment="HeaderInstructor">
     <div class="rbt-sticky-placeholder"></div>
 
     <div class="rbt-header-wrapper header-space-betwween header-sticky">
@@ -209,7 +209,7 @@
                                         </div>
                                         <div class="admin-info">
                                             <span class="name" th:text="${loggedIn.getFirstName()} + ' ' + ${loggedIn.getLastName()}">Nipa Bali</span>
-                                            <a class="rbt-btn-link color-primary" href="profile.html">View Profile</a>
+                                            <a class="rbt-btn-link color-primary" href="profile.html" th:href="@{/users/profile}">View Profile</a>
                                         </div>
                                     </div>
                                     <ul class="user-list-wrapper">
@@ -229,7 +229,7 @@
                                     <hr class="mt--10 mb--10">
                                     <ul class="user-list-wrapper">
                                         <li>
-                                            <a href="instructor-settings.html">
+                                            <a href="ProfileSettings.html" th:href="@{/users/update}">
                                                 <i class="feather-settings"></i>
                                                 <span>Settings</span>
                                             </a>
@@ -320,7 +320,7 @@
                                     <hr class="mt--10 mb--10">
                                     <ul class="user-list-wrapper">
                                         <li>
-                                            <a href="instructor-settings.html">
+                                            <a href="ProfileSettings.html" th:href="@{/users/update}">
                                                 <i class="feather-settings"></i>
                                                 <span>Settings</span>
                                             </a>
@@ -1184,9 +1184,9 @@
                                         </div>
                                         <nav class="mainmenu-nav">
                                             <ul class="dashboard-mainmenu rbt-default-sidebar-list">
-                                                <li><a href="instructor-dashboard.html" th:href="@{/users}"><i class="feather-home"></i><span>Dashboard</span></a></li>
-                                                <li><a href="instructor-profile.html"><i class="feather-user"></i><span>My Profile</span></a></li>
-                                                <li><a href="instructor-enrolled-courses.html" th:href="@{/courses/enrolled}"><i class="feather-book-open"></i><span>Enrolled Courses</span></a></li>
+                                                <li><a href="InstructorDashboard.html" th:href="@{/users}"><i class="feather-home"></i><span>Dashboard</span></a></li>
+                                                <li><a href="ProfileInformation.html" th:href="@{/users/profile}"><i class="feather-user"></i><span>My Profile</span></a></li>
+                                                <li><a href="UserEnrolledCoursesView.html" th:href="@{/courses/enrolled}"><i class="feather-book-open"></i><span>Enrolled Courses</span></a></li>
                                             </ul>
                                         </nav>
 
@@ -1207,7 +1207,7 @@
 
                                         <nav class="mainmenu-nav">
                                             <ul class="dashboard-mainmenu rbt-default-sidebar-list">
-                                                <li><a href="instructor-settings.html"><i class="feather-settings"></i><span>Settings</span></a></li>
+                                                <li><a href="ProfileSettings.html" th:href="@{/users/update}"><i class="feather-settings"></i><span>Settings</span></a></li>
                                                 <li><a href="index.html" th:href="@{/auth/logout}"><i class="feather-log-out"></i><span>Logout</span></a></li>
                                             </ul>
                                         </nav>

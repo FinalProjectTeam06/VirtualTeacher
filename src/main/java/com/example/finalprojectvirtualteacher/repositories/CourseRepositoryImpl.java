@@ -86,6 +86,8 @@ public class CourseRepositoryImpl implements CourseRepository {
             return query.list();
             }
         }
+
+
     public String generateOrderBy(FilterOptions filterOptions) {
         if (filterOptions.getSortBy().isEmpty()) {
             return "";

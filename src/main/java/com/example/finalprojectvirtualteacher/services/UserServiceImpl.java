@@ -103,6 +103,12 @@ public class UserServiceImpl implements UserService {
         return userRepository.updateUser(user);
     }
 
+    @Override
+    public User addProfilePhoto(User user, String url) {
+        user.setProfilePictureUrl(url);
+        return userRepository.updateUser(user);
+    }
+
     private void checkPermission(User user, int userId) {
         if (!user.getRole().getName().equals("admin") && user.getId() != userId) {
             throw new AuthorizationException(PERMISSION_ERROR);

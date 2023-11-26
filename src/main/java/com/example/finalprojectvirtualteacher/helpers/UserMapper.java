@@ -26,6 +26,15 @@ public class UserMapper {
         return user;
     }
 
+    public UserDtoUpdate toDto(User user){
+        UserDtoUpdate userDtoUpdate=new UserDtoUpdate();
+        userDtoUpdate.setFirstName(user.getFirstName());
+        userDtoUpdate.setLastName(user.getLastName());
+        userDtoUpdate.setPassword(user.getPassword());
+        userDtoUpdate.setPasswordConfirm(user.getPassword());
+        return userDtoUpdate;
+    }
+
     public User fromRegisterMvcDto(RegisterMvcDto registerMvcDto){
         User user=new User();
         user.setFirstName(registerMvcDto.getFirstName());

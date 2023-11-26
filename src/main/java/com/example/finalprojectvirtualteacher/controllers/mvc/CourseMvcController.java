@@ -38,7 +38,7 @@ public class CourseMvcController {
     public boolean populateIsTeacher(HttpSession session) {
         try {
             User user=authenticationHelper.tryGetCurrentUser(session);
-            return user.getRole().getId()==2;
+            return (user.getRole().getId()==2 || user.getRole().getId()==3);
         }catch (AuthorizationException e){
             return false;
         }
