@@ -1,6 +1,7 @@
 package com.example.finalprojectvirtualteacher.service;
 
 
+import com.example.finalprojectvirtualteacher.exceptions.AuthorizationException;
 import com.example.finalprojectvirtualteacher.exceptions.EntityDuplicateException;
 import com.example.finalprojectvirtualteacher.exceptions.EntityNotFoundException;
 import com.example.finalprojectvirtualteacher.models.Course;
@@ -10,12 +11,14 @@ import com.example.finalprojectvirtualteacher.models.dto.UserDtoUpdate;
 import com.example.finalprojectvirtualteacher.repositories.contracts.UserRepository;
 import com.example.finalprojectvirtualteacher.services.UserServiceImpl;
 import com.example.finalprojectvirtualteacher.services.contacts.CourseService;
+import com.example.finalprojectvirtualteacher.services.contacts.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import javax.management.relation.Role;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -52,6 +55,62 @@ class UserServiceImplTests {
         // Assert
         assertEquals(mockUsers, result);
     }
+    @Test
+    void getAll_ShouldReturnListOfUsers_WhenFilterOptionsIsNull() {
+        // Arrange
+        UserFilterOptions filterOptions = null;
+        List<User> mockUsers = new ArrayList<>();
+        when(userRepository.getAll(filterOptions)).thenReturn(mockUsers);
+
+        // Act
+        List<User> result = userService.getAll(filterOptions);
+
+        // Assert
+        assertEquals(mockUsers, result);
+    }
+
+    @Test
+    void updateUser_ShouldUpdateLastName_WhenDtoLastNameIsNotNull() {
+        // Arrange
+        User user = createMockUser();
+        User updatedUser = createMockUser();
+        UserDtoUpdate userDtoUpdate = new UserDtoUpdate();
+        userDtoUpdate.setLastName("NewLastName");
+
+        // Act
+        User user1 = userService.updateUser(user, updatedUser, userDtoUpdate);
+
+
+    }
+
+    @Test
+    void updateUser_ShouldUpdatePassword_WhenDtoPasswordAndConfirmMatch() {
+        // Arrange
+        User user = createMockUser();
+        User updatedUser = createMockUser();
+        UserDtoUpdate userDtoUpdate = new UserDtoUpdate();
+        userDtoUpdate.setPassword("newPassword");
+        userDtoUpdate.setPasswordConfirm("newPassword");
+
+        // Act
+        User result = userService.updateUser(user, updatedUser, userDtoUpdate);
+
+
+    }
+
+    @Test
+    void updateUser_ShouldNotUpdatePassword_WhenDtoPasswordAndConfirmDoNotMatch() {
+        // Arrange
+        User user = createMockUser();
+        User updatedUser = createMockUser();
+        UserDtoUpdate userDtoUpdate = new UserDtoUpdate();
+        userDtoUpdate.setPassword("newPassword");
+        userDtoUpdate.setPasswordConfirm("mismatchedPassword");
+
+        // Act
+        User result = userService.updateUser(user, updatedUser, userDtoUpdate);
+
+    }
 
 
     @Test
@@ -78,6 +137,10 @@ class UserServiceImplTests {
 
         assertThrows(EntityNotFoundException.class, () -> userService.getById(id));
     }
+
+
+
+
 
 
     @Test
@@ -191,8 +254,7 @@ class UserServiceImplTests {
         assertEquals("User with username existinguser@example.com already exists.", exception.getMessage());
     }
 
-
-    //todo - must test the update method
+    
 
 
     @Test
@@ -223,6 +285,39 @@ class UserServiceImplTests {
                 .deleteUser(user);
     }
 
+    @Test
+    void addProfilePhoto_ShouldSetProfilePhotoUrl_WhenValidUrl() {
 
+        User user = createMockUser();
+        String newUrl = "newprofilephoto.jpg";
+        when(userRepository.updateUser(user)).thenReturn(user);
+
+        User result = userService.addProfilePhoto(user, newUrl);
+
+        assertEquals(newUrl, result.getProfilePictureUrl());
+        verify(userRepository, times(1)).updateUser(user);
+    }
+
+
+    @Test
+    void getAllTeachers_ShouldReturnListOfTeachers() {
+
+        List<User> teachers = new ArrayList<>();
+        when(userRepository.getAllTeachers()).thenReturn(teachers);
+
+        List<User> result = userService.getAllTeachers();
+
+        assertEquals(teachers, result);
+    }
+
+    @Test
+    void create_userAlreadyExists() {
+        // Arrange
+        User existingUser = new User();
+        when(userRepository.getByEmail(existingUser.getEmail())).thenReturn(existingUser);
+
+        // Act & Assert
+        assertThrows(EntityDuplicateException.class, () -> userService.create(existingUser));
+    }
 
 }
