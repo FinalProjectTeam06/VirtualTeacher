@@ -1,8 +1,3 @@
-drop database if exists virtual_teacher;
-
-create database virtual_teacher;
-
-use virtual_teacher;
 create table roles
 (
     role_id int auto_increment
@@ -42,6 +37,7 @@ create table courses
     is_published  tinyint(1) default 0 not null,
     start_date    datetime             not null,
     minimum_grade int                  not null,
+    rating        double     default 5 not null,
     constraint courses_topics_topic_id_fk
         foreign key (topic_id) references topics (topic_id),
     constraint courses_users_user_id_fk
@@ -50,8 +46,9 @@ create table courses
 
 create table enrolled_courses
 (
-    user_id   int not null,
-    course_id int not null,
+    user_id           int                  not null,
+    course_id         int                  not null,
+    graduation_status tinyint(1) default 0 not null,
     constraint enrolled_courses_courses_course_id_fk
         foreign key (course_id) references courses (course_id),
     constraint enrolled_courses_users_user_id_fk
@@ -136,5 +133,4 @@ create table rates
     constraint rates_users_user_id_fk
         foreign key (user_id) references users (user_id)
 );
-
 
