@@ -4,18 +4,18 @@ import com.example.finalprojectvirtualteacher.exceptions.AuthorizationException;
 import com.example.finalprojectvirtualteacher.helpers.AuthenticationHelper;
 import com.example.finalprojectvirtualteacher.models.Course;
 import com.example.finalprojectvirtualteacher.models.FilterOptions;
+import com.example.finalprojectvirtualteacher.models.Topic;
 import com.example.finalprojectvirtualteacher.models.User;
+import com.example.finalprojectvirtualteacher.models.dto.CourseDto;
 import com.example.finalprojectvirtualteacher.models.dto.FilterOptionsDto;
 import com.example.finalprojectvirtualteacher.services.contacts.CourseService;
 import com.example.finalprojectvirtualteacher.services.contacts.TopicService;
 import com.example.finalprojectvirtualteacher.services.contacts.UserService;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,7 +33,10 @@ public class CourseMvcController {
         this.topicService = topicService;
         this.authenticationHelper = authenticationHelper;
     }
-
+    @ModelAttribute("topics")
+    public List<Topic> populateCategories() {
+        return topicService.getAll();
+    }
     @ModelAttribute("isTeacher")
     public boolean populateIsTeacher(HttpSession session) {
         try {
@@ -68,7 +71,31 @@ public class CourseMvcController {
             User user=authenticationHelper.tryGetCurrentUser(httpSession);
             model.addAttribute("enrolledCourses", user.getCourses());
             model.addAttribute("loggedIn", user);
+            model.addAttribute("enrolledCourses", courseService.getAllByUserNotCompleted(user.getId()));
+            model.addAttribute("completedCourses", courseService.getAllByUserCompleted(user.getId()));
             return "UserEnrolledCoursesView";
+        }catch (AuthorizationException e){
+            return "redirect:/auth/login";
+        }
+    }
+
+    @GetMapping("/create")
+    public String createCourseView(HttpSession httpSession, Model model){
+        try {
+            User user=authenticationHelper.tryGetCurrentUser(httpSession);
+            model.addAttribute("loggedIn", user);
+            model.addAttribute("courseDto", new CourseDto());
+            return "CreateCourseView";
+        }catch (AuthorizationException e){
+            return "redirect:/auth/login";
+        }
+    }
+    @PostMapping("/create")
+    public String createCourse(@ModelAttribute ("courseDto") CourseDto courseDto, HttpSession httpSession, Model model){
+        try {
+            User user=authenticationHelper.tryGetCurrentUser(httpSession);
+            courseService.create(courseDto, user);
+            return "";
         }catch (AuthorizationException e){
             return "redirect:/auth/login";
         }

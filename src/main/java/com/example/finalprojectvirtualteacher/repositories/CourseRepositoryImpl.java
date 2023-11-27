@@ -87,6 +87,31 @@ public class CourseRepositoryImpl implements CourseRepository {
             }
         }
 
+    @Override
+    public List<Course> getAllByUserCompleted(int userId) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Course> query = session.createNativeQuery(
+                    "select c.* from courses c " +
+                            "join enrolled_courses ec on c.course_id = ec.course_id " +
+                            "where ec.user_id = :id " +
+                            "and ec.graduation_status=1", Course.class);
+            query.setParameter("id", userId);
+            return query.list();
+        }
+    }
+
+    @Override
+    public List<Course> getAllByUserNotCompleted(int userId) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Course> query = session.createNativeQuery(
+                    "select c.* from courses c " +
+                            "join virtual_teacher.enrolled_courses ec on c.course_id = ec.course_id " +
+                            "where ec.user_id = :id " +
+                            "and ec.graduation_status=0", Course.class);
+            query.setParameter("id", userId);
+            return query.list();
+        }
+    }
 
     public String generateOrderBy(FilterOptions filterOptions) {
         if (filterOptions.getSortBy().isEmpty()) {

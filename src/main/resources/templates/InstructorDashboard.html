@@ -1157,7 +1157,7 @@
                         </div>
                         <div class="rbt-tutor-information-right">
                             <div class="tutor-btn">
-                                <a class="rbt-btn btn-md hover-icon-reverse" href="create-course.html">
+                                <a class="rbt-btn btn-md hover-icon-reverse" href="create-course.html" th:href="@{/courses/create}">
                                         <span class="icon-reverse-wrapper">
                         <span class="btn-text">Create a New Course</span>
                                         <span class="btn-icon"><i class="feather-arrow-right"></i></span>
@@ -1235,7 +1235,7 @@
                                                     <i class="feather-book-open"></i>
                                                 </div>
                                                 <div class="content">
-                                                    <h3 class="counter without-icon color-primary"><span class="odometer" data-count="30">00</span>
+                                                    <h3 class="counter without-icon color-primary" th:text="${loggedIn.getCourses().size()}"><span class="odometer" data-count="30">00</span>
                                                     </h3>
                                                     <span class="rbt-title-style-2 d-block">Enrolled Courses</span>
                                                 </div>

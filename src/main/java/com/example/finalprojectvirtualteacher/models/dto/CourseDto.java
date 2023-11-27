@@ -21,6 +21,9 @@ public class CourseDto {
     @NotNull
     private int minGrade;
 
+    public CourseDto() {
+    }
+
     public CourseDto(String title, String description, int topicId, LocalDate startDate) {
         this.title = title;
         this.description = description;
