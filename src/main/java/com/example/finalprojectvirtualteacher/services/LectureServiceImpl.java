@@ -1,18 +1,16 @@
 package com.example.finalprojectvirtualteacher.services;
 
 import com.example.finalprojectvirtualteacher.exceptions.AuthorizationException;
+import com.example.finalprojectvirtualteacher.exceptions.EntityNotFoundException;
 import com.example.finalprojectvirtualteacher.exceptions.FileUploadException;
 import com.example.finalprojectvirtualteacher.helpers.AssignmentsHelper;
 import com.example.finalprojectvirtualteacher.helpers.LectureMapper;
 import com.example.finalprojectvirtualteacher.models.Assignment;
-import com.example.finalprojectvirtualteacher.models.Note;
-
-import com.example.finalprojectvirtualteacher.exceptions.EntityNotFoundException;
 import com.example.finalprojectvirtualteacher.models.Lecture;
+import com.example.finalprojectvirtualteacher.models.Note;
 import com.example.finalprojectvirtualteacher.models.User;
 import com.example.finalprojectvirtualteacher.models.dto.LectureDto;
 import com.example.finalprojectvirtualteacher.repositories.contracts.LectureRepository;
-
 import com.example.finalprojectvirtualteacher.services.contacts.LectureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,20 +52,21 @@ public class LectureServiceImpl implements LectureService {
         }
         return lectureRepository.getById(id);
     }
+
     @Override
-    public List<Lecture> getByCourseId(int id){
-        try{
+    public List<Lecture> getByCourseId(int id) {
+        try {
             return lectureRepository.lecturesByCourseId(id);
         } catch (EntityNotFoundException e) {
-            throw new EntityNotFoundException("Course",id);
+            throw new EntityNotFoundException("Course", id);
         }
     }
 
     @Override
     public Lecture create(LectureDto lectureDto, User creator) {
-        Lecture lecture1 = mapper.fromDto(lectureDto, creator);
-        checkPermission(lecture1.getId(), creator);
-        return lectureRepository.create(lecture1);
+        Lecture lecture = mapper.fromDto(lectureDto, creator);
+        checkCreatePermission(lecture, creator);
+        return lectureRepository.create(lecture);
     }
 
     @Override
@@ -100,10 +99,10 @@ public class LectureServiceImpl implements LectureService {
             throw new EntityNotFoundException(USER_IS_NOT_ENROLLED);
         }
         try {
-            Note note=getNote(lectureId, user.getId());
+            Note note = getNote(lectureId, user.getId());
             note.setText(text);
             return lectureRepository.updateNote(note);
-        }catch (EntityNotFoundException e){
+        } catch (EntityNotFoundException e) {
             Note note = new Note();
             note.setLecture(getById(lectureId));
             note.setText(text);
@@ -115,14 +114,14 @@ public class LectureServiceImpl implements LectureService {
     @Override
     public Lecture submitAssignment(User user, int lectureId, MultipartFile multipartFile) {
         try {
-            Lecture lecture=getById(lectureId);
-            String assignmentUrl= assignmentsHelper.uploadImage(multipartFile);
-            Assignment assignment=new Assignment();
+            Lecture lecture = getById(lectureId);
+            String assignmentUrl = assignmentsHelper.uploadAssignment(multipartFile);
+            Assignment assignment = new Assignment();
             assignment.setAssignmentUrl(assignmentUrl);
             assignment.setUser(user);
             assignment.setLecture(lecture);
             return lectureRepository.submitAssignment(assignment);
-        }catch (IOException e) {
+        } catch (IOException e) {
             throw new FileUploadException(FILE_UPLOAD_ERROR);
         }
     }
@@ -142,6 +141,13 @@ public class LectureServiceImpl implements LectureService {
         }
     }
 
+    private void checkCreatePermission(Lecture lecture, User user) {
+        if (user.getId() != lecture.getCourse().getCreator().getId()
+                || !user.getRole().getName().equals("admin")) {
+            throw new AuthorizationException(MODIFY_THE_LECTURE);
+
+        }
+    }
 
 
 }
