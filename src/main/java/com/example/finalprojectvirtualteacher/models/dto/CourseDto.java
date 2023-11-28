@@ -27,6 +27,9 @@ public class CourseDto {
         this.topicId = topicId;
         this.startDate = startDate;
     }
+    public CourseDto(){
+
+    }
 
     public String getTitle() {
         return title;

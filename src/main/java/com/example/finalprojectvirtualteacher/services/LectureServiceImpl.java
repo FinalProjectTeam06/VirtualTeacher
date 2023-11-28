@@ -49,17 +49,15 @@ public class LectureServiceImpl implements LectureService {
 
     @Override
     public Lecture getById(int id) {
-        if (lectureRepository.getById(id) == null) {
-            throw new EntityNotFoundException("Lecture", "id", id);
-        }
         return lectureRepository.getById(id);
     }
+
     @Override
-    public List<Lecture> getByCourseId(int id){
-        try{
+    public List<Lecture> getByCourseId(int id) {
+        try {
             return lectureRepository.lecturesByCourseId(id);
         } catch (EntityNotFoundException e) {
-            throw new EntityNotFoundException("Course",id);
+            throw new EntityNotFoundException("Course", id);
         }
     }
 
@@ -72,11 +70,10 @@ public class LectureServiceImpl implements LectureService {
 
     @Override
     public Lecture update(LectureDto lectureDto, User user, int lectureId) {
-        checkPermission(lectureId, user);
-
         Lecture lecture = getById(lectureId);
-        lecture.setTitle(lectureDto.getTitle());
-        lecture.setDescription(lectureDto.getDescription());
+
+        mapper.fromDtoUpdate(lectureDto, lecture);
+        checkPermission(lectureId, user);
 
         return lectureRepository.update(lecture);
     }
@@ -100,10 +97,10 @@ public class LectureServiceImpl implements LectureService {
             throw new EntityNotFoundException(USER_IS_NOT_ENROLLED);
         }
         try {
-            Note note=getNote(lectureId, user.getId());
+            Note note = getNote(lectureId, user.getId());
             note.setText(text);
             return lectureRepository.updateNote(note);
-        }catch (EntityNotFoundException e){
+        } catch (EntityNotFoundException e) {
             Note note = new Note();
             note.setLecture(getById(lectureId));
             note.setText(text);
@@ -115,14 +112,14 @@ public class LectureServiceImpl implements LectureService {
     @Override
     public Lecture submitAssignment(User user, int lectureId, MultipartFile multipartFile) {
         try {
-            Lecture lecture=getById(lectureId);
-            String assignmentUrl= assignmentsHelper.uploadImage(multipartFile);
-            Assignment assignment=new Assignment();
+            Lecture lecture = getById(lectureId);
+            String assignmentUrl = assignmentsHelper.uploadImage(multipartFile);
+            Assignment assignment = new Assignment();
             assignment.setAssignmentUrl(assignmentUrl);
             assignment.setUser(user);
             assignment.setLecture(lecture);
             return lectureRepository.submitAssignment(assignment);
-        }catch (IOException e) {
+        } catch (IOException e) {
             throw new FileUploadException(FILE_UPLOAD_ERROR);
         }
     }
@@ -133,15 +130,14 @@ public class LectureServiceImpl implements LectureService {
         }
     }
 
-    private void checkPermission(int id, User user) {
+    public void checkPermission(int id, User user) {
         Lecture lecture = getById(id);
-        if (user.getId() == lecture.getTeacher().getId()
-                || !user.getRole().getName().equals("admin")) {
+        if (!(lecture.getTeacher().equals(user))
+                || user.getRole().getId() != 3) {
             throw new AuthorizationException(MODIFY_THE_LECTURE);
 
         }
     }
-
 
 
 }

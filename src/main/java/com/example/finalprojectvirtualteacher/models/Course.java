@@ -171,6 +171,9 @@ public class Course {
     public void setStudents(Set<User> students) {
         this.students = students;
     }
+    public void addStudents(User user){
+        students.add(user);
+    }
 
     public int getMinGrade() {
         return minGrade;
