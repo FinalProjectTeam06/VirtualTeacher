@@ -40,6 +40,9 @@ public class User {
     @JsonIgnore
     private Set<Course> courses;
 
+    @Column(name = "is_activated")
+    private boolean isActivated;
+
     public User() {
     }
 
@@ -108,6 +111,14 @@ public class User {
     }
     public void addCourse(Course course) {
         courses.add(course);
+    }
+
+    public boolean isActivated() {
+        return isActivated;
+    }
+
+    public void setActivated(boolean activated) {
+        isActivated = activated;
     }
 
     @Override

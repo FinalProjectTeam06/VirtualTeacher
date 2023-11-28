@@ -1,11 +1,8 @@
 package com.example.finalprojectvirtualteacher.controllers;
 
-import com.example.finalprojectvirtualteacher.exceptions.AuthorizationException;
-import com.example.finalprojectvirtualteacher.exceptions.EntityDuplicateException;
-import com.example.finalprojectvirtualteacher.exceptions.EntityNotFoundException;
+import com.example.finalprojectvirtualteacher.exceptions.*;
 import com.example.finalprojectvirtualteacher.helpers.AuthenticationHelper;
 import com.example.finalprojectvirtualteacher.helpers.UserMapper;
-import com.example.finalprojectvirtualteacher.models.Course;
 import com.example.finalprojectvirtualteacher.models.User;
 import com.example.finalprojectvirtualteacher.models.UserFilterOptions;
 import com.example.finalprojectvirtualteacher.models.dto.UserDto;
@@ -18,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -102,6 +100,28 @@ public class UserRestController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         } catch (AuthorizationException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
+        }
+    }
+
+    @PostMapping("/activate/{code}")
+    public String activateUser(@PathVariable int code) {
+        try {
+            userService.activateAccount(code);
+            return "Account activated";
+        } catch (WrongActivationCodeException e) {
+            return "Code has expired! Resend code.";
+        } catch (ForbiddenOperationException e) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage());
+        }
+    }
+
+    @PostMapping("/activate/new-code")
+    public String sendNewActivationCode(Principal principal) {
+        try {
+            userService.resendActivationCode(principal.getName());
+            return "New activation code sent";
+        } catch (ForbiddenOperationException e) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage());
         }
     }
 

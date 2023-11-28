@@ -1,19 +1,23 @@
 package com.example.finalprojectvirtualteacher.services;
 
-import com.example.finalprojectvirtualteacher.exceptions.AuthorizationException;
-import com.example.finalprojectvirtualteacher.exceptions.EntityDuplicateException;
-import com.example.finalprojectvirtualteacher.exceptions.EntityNotFoundException;
+import com.example.finalprojectvirtualteacher.exceptions.*;
 import com.example.finalprojectvirtualteacher.models.Course;
 import com.example.finalprojectvirtualteacher.models.User;
 import com.example.finalprojectvirtualteacher.models.UserFilterOptions;
 import com.example.finalprojectvirtualteacher.models.dto.UserDtoUpdate;
 import com.example.finalprojectvirtualteacher.repositories.contracts.UserRepository;
 import com.example.finalprojectvirtualteacher.services.contacts.CourseService;
+import com.example.finalprojectvirtualteacher.services.contacts.EmailService;
 import com.example.finalprojectvirtualteacher.services.contacts.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -23,10 +27,21 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final CourseService courseService;
 
+    private final EmailService emailService;
+
+    private final Map<Integer,String> userToActivate;
+    private final Map<Integer, Timestamp> codeValidity;
+
+    private final Random random;
+
     @Autowired
-    public UserServiceImpl(UserRepository repository, CourseService courseService) {
+    public UserServiceImpl(UserRepository repository, CourseService courseService, EmailService emailService) {
         this.userRepository = repository;
         this.courseService = courseService;
+        this.emailService = emailService;
+        random = new Random();
+        codeValidity = new HashMap<>();
+        userToActivate = new HashMap<>();
     }
 
     @Override
@@ -107,6 +122,56 @@ public class UserServiceImpl implements UserService {
     public User addProfilePhoto(User user, String url) {
         user.setProfilePictureUrl(url);
         return userRepository.updateUser(user);
+    }
+
+    @Override
+    public void activateAccount(int code) {
+        if (!userToActivate.containsKey(code))
+            throw new WrongActivationCodeException("Code not active. Maybe user is activated already?");
+        Timestamp now = Timestamp.from(Instant.now());
+        if (codeValidity.get(code).before(now)) {
+            userToActivate.remove(code);
+            codeValidity.remove(code);
+            throw new WrongActivationCodeException("Code expired send new code");
+        }
+        User user = userRepository.getByEmail(userToActivate.get(code));
+        user.setActivated(true);
+        userToActivate.remove(code);
+
+        codeValidity.remove(code);
+        userRepository.updateUser(user);
+    }
+
+    @Override
+    public void resendActivationCode(String email) {
+        User user = userRepository.getByEmail(email);
+        if (user.isActivated())
+            throw new ForbiddenOperationException("User already activated!");
+        sendActivationEmail(user);
+    }
+    @Override
+    public void sendActivationEmail(User user){
+        String email = user.getEmail();
+        int code = getActivationCode(user);
+        emailService.sendMessage(email, "Account activation", String.valueOf(code));
+        emailService.sendUserCreationVerificationCode(user, code);
+        System.out.println(code);
+    }
+    private int getActivationCode(User user) {
+        int code = getCode();
+        if (userToActivate.containsKey(code))
+            getActivationCode(user);
+        userToActivate.put(code, user.getEmail());
+        codeValidity.put(code, getActivationTime(4));
+        return code;
+    }
+    private int getCode() {
+        return 1000 + random.nextInt(2000);
+    }
+    private Timestamp getActivationTime(int minutes) {
+        Timestamp out = Timestamp.from(Instant.now());
+        out.setTime(out.getTime() + ((60 * minutes) * 1000));
+        return out;
     }
 
     private void checkPermission(User user, int userId) {
