@@ -7,7 +7,7 @@ import java.util.List;
 public interface CommentRepository {
     List<Comment> getAll();
 
-    Comment getByd(int commentId);
+    Comment getById(int commentId);
 
     Comment create(Comment comment);
 

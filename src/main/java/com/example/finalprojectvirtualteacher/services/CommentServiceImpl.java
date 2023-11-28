@@ -27,7 +27,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Comment getById(int id) {
-        return commentRepository.getByd(id);
+        return commentRepository.getById(id);
     }
 
     @Override
@@ -39,11 +39,12 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public Comment update(User creator, Comment comment) {
         checkPermission(comment, creator);
-        return comment;
+       return commentRepository.update(comment);
+
     }
     @Override
     public void delete(User user, int id){
-        Comment commentToDelete = commentRepository.getByd(id);
+        Comment commentToDelete = commentRepository.getById(id);
         checkPermission(commentToDelete,user);
         commentRepository.delete(id);
     }
@@ -53,8 +54,8 @@ public class CommentServiceImpl implements CommentService {
         return commentRepository.getByCourseId(courseId);
     }
 
-    private void checkPermission(Comment comment, User user) {
-        if (!comment.getCreator().equals(user) && !user.getRole().getName().equals("admin")) {
+    public void checkPermission(Comment comment, User user) {
+        if (!comment.getCreator().equals(user) && user.getRole().getId()!=3) {
             throw new AuthorizationException(PERMISSION_ERROR);
         }
     }

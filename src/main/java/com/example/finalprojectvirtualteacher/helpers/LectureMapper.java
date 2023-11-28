@@ -33,6 +33,7 @@ public class LectureMapper {
         lecture.setTitle(lectureDto.getTitle());
         lecture.setDescription(lectureDto.getDescription());
         lecture.setAssignmentUrl(lectureDto.getAssignmentUrl());
+        lecture.setVideoUrl(lectureDto.getVideoUrl());
         return  lecture;
     }
 }

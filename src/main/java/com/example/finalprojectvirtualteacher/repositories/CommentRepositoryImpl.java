@@ -30,7 +30,7 @@ public class CommentRepositoryImpl implements CommentRepository {
     }
 
     @Override
-    public Comment getByd(int commentId) {
+    public Comment getById(int commentId) {
         try (Session session = sessionFactory.openSession()) {
             Comment comment = session.get(Comment.class, commentId);
             if (comment == null) {
@@ -63,7 +63,7 @@ public class CommentRepositoryImpl implements CommentRepository {
 
     @Override
     public void delete(int id) {
-        Comment commentToDelete = getByd(id);
+        Comment commentToDelete = getById(id);
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             session.remove(commentToDelete);
