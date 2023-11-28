@@ -18,7 +18,7 @@ import java.util.List;
 @Service
 public class WikiPageServiceImpl {
 
-    private static final String API_BASE_URL = "https://www.wikipedia.org/w/api.php";
+    private static final String API_BASE_URL = "https://en.wikipedia.org/w/api.php";
 
     private final HttpClient httpClient;
     private final ObjectMapper objectMapper;
@@ -32,7 +32,6 @@ public class WikiPageServiceImpl {
     public List<WikiPage> searchWikiPages(String searchValue) {
         try {
             URI searchUri = UriComponentsBuilder.fromUriString(API_BASE_URL)
-                    .path("/w/api.php")
                     .queryParam("action", "query")
                     .queryParam("list", "search")
                     .queryParam("srsearch", searchValue)
@@ -51,7 +50,6 @@ public class WikiPageServiceImpl {
             List<String> snippets = new ArrayList<>();
             for (String title : titles) {
                 URI snippetUri = UriComponentsBuilder.fromUriString(API_BASE_URL)
-                        .path("/w/api.php")
                         .queryParam("action", "query")
                         .queryParam("prop", "revisions")
                         .queryParam("rvprop", "content")
@@ -68,7 +66,6 @@ public class WikiPageServiceImpl {
             List<String> fullUrls = new ArrayList<>();
             for (Integer pageId : pageIds) {
                 URI urlUri = UriComponentsBuilder.fromUriString(API_BASE_URL)
-                        .path("/w/api.php")
                         .queryParam("action", "query")
                         .queryParam("pageids", pageId)
                         .queryParam("prop", "info")
@@ -140,11 +137,7 @@ public class WikiPageServiceImpl {
         JsonNode revisionsNode = pageNode.path("revisions");
         JsonNode revisionNode = revisionsNode.elements().next();
 
-
-        Iterator<String> fieldNames = revisionNode.fieldNames();
-        String firstField = fieldNames.next();
-
-        return revisionNode.path(firstField).asText();
+        return revisionNode.path("*").asText();
     }
 
     private String parseFullUrl(String response) throws IOException {

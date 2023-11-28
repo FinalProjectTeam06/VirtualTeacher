@@ -14,6 +14,8 @@ public interface CourseService {
 
     Course getById(int id);
     int getAllEnrollments();
+    List<Course> getAllByUserCompleted(int userId);
+    List<Course> getAllByUserNotCompleted(int userId);
 
     Course create(CourseDto courseDto, User creator);
 

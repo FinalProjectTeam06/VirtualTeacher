@@ -40,6 +40,16 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    public List<Course> getAllByUserCompleted(int userId) {
+        return courseRepository.getAllByUserCompleted(userId);
+    }
+
+    @Override
+    public List<Course> getAllByUserNotCompleted(int userId) {
+        return courseRepository.getAllByUserNotCompleted(userId);
+    }
+
+    @Override
     public Course getById(int id) {
         return courseRepository.getById(id);
     }
