@@ -5,6 +5,7 @@ import com.example.finalprojectvirtualteacher.models.dto.CourseDto;
 import com.example.finalprojectvirtualteacher.models.dto.LectureDto;
 import com.example.finalprojectvirtualteacher.models.dto.RateDto;
 import com.example.finalprojectvirtualteacher.models.dto.UserDtoUpdate;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -159,6 +160,12 @@ public class Helpers {
         return roles;
     }
 
+    public static UserFilterOptions createUserFilterOptions(){
+      return new UserFilterOptions(
+                 "mockUsername",
+                 "mockEmail",
+                 "mockFirstname");
+    }
     public static FilterOptions createMockFilterOptions() {
         return new FilterOptions(
                 "mockCreatedBy",
@@ -176,4 +183,13 @@ public class Helpers {
         dto.setPassword("UpdatedPassword");
         return dto;
     }
+    public static Note createNote(){
+        Note note = new Note();
+        note.setLecture(createMockLecture());
+        note.setText("MockTest");
+        note.setNoteId(1);
+        note.setUser(createMockUser());
+        return note;
+    }
+
 }

@@ -2,9 +2,11 @@ package com.example.finalprojectvirtualteacher.service;
 
 import com.example.finalprojectvirtualteacher.exceptions.AuthorizationException;
 import com.example.finalprojectvirtualteacher.exceptions.EntityNotFoundException;
+import com.example.finalprojectvirtualteacher.helpers.AssignmentsHelper;
 import com.example.finalprojectvirtualteacher.helpers.LectureMapper;
 import com.example.finalprojectvirtualteacher.models.Course;
 import com.example.finalprojectvirtualteacher.models.Lecture;
+import com.example.finalprojectvirtualteacher.models.Note;
 import com.example.finalprojectvirtualteacher.models.User;
 import com.example.finalprojectvirtualteacher.models.dto.LectureDto;
 import com.example.finalprojectvirtualteacher.repositories.contracts.LectureRepository;
@@ -17,10 +19,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static com.example.finalprojectvirtualteacher.Helpers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -33,6 +37,8 @@ class LectureServiceImplTests {
     LectureServiceImpl lectureService;
     @Mock
     LectureMapper mapper;
+    @Mock
+    AssignmentsHelper assignmentsHelper;
 
 
     @Test
@@ -90,21 +96,25 @@ class LectureServiceImplTests {
 
     }
 
-//    @Test
-//    void create_Should_CallRepository_When_CreateLecture() {
-//        LectureDto lectureDto = createLectureDto();
-//        User creator = createMockUser();
-//        Lecture lecture = createMockLecture();
-//
-//        when(mapper.fromDto(lectureDto, creator)).thenReturn(lecture);
-//        when(lectureRepository.create(lecture)).thenReturn(lecture);
-//
-//        lectureService.create(lectureDto,creator);
-//        verify(mapper, times(1)).fromDto(lectureDto, creator);
-//        verify(lectureRepository, times(1)).create(lecture);
-//
-//    }
-//    //todo- da se napravi test za greshka
+    @Test
+    void create_Should_CallRepository_When_CreateLecture() {
+        LectureDto lectureDto = createLectureDto();
+        User creator = createMockTeacher();
+        Lecture lecture = createMockLecture();
+        lecture.setTeacher(creator);
+
+        when(mapper.fromDto(lectureDto, creator)).thenReturn(lecture);
+        when(lectureRepository.create(lecture)).thenReturn(lecture);
+
+        Lecture result = lectureService.create(lectureDto, creator);
+
+        verify(mapper, times(1)).fromDto(lectureDto, creator);
+        verify(lectureRepository, times(1)).create(lecture);
+
+        assertEquals(result, lecture);
+    }
+
+    //    //todo- da se napravi test za greshka
 //
 //    @Test
 //    void update_Should_CallRepository_WhenCreatorUpdate() {
@@ -121,31 +131,87 @@ class LectureServiceImplTests {
 //        verify(lectureRepository, times(1)).update(lecture);
 //    }
 //
-//    @Test
-//    void update_Should_ThrowException_WhenDontHavePermission() {
-//        LectureDto lectureDto = createLectureDto();
-//        User user = createMockUser();
-//        user.setId(5);
-//        User user1 = createMockTeacher();
-//        Lecture lecture = createMockLecture();
-//        lecture.setTeacher(user1);
-//
-//        Assertions.assertThrows(AuthorizationException.class, () -> lectureService.update(lectureDto, user, lecture.getId()));
-//    }
-//
-//    @Test
-//    void delete_Should_CallRepository_WhenDeleteLecture() {
-//        int lectureId = 1;
-//        User admin = createMockAdmin();
-//        Lecture lecture = createMockLecture();
-//
-//        when(lectureRepository.getById(lectureId)).thenReturn(lecture);
-//
-//        lectureService.delete(lectureId, admin);
-//        verify(lectureRepository, times(1)).delete(lectureId);
-//
-//
-//    }
+    @Test
+    void update_Should_ThrowException_WhenDontHavePermission() {
+        LectureDto lectureDto = createLectureDto();
+        User user = createMockUser();
+        int lectureId = 1;
 
+        User nonOwnerUser = createMockUser();
+        nonOwnerUser.setId(5);
+
+        Lecture lecture = createMockLecture();
+        lecture.setTeacher(createMockTeacher());
+
+        when(lectureRepository.getById(lectureId)).thenReturn(lecture);
+
+        Assertions.assertThrows(AuthorizationException.class,
+                () -> lectureService.update(lectureDto, user, lectureId));
+
+    }
+
+
+    @Test
+    void delete_Should_CallRepository_WhenDeleteLecture() {
+        Lecture lecture = createMockLecture();
+        lecture.setTeacher(createMockTeacher());
+        int lectureId = lecture.getId();
+        User admin = createMockAdmin();
+
+        doNothing().when(lectureRepository).delete(lectureId);
+
+        lectureService.delete(lectureId, admin);
+        verify(lectureRepository, times(1)).delete(lectureId);
+    }
+
+    @Test
+    void getNote_Should_CallRepository_When_GetNote() {
+        Lecture lecture = createMockLecture();
+        Note note = createNote();
+        User user = createMockUser();
+        when(lectureRepository.getNote(lecture.getId(), user.getId())).thenReturn(note);
+
+        lectureService.getNote(lecture.getId(), user.getId());
+
+        verify(lectureRepository, times(1)).getNote(lecture.getId(), user.getId());
+    }
+@Test
+    void createNote_Should_CallRepository_WhenUserIsEnrolledAndExistingNoteExists(){
+        int lectureId = 1;
+        User user =createMockUser();
+        Note existingNote = createNote();
+
+        when(lectureRepository.getById(lectureId)).thenReturn(createMockLecture());
+        when(lectureRepository.getNote(lectureId, user.getId()))
+                .thenReturn(existingNote);
+
+        lectureService.createNote(lectureId,user,"UpdatedText");
+
+        verify(lectureRepository,times(1)).updateNote(existingNote);
+
+    }
+
+    @Test
+    void createNote_When_UserIsNotEnrolled(){
+        int lectureId = 1;
+        User user = createMockUser();
+        user.setCourses(Collections.emptySet());
+
+        assertThrows(EntityNotFoundException.class,()->lectureService.createNote(lectureId,user,"Text"));
+    }
+    //todo
+    @Test
+    void submitAssignment_Should_CallRepository_When_IsSuccessfully(){
+        int lectureId =1;
+        User user =createMockUser();
+        Lecture lecture = createMockLecture();
+        String assignment = "stringAssignment";
+
+
+
+        when(lectureRepository.getById(lectureId)).thenReturn(lecture);
+
+
+    }
 
 }

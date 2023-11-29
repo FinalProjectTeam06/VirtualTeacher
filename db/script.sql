@@ -1,3 +1,8 @@
+drop database if exists virtual_teacher;
+
+create database virtual_teacher;
+use virtual_teacher;
+
 create table roles
 (
     role_id int auto_increment

@@ -33,7 +33,7 @@ public class CourseServiceImplTests {
     @InjectMocks
     private CourseServiceImpl courseService;
     @Mock
-    CourseMapper mapper;
+    private CourseMapper mapper;
 
 
     @Test
@@ -64,6 +64,36 @@ public class CourseServiceImplTests {
         assertEquals(result, getAll);
         verify(courseRepository,times(1)).getAll();
     }
+    @Test
+    void getAllByUserCompleted_Should_CallRepository(){
+        User user = createMockUser();
+        List<Course> courseList = new ArrayList<>();
+        courseList.add(createMockCourse());
+        courseList.add(createMockCourse());
+
+
+        when(courseRepository.getAllByUserCompleted(user.getId())).thenReturn(courseList);
+
+        List<Course>result = courseService.getAllByUserCompleted(user.getId());
+
+        assertEquals(result,courseList);
+        verify(courseRepository,times(1)).getAllByUserCompleted(user.getId());
+    }
+    @Test
+    void getAllByUserNotCompleted_Should_CallRepository(){
+        User user = createMockUser();
+        List<Course> courseList = new ArrayList<>();
+        courseList.add(createMockCourse());
+        courseList.add(createMockCourse());
+
+
+        when(courseRepository.getAllByUserNotCompleted(user.getId())).thenReturn(courseList);
+
+        List<Course>result = courseService.getAllByUserNotCompleted(user.getId());
+
+        assertEquals(result,courseList);
+        verify(courseRepository,times(1)).getAllByUserNotCompleted(user.getId());
+    }
 
     @Test
     void getById_Should_Return_Comment() {
@@ -75,33 +105,21 @@ public class CourseServiceImplTests {
        Course result = courseService.getById(course.getId());
 
     assertEquals(result,course);
-        Mockito.verify(courseRepository, Mockito.times(1)).getById(course.getId());
+        verify(courseRepository, Mockito.times(1)).getById(course.getId());
     }
 
+
     @Test
-    void testGetAllEnrollments_WithNoCourses() {
+    void GetAllEnrollments_WithNoCourses() {
         List<Course> courseList = new ArrayList<>();
-        // Mock an empty list of courses
+
         Mockito.when(courseService.getAll()).thenReturn(courseList);
 
-        // Call the method
-        int enrollmentCount = courseService.getAllEnrollments();
-
-        // Ensure that the count is zero since there are no courses
-        assertEquals(0, enrollmentCount);
-    }
-
-    @Test
-    void testGetAllEnrollments_WithCoursesAndNoStudents() {
-        List<Course> courses = new ArrayList<>();
-
-        Mockito.when(courseService.getAll()).thenReturn(courses);
-
         int enrollmentCount = courseService.getAllEnrollments();
 
         assertEquals(0, enrollmentCount);
+        verify(courseRepository,times(1)).getAll();
     }
-
 
     @Test
     void testGetAllEnrollments_WithCoursesAndStudents() {
@@ -137,47 +155,52 @@ public class CourseServiceImplTests {
         verify(mapper, times(1)).fromDtoIn(courseDto, creator);
         verify(courseRepository, times(1)).create(course1);
     }
+    @Test
+    void update_Should_CallRepository_When_UserIsAdmin() {
+        CourseDto courseDto = createCourseDto();
+        User user = createMockAdmin();
+        int courseId = 123;
+        Course existingCourse = createMockCourse();
+        existingCourse.setId(courseId);
+        existingCourse.setCreator(user);
+        Course updatedCourse =createMockCourse();
+        updatedCourse.setId(courseId);
 
-//    @Test
-//    void update_Should_CallRepository_When_UserIsAdmin() {
-//        CourseDto courseDto = createCourseDto();
-//        User admin = createMockAdmin();
-//        Course course = createMockCourse();
-//
-//        when(mapper.fromDtoUpdate(courseDto, course)).thenReturn(course);
-//
-//        courseService.update(courseDto, admin, course.getId());
-//
-//        verify(mapper, times(1)).fromDtoUpdate(courseDto, course);
-//        verify(courseRepository, times(1)).update(course);
-//
-//    }
-//
-//    @Test
-//    void delete_Should_CallRepository_WhenHavePermission() {
-//        int courseId = 1;
-//        User admin = createMockAdmin();
-//        Course course = createMockCourse();
-//
-//        when(courseRepository.getById(courseId)).thenReturn(course);
-//
-//        courseService.delete(courseId, admin);
-//
-//        verify(courseRepository, times(1)).delete(course);
-//    }
-//    @Test
-//    void delete_Should_ThrowException_WhenDontHavePermission() {
-//        User user = createMockUser();
-//        User admin = createMockAdmin();
-//        Course course = createMockCourse();
-//        course.setCreator(admin);
-//
-//        when(courseRepository.getById(course.getId())).thenReturn(course);
-//
-//        assertThrows(AuthorizationException.class,
-//                () -> courseService.delete(course.getId(), user));
-//
-//    }
+        when(courseRepository.getById(courseId)).thenReturn(existingCourse);
+        when(mapper.fromDtoUpdate(courseDto, existingCourse)).thenReturn(updatedCourse);
+        when(courseRepository.update(updatedCourse)).thenReturn(updatedCourse);
+        courseService.update(courseDto,user, courseId);
+
+        verify(courseRepository,times(1)).update(updatedCourse);
+        verify(mapper, times(1)).fromDtoUpdate(courseDto, existingCourse);
+
+    }
+
+    @Test
+    void delete_Should_CallRepository_WhenHavePermission() {
+        int courseId = 1;
+        User admin = createMockAdmin();
+        Course courseToDelete = createMockCourse();
+        courseToDelete.setCreator(admin);
+
+        when(courseRepository.getById(courseId)).thenReturn(courseToDelete);
+
+        courseService.delete(courseId,admin);
+        verify(courseRepository,times(1)).delete(courseToDelete);
+
+    }
+    @Test
+    void delete_Should_ThrowException_WhenDontHavePermission() {
+        User user = createMockUser();
+        Course course = createMockCourse();
+
+
+        when(courseRepository.getById(course.getId())).thenReturn(course);
+
+      assertThrows(AuthorizationException.class,() -> courseService.delete(course.getId(),user));
+
+      verify(courseRepository,never()).delete(course);
+    }
 
     @Test
     void testCheckPermission_WithAdminRole_Success() {

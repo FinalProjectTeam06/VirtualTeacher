@@ -24,7 +24,7 @@ import java.util.List;
 @Service
 public class LectureServiceImpl implements LectureService {
 
-    public static final String PERMISSION_ERROR = "You don't have a permission.";
+
     public static final String MODIFY_THE_LECTURE = "Only creator or admin can modify the lecture.";
     public static final String USER_IS_NOT_ENROLLED = "User is not enrolled in this course";
     public static final String FILE_UPLOAD_ERROR = "File can't be uploaded.";
@@ -121,12 +121,6 @@ public class LectureServiceImpl implements LectureService {
             return lectureRepository.submitAssignment(assignment);
         } catch (IOException e) {
             throw new FileUploadException(FILE_UPLOAD_ERROR);
-        }
-    }
-
-    private void isTeacher(User user) {
-        if (user.getRole().getName().equals("student")) {
-            throw new AuthorizationException(PERMISSION_ERROR);
         }
     }
 
