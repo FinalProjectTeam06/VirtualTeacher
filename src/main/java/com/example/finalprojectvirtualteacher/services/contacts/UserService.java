@@ -24,4 +24,7 @@ public interface UserService {
     User enrollCourse(User user, int courseId);
 
     User addProfilePhoto(User user, String url);
+    void activateAccount(int code);
+    void resendActivationCode(String username);
+    void sendActivationEmail(User user);
 }

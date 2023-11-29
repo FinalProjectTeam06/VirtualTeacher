@@ -26,7 +26,7 @@ public class AssignmentsHelper {
                 "api_secret", API_SECRET));
     }
 
-    public String uploadImage(MultipartFile multipartFile) throws IOException {
+    public String uploadAssignment(MultipartFile multipartFile) throws IOException {
         File tempFile = File.createTempFile("tempAssignment", ".zip");
         multipartFile.transferTo(tempFile);
 

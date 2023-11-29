@@ -1,6 +1,7 @@
 package com.example.finalprojectvirtualteacher.services;
 
 import com.example.finalprojectvirtualteacher.exceptions.AuthorizationException;
+import com.example.finalprojectvirtualteacher.exceptions.EntityNotFoundException;
 import com.example.finalprojectvirtualteacher.exceptions.FileUploadException;
 import com.example.finalprojectvirtualteacher.helpers.AssignmentsHelper;
 import com.example.finalprojectvirtualteacher.helpers.LectureMapper;
@@ -9,6 +10,7 @@ import com.example.finalprojectvirtualteacher.models.Note;
 
 import com.example.finalprojectvirtualteacher.exceptions.EntityNotFoundException;
 import com.example.finalprojectvirtualteacher.models.Lecture;
+import com.example.finalprojectvirtualteacher.models.Note;
 import com.example.finalprojectvirtualteacher.models.User;
 import com.example.finalprojectvirtualteacher.models.dto.LectureDto;
 import com.example.finalprojectvirtualteacher.repositories.contracts.LectureRepository;
@@ -49,6 +51,9 @@ public class LectureServiceImpl implements LectureService {
 
     @Override
     public Lecture getById(int id) {
+        if (lectureRepository.getById(id) == null) {
+            throw new EntityNotFoundException("Lecture", "id", id);
+        }
         return lectureRepository.getById(id);
     }
 
@@ -63,17 +68,18 @@ public class LectureServiceImpl implements LectureService {
 
     @Override
     public Lecture create(LectureDto lectureDto, User creator) {
-        Lecture lecture1 = mapper.fromDto(lectureDto, creator);
-        checkPermission(lecture1.getId(), creator);
-        return lectureRepository.create(lecture1);
+        Lecture lecture = mapper.fromDto(lectureDto, creator);
+        checkCreatePermission(lecture, creator);
+        return lectureRepository.create(lecture);
     }
 
     @Override
     public Lecture update(LectureDto lectureDto, User user, int lectureId) {
-        Lecture lecture = getById(lectureId);
-
-        mapper.fromDtoUpdate(lectureDto, lecture);
         checkPermission(lectureId, user);
+
+        Lecture lecture = getById(lectureId);
+        lecture.setTitle(lectureDto.getTitle());
+        lecture.setDescription(lectureDto.getDescription());
 
         return lectureRepository.update(lecture);
     }
@@ -113,7 +119,7 @@ public class LectureServiceImpl implements LectureService {
     public Lecture submitAssignment(User user, int lectureId, MultipartFile multipartFile) {
         try {
             Lecture lecture = getById(lectureId);
-            String assignmentUrl = assignmentsHelper.uploadImage(multipartFile);
+            String assignmentUrl = assignmentsHelper.uploadAssignment(multipartFile);
             Assignment assignment = new Assignment();
             assignment.setAssignmentUrl(assignmentUrl);
             assignment.setUser(user);
@@ -124,10 +130,19 @@ public class LectureServiceImpl implements LectureService {
         }
     }
 
+
     public void checkPermission(int id, User user) {
         Lecture lecture = getById(id);
-        if (!(lecture.getTeacher().equals(user))
-                || user.getRole().getId() != 3) {
+        if (user.getId() == lecture.getTeacher().getId()
+                ||  user.getRole().getId() != 3) {
+            throw new AuthorizationException(MODIFY_THE_LECTURE);
+
+        }
+    }
+
+    private void checkCreatePermission(Lecture lecture, User user) {
+        if (user.getId() != lecture.getCourse().getCreator().getId()
+                ||  user.getRole().getId() != 3) {
             throw new AuthorizationException(MODIFY_THE_LECTURE);
 
         }
