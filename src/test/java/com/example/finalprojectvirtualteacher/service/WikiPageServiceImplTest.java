@@ -42,7 +42,7 @@ public class WikiPageServiceImplTest {
         String mockUrlResponse = "{ \"query\": { \"pages\": [ { \"fullurl\": \"https://mockurl.com\" } ] } }";
 
         // Mocking HttpClient behavior
-//
+
 //       Mockito.when(httpClient.send(any(), eq(HttpResponse.BodyHandlers.ofString())))
 //                .thenReturn(HttpResponse.BodyHandlers.ofString().createResponse(mockSearchResponse))
 //                .thenReturn(HttpResponse.BodyHandlers.ofString().createResponse(mockSnippetResponse))

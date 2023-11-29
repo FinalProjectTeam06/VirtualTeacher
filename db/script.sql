@@ -3,7 +3,6 @@ drop database if exists virtual_teacher;
 create database virtual_teacher;
 
 use virtual_teacher;
-
 create table roles
 (
     role_id int auto_increment
@@ -22,12 +21,12 @@ create table users
 (
     user_id             int auto_increment
         primary key,
-    first_name          varchar(255)   not null,
-    last_name           varchar(255)   not null,
-    email               varchar(255)   not null,
-    password            varchar(255)   not null,
-    role_id             int            not null,
-    profile_picture_url varchar(10000) not null,
+    first_name          varchar(255)         not null,
+    last_name           varchar(255)         not null,
+    email               varchar(255)         not null,
+    password            varchar(255)         not null,
+    role_id             int                  not null,
+    profile_picture_url varchar(10000)       not null,
     is_activated        tinyint(1) default 0 not null,
     constraint users_roles_role_id_fk
         foreign key (role_id) references roles (role_id)
@@ -140,4 +139,3 @@ create table rates
     constraint rates_users_user_id_fk
         foreign key (user_id) references users (user_id)
 );
-
