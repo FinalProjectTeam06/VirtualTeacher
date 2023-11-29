@@ -65,6 +65,7 @@ public class Course {
     private int minGrade;
 
 
+
     public Course() {
     }
 
