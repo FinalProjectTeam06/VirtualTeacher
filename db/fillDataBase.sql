@@ -26,21 +26,6 @@ INSERT INTO virtual_teacher.courses (course_id, title, topic_id, description, cr
 INSERT INTO virtual_teacher.courses (course_id, title, topic_id, description, creator_id, is_published, start_date,minimum_grade) VALUES (7, 'Literary Theory and Criticism: Analyzing ', 3, 'Delve into the fascinating world of literary theory and criticism, exploring various lenses through which literature can be analyzed and interpreted. This course introduces critical frameworks and methodologies to dissect and understand texts from diverse perspectives.', 5, 0, '2023-11-02 16:28:02',2);
 INSERT INTO virtual_teacher.courses (course_id, title, topic_id, description, creator_id, is_published, start_date,minimum_grade) VALUES (8, 'The Evolution of Literary Genres: From Poetry ', 3, 'Explore the rich tapestry of literary genres across different time periods and cultures. This course delves into the development, characteristics, and significance of various genres, from poetry and drama to science fiction and beyond.', 6, 1, '2023-11-11 16:28:05',3);
 
-INSERT INTO virtual_teacher.assignments_submissions (assignment_id, lecture_id, user_id, assignment_url) VALUES (3, 3, 3, '3');
-INSERT INTO virtual_teacher.assignments_submissions (assignment_id, lecture_id, user_id, assignment_url) VALUES (6, 6, 3, '3');
-INSERT INTO virtual_teacher.assignments_submissions (assignment_id, lecture_id, user_id, assignment_url) VALUES (2, 2, 2, '2');
-INSERT INTO virtual_teacher.assignments_submissions (assignment_id, lecture_id, user_id, assignment_url) VALUES (5, 5, 2, '2');
-INSERT INTO virtual_teacher.assignments_submissions (assignment_id, lecture_id, user_id, assignment_url) VALUES (1, 1, 1, '1');
-INSERT INTO virtual_teacher.assignments_submissions (assignment_id, lecture_id, user_id, assignment_url) VALUES (4, 4, 1, '1');
-
-INSERT INTO virtual_teacher.notes (note_id, user_id, lecture_id, text) VALUES (1, 1, 1, '"text"');
-INSERT INTO virtual_teacher.notes (note_id, user_id, lecture_id, text) VALUES (2, 2, 2, '"text"');
-INSERT INTO virtual_teacher.notes (note_id, user_id, lecture_id, text) VALUES (3, 3, 3, '"text"');
-INSERT INTO virtual_teacher.notes (note_id, user_id, lecture_id, text) VALUES (4, 1, 4, '"text"');
-INSERT INTO virtual_teacher.notes (note_id, user_id, lecture_id, text) VALUES (5, 2, 5, '"text"');
-INSERT INTO virtual_teacher.notes (note_id, user_id, lecture_id, text) VALUES (6, 3, 6, '"text"');
-
-
 INSERT INTO virtual_teacher.lectures (lecture_id, title, description, video_url, assignment_url, teacher_id, course_id) VALUES (1, 'The birth of world literature', 'Professor Martin Puchner explores how the concept of World Literature came into being, describing the conversations of Johann Wolfgang von Goethe and Peter Eckermann.', 'https://www.youtube.com/watch?v=eOxP0ZZMrmk', 'The birth of world literature', 4, 6);
 INSERT INTO virtual_teacher.lectures (lecture_id, title, description, video_url, assignment_url, teacher_id, course_id) VALUES (2, ' Crash Course Astronomy', 'Welcome to the first episode of Crash Course Astronomy. Your host for this intergalactic adventure is the Bad Astronomer himself, Phil Plait. We begin with answering a question: "What is astronomy?" ', 'https://www.youtube.com/watch?v=0rHUDWjR5gg&list=PL8dPuuaLjXtPAJr1ysd5yGIyiSFuh0mIL', 'https://esroxs.com/wp-content/uploads/2020/03/Crash-Course-Astronomy-On-Line-Content.pdf', 5, 4);
 INSERT INTO virtual_teacher.lectures (lecture_id, title, description, video_url, assignment_url, teacher_id, course_id) VALUES (3, 'How the First Global Conflict Was Fought and Won', 'In his new book The Second World Wars, Victor Davis Hanson offers a stunning reinterpretation of historys deadliest conflict. One of the nation’s leading historians and commentators, Hanson draws on 3,000 years of military history to place this interconnected global war in context. Please join us for a spirited discussion of this seminal history.', 'https://www.youtube.com/watch?v=SkJRC3pcQ0Y', 'https://www.britannica.com/list/8-questions-about-world-war-i-answered', 6, 2);
