@@ -13,6 +13,8 @@ java {
 
 repositories {
     mavenCentral()
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
@@ -25,7 +27,8 @@ dependencies {
     implementation 'org.mariadb.jdbc:mariadb-java-client'
     implementation group: 'com.cloudinary', name: 'cloudinary-http44', version: '1.32.2'
     implementation 'org.springframework.boot:spring-boot-starter-mail'
-
+    implementation 'com.github.imagekit-developer:imagekit-java:2.0.0'
+    implementation 'com.squareup.okhttp3:okhttp:4.9.1'
 
 }
 

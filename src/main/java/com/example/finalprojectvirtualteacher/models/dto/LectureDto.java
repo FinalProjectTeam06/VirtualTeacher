@@ -16,7 +16,6 @@ public class LectureDto {
     @NotNull
     private String videoUrl;
 
-    @NotNull
     private String assignmentUrl;
 
     @NotNull

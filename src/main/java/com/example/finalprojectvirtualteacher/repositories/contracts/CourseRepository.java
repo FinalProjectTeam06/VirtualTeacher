@@ -29,4 +29,10 @@ public interface CourseRepository{
     Course rateCourse(Rate rate);
     Course updateRating(Rate rate);
 
+    List<Course> getAllPublishedCoursesFromTeacher(User user);
+
+    List<Course> getAllNotPublishedCoursesFromTeacher(User user);
+
+    List<Course> getAllActiveCourses();
+
 }

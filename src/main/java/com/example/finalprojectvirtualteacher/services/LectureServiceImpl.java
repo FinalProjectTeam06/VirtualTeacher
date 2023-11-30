@@ -122,7 +122,7 @@ public class LectureServiceImpl implements LectureService {
             assignment.setLecture(lecture);
             return lectureRepository.submitAssignment(assignment);
         } catch (IOException e) {
-            throw new FileUploadException(FILE_UPLOAD_ERROR);
+            throw new FileUploadException(FILE_UPLOAD_ERROR, e);
         }
     }
 

@@ -11,6 +11,7 @@ import com.example.finalprojectvirtualteacher.models.dto.UserDtoUpdate;
 import com.example.finalprojectvirtualteacher.repositories.contracts.UserRepository;
 import com.example.finalprojectvirtualteacher.services.UserServiceImpl;
 import com.example.finalprojectvirtualteacher.services.contacts.CourseService;
+import com.example.finalprojectvirtualteacher.services.contacts.EmailService;
 import com.example.finalprojectvirtualteacher.services.contacts.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,12 +34,13 @@ class UserServiceImplTests {
     private UserServiceImpl userService;
     private UserRepository userRepository;
     private CourseService courseServiceMock;
+    private EmailService emailService;
 
     @BeforeEach
     public void setUp() {
         userRepository = mock(UserRepository.class);
         courseServiceMock = mock(CourseService.class);
-        userService = new UserServiceImpl(userRepository, courseServiceMock);
+        userService = new UserServiceImpl(userRepository, courseServiceMock, emailService);
     }
 
 
