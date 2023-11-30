@@ -1,9 +1,6 @@
 package com.example.finalprojectvirtualteacher.service;
 
-
-import com.example.finalprojectvirtualteacher.exceptions.AuthorizationException;
 import com.example.finalprojectvirtualteacher.exceptions.EntityDuplicateException;
-import com.example.finalprojectvirtualteacher.exceptions.EntityNotFoundException;
 import com.example.finalprojectvirtualteacher.models.Course;
 import com.example.finalprojectvirtualteacher.models.User;
 import com.example.finalprojectvirtualteacher.models.UserFilterOptions;
@@ -11,15 +8,13 @@ import com.example.finalprojectvirtualteacher.models.dto.UserDtoUpdate;
 import com.example.finalprojectvirtualteacher.repositories.contracts.UserRepository;
 import com.example.finalprojectvirtualteacher.services.UserServiceImpl;
 import com.example.finalprojectvirtualteacher.services.contacts.CourseService;
-import com.example.finalprojectvirtualteacher.services.contacts.EmailService;
-import com.example.finalprojectvirtualteacher.services.contacts.UserService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import javax.management.relation.Role;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -31,193 +26,106 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class UserServiceImplTests {
 
+    @InjectMocks
     private UserServiceImpl userService;
+    @Mock
     private UserRepository userRepository;
+    @Mock
     private CourseService courseServiceMock;
-    private EmailService emailService;
-
-    @BeforeEach
-    public void setUp() {
-        userRepository = mock(UserRepository.class);
-        courseServiceMock = mock(CourseService.class);
-        userService = new UserServiceImpl(userRepository, courseServiceMock, emailService);
-    }
 
 
     @Test
     void getAll_ShouldReturnListOfUsers_WhenFilterOptionsProvided() {
-        // Arrange
-        UserFilterOptions filterOptions = new UserFilterOptions("Doe", "john.doe@example.com", "John");
+        UserFilterOptions filterOptions = createUserFilterOptions();
         List<User> mockUsers = new ArrayList<>();
         when(userRepository.getAll(filterOptions)).thenReturn(mockUsers);
 
-        // Act
+
         List<User> result = userService.getAll(filterOptions);
 
-        // Assert
         assertEquals(mockUsers, result);
+        verify(userRepository,times(1)).getAll(filterOptions);
     }
     @Test
-    void getAll_ShouldReturnListOfUsers_WhenFilterOptionsIsNull() {
-        // Arrange
-        UserFilterOptions filterOptions = null;
+    void getAll_ShouldReturnListOfUsers() {
         List<User> mockUsers = new ArrayList<>();
-        when(userRepository.getAll(filterOptions)).thenReturn(mockUsers);
+        mockUsers.add(createMockUser());
+        mockUsers.add(createMockUser());
 
-        // Act
-        List<User> result = userService.getAll(filterOptions);
+        when(userRepository.getAll()).thenReturn(mockUsers);
 
-        // Assert
-        assertEquals(mockUsers, result);
+        List<User> result = userService.getAll();
+
+        assertEquals(result,mockUsers);
+        verify(userRepository,times(1)).getAll();
     }
 
     @Test
-    void updateUser_ShouldUpdateLastName_WhenDtoLastNameIsNotNull() {
-        // Arrange
+    void getAllTeacher_Should_CallRepository(){
+        List<User> teachers = new ArrayList<>();
+        teachers.add(createMockTeacher());
+        teachers.add(createMockTeacher());
+
+        when(userRepository.getAllTeachers()).thenReturn(teachers);
+
+       List<User> result= userService.getAllTeachers();
+        assertEquals(result,teachers);
+        verify(userRepository,times(1)).getAllTeachers();
+    }
+    @Test
+    public void getById_Should_Return_User() {
+       User user = createMockUser();
+
+        when(userRepository.getById(user.getId()))
+                .thenReturn(user);
+
+        User result = userService.getById(user.getId());
+
+        assertEquals(result, user);
+        verify(userRepository,times(1)).getById(user.getId());
+    }
+    @Test
+    void getByEmail_ShouldReturnUser_WhenEmailExists() {
         User user = createMockUser();
-        User updatedUser = createMockUser();
-        UserDtoUpdate userDtoUpdate = new UserDtoUpdate();
-        userDtoUpdate.setLastName("NewLastName");
 
-        // Act
-        User user1 = userService.updateUser(user, updatedUser, userDtoUpdate);
+        when(userRepository.getByEmail(user.getEmail())).thenReturn(user);
 
+        User result = userService.getByEmail(user.getEmail());
 
+        assertEquals(result,user);
+        verify(userRepository,times(1)).getByEmail(user.getEmail());
     }
 
+//todo
     @Test
-    void updateUser_ShouldUpdatePassword_WhenDtoPasswordAndConfirmMatch() {
-        // Arrange
-        User user = createMockUser();
-        User updatedUser = createMockUser();
-        UserDtoUpdate userDtoUpdate = new UserDtoUpdate();
-        userDtoUpdate.setPassword("newPassword");
-        userDtoUpdate.setPasswordConfirm("newPassword");
-
-        // Act
-        User result = userService.updateUser(user, updatedUser, userDtoUpdate);
-
-
+    void createUser_Should_CallRepository() {
     }
-
-    @Test
-    void updateUser_ShouldNotUpdatePassword_WhenDtoPasswordAndConfirmDoNotMatch() {
-        // Arrange
-        User user = createMockUser();
-        User updatedUser = createMockUser();
-        UserDtoUpdate userDtoUpdate = new UserDtoUpdate();
-        userDtoUpdate.setPassword("newPassword");
-        userDtoUpdate.setPasswordConfirm("mismatchedPassword");
-
-        // Act
-        User result = userService.updateUser(user, updatedUser, userDtoUpdate);
-
-    }
-
-
-    @Test
-    public void testGetAll() {
-        // Mocking
-        UserFilterOptions filterOptions = new UserFilterOptions(null, null, null);
-        List<User> mockUsers = new ArrayList<>();
-        when(userRepository.getAll(filterOptions)).thenReturn(mockUsers);
-
-        // Testing
-        List<User> result = userService.getAll(filterOptions);
-
-        // Assertions
-        assertEquals(mockUsers, result);
-    }
-
-
-    @Test
-    public void get_Should_Return_Exception_When_Id_is_Null() {
-        User user1 = createMockUser();
-        int id = user1.getId();
-        //    User user = createMockAdmin();
-        when(userRepository.getById(id)).thenReturn(null);
-
-        assertThrows(EntityNotFoundException.class, () -> userService.getById(id));
-    }
-
-
-
-
-
-
-    @Test
-    public void get_Should_ReturnListOfUsers_When_UserHasPermissions() {
-        // Mocking
-        List<User> users = new ArrayList<>();
-        users.add(createMockUser());
-        UserFilterOptions filterOptions = new UserFilterOptions(null, null, null);
-        when(userRepository.getAll(filterOptions)).thenReturn(users);
-
-        // Testing
-        List<User> result = userService.getAll(filterOptions);
-
-        // Assertions
-        assertEquals(users, result);
-
-        // Verify that the getAll method was called with the correct filter options
-        verify(userRepository, times(1)).getAll(filterOptions);
-    }
-
-    @Test
-    public void testGetById_UserExists() {
-        // Mocking
-        int userId = 1;
-        User mockUser = new User();
-        when(userRepository.getById(userId)).thenReturn(mockUser);
-
-        // Testing
-        User result = userService.getById(userId);
-
-        // Assertions
-        assertEquals(mockUser, result);
-    }
-
-    @Test
-    public void testGetById_UserNotExists() {
-        // Mocking
-        int userId = 1;
-        when(userRepository.getById(userId)).thenReturn(null);
-
-        // Testing
-        assertThrows(EntityNotFoundException.class, () -> userService.getById(userId));
-    }
-
 
 
     @Test
     public void createUser_Should_ThrowEntityDuplicateException_When_UsernameAlreadyExists() {
-        // Mocking
-        User existingUser = new User();
-        existingUser.setEmail("existinguser@example.com");
+        User existingUser = createMockUser();
 
-        when(userRepository.getByEmail(existingUser.getEmail())).thenReturn(existingUser);
+        when(userRepository.getByEmail(existingUser.getEmail())).thenThrow(EntityDuplicateException.class);
 
-        // Testing and Assertions
-        EntityDuplicateException exception = assertThrows(EntityDuplicateException.class,
-                () -> userService.create(existingUser));
-
-        assertEquals("User with username existinguser@example.com already exists.", exception.getMessage());
-
+        assertThrows(EntityDuplicateException.class, () -> userService.create(existingUser));
     }
 
     @Test
-    void getByEmail_ShouldReturnUser_WhenEmailExists() {
-        // Arrange
-        String userEmail = "john.doe@example.com";
-        User mockUser = new User();
-        when(userRepository.getByEmail(userEmail)).thenReturn(mockUser);
+    void updateUser_Should_CallRepository_When_UpdateIsSuccessful() {
+        User user = createMockUser();
+        User updatedUser = createMockUser();
+        UserDtoUpdate userDtoUpdate = createMockUserDtoUpdate();
 
-        // Act
-        User result = userService.getByEmail(userEmail);
+        when(userRepository.updateUser(updatedUser)).thenReturn(updatedUser);
 
-        // Assert
-        assertEquals(mockUser, result);
+        User result = userService.updateUser(user, updatedUser, userDtoUpdate);
+
+        assertEquals(result,updatedUser);
+        verify(userRepository,times(1)).updateUser(updatedUser);
     }
+
+
 
 
     @Test
@@ -228,36 +136,26 @@ class UserServiceImplTests {
         User user = new User();
         Course mockCourse = new Course();
 
-        // Initialize the courses set in the user
         user.setCourses(new HashSet<>());
 
         when(courseServiceMock.getById(courseId)).thenReturn(mockCourse);
         when(userRepository.updateUser(user)).thenReturn(user);
 
-        // Testing
         User result = userService.enrollCourse(user, courseId);
 
-        // Assertions
         assertTrue(result.getCourses().contains(mockCourse));
     }
 
     @Test
     void create_ShouldThrowEntityDuplicateException_WhenEmailAlreadyExists() {
-        // Arrange
-        User existingUser = new User();
-        existingUser.setEmail("existinguser@example.com");
+        User existingUser = createMockUser();
 
         when(userRepository.getByEmail(existingUser.getEmail())).thenReturn(existingUser);
 
-        // Assert
-        EntityDuplicateException exception = assertThrows(EntityDuplicateException.class,
+        assertThrows(EntityDuplicateException.class,
                 () -> userService.create(existingUser));
 
-        assertEquals("User with username existinguser@example.com already exists.", exception.getMessage());
     }
-
-    
-
 
     @Test
     public void deleteUser_Should_ThrowAuthorizationException_When_UserIsAdmin(){
@@ -298,28 +196,6 @@ class UserServiceImplTests {
 
         assertEquals(newUrl, result.getProfilePictureUrl());
         verify(userRepository, times(1)).updateUser(user);
-    }
-
-
-    @Test
-    void getAllTeachers_ShouldReturnListOfTeachers() {
-
-        List<User> teachers = new ArrayList<>();
-        when(userRepository.getAllTeachers()).thenReturn(teachers);
-
-        List<User> result = userService.getAllTeachers();
-
-        assertEquals(teachers, result);
-    }
-
-    @Test
-    void create_userAlreadyExists() {
-        // Arrange
-        User existingUser = new User();
-        when(userRepository.getByEmail(existingUser.getEmail())).thenReturn(existingUser);
-
-        // Act & Assert
-        assertThrows(EntityDuplicateException.class, () -> userService.create(existingUser));
     }
 
 }

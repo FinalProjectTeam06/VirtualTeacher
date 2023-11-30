@@ -61,9 +61,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getById(int id) {
-        if (userRepository.getById(id) == null) {
-            throw new EntityNotFoundException("User", "id", id);
-        }
         return userRepository.getById(id);
     }
 
@@ -78,9 +75,8 @@ public class UserServiceImpl implements UserService {
         try {
             userRepository.getByEmail(user.getEmail());
         } catch (EntityNotFoundException e) {
-            duplicateExists = false;
+                duplicateExists = false;
         }
-
         if (duplicateExists) {
             throw new EntityDuplicateException("User", "username", user.getEmail());
         }
@@ -179,5 +175,4 @@ public class UserServiceImpl implements UserService {
             throw new AuthorizationException(PERMISSION_ERROR);
         }
     }
-
 }

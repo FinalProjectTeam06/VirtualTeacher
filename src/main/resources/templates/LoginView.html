@@ -8,6 +8,7 @@
     <meta name="robots" content="noindex, follow" />
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
     <!-- Favicon -->
     <!-- Favicon -->
@@ -30,6 +31,16 @@
     <link rel="stylesheet" href="../static/css/plugins/magnigy-popup.min.css" th:href="@{/css/plugins/magnigy-popup.min.css}">
     <link rel="stylesheet" href="../static/css/plugins/plyr.css" th:href="@{/css/plugins/plyr.css}">
     <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}">
+    <link rel="stylesheet" as="font" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,600,700|Material+Icons"/>
+    <script src="https://www.google.com/recaptcha/enterprise.js?render=6Lfs-kojAAAAAAojvoKOVSTGxNfz6ZybeR_PlITs"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            grecaptcha.enterprise.ready(function(){
+                grecaptcha.enterprise.execute('6LeGvyApAAAAADAfND1Myskxof153AKh63hzVeem',{action:'login'})
+                    .then(function(token){});
+            });
+        });
+    </script>
 </head>
 
 <body class="rbt-header-sticky">
@@ -96,6 +107,17 @@
                             <div>
                                 <label class="error" th:errors="*{password}" style="color: red">Wrong email or password</label>
                             </div>
+                            <!--recaptcha key&ndash;&gt;-->
+                            <div class="form-group">
+                                <br/><br/>
+                                <br>
+                                <!--/*@thymesVar id="recaptchaMessage" type=""*/-->
+                                <label th:text="${recaptchaMessage}" for="recaptcha" class="error"></label>
+                                <div class="g-recaptcha" id="recaptcha"
+                                     data-sitekey="6LeGvyApAAAAADAfND1Myskxof153AKh63hzVeem"></div>
+                                <br/>
+                            </div>
+
 
                             <div class="load-more-btn text-center mb-3">
                                 <a class="rbt-btn-link" href="#" th:href="@{/auth/register}">Don't have account? Sign up<i class="feather-arrow-right"></i></a>
@@ -161,8 +183,11 @@
     <script src="../static/js/vendor/paralax.min.js" th:src="@{/js/vendor/paralax.min.js}"></script>
     <script src="../static/js/vendor/countdown.js" th:src="@{/js/vendor/countdown.js}"></script>
     <script src="../static/js/vendor/plyr.js" th:src="@{/js/vendor/plyr.js}"></script>
+
     <!-- Main JS -->
     <script src="../static/js/main.js" th:src="@{/js/main.js}"></script>
+<!--    <script src="../static/js/script.js" th:src="@{/js/script.js}"></script>-->
+
 </body>
 
 </html>

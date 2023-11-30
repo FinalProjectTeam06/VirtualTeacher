@@ -6,11 +6,15 @@ import com.example.finalprojectvirtualteacher.exceptions.FileUploadException;
 import com.example.finalprojectvirtualteacher.helpers.AssignmentsHelper;
 import com.example.finalprojectvirtualteacher.helpers.LectureMapper;
 import com.example.finalprojectvirtualteacher.models.Assignment;
+import com.example.finalprojectvirtualteacher.models.Note;
+
+import com.example.finalprojectvirtualteacher.exceptions.EntityNotFoundException;
 import com.example.finalprojectvirtualteacher.models.Lecture;
 import com.example.finalprojectvirtualteacher.models.Note;
 import com.example.finalprojectvirtualteacher.models.User;
 import com.example.finalprojectvirtualteacher.models.dto.LectureDto;
 import com.example.finalprojectvirtualteacher.repositories.contracts.LectureRepository;
+
 import com.example.finalprojectvirtualteacher.services.contacts.LectureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +26,7 @@ import java.util.List;
 @Service
 public class LectureServiceImpl implements LectureService {
 
-    public static final String PERMISSION_ERROR = "You don't have a permission.";
+
     public static final String MODIFY_THE_LECTURE = "Only creator or admin can modify the lecture.";
     public static final String USER_IS_NOT_ENROLLED = "User is not enrolled in this course";
     public static final String FILE_UPLOAD_ERROR = "File can't be uploaded.";
@@ -126,16 +130,11 @@ public class LectureServiceImpl implements LectureService {
         }
     }
 
-    private void isTeacher(User user) {
-        if (user.getRole().getName().equals("student")) {
-            throw new AuthorizationException(PERMISSION_ERROR);
-        }
-    }
 
-    private void checkPermission(int id, User user) {
+    public void checkPermission(int id, User user) {
         Lecture lecture = getById(id);
         if (user.getId() == lecture.getTeacher().getId()
-                || !user.getRole().getName().equals("admin")) {
+                ||  user.getRole().getId() != 3) {
             throw new AuthorizationException(MODIFY_THE_LECTURE);
 
         }
@@ -143,7 +142,7 @@ public class LectureServiceImpl implements LectureService {
 
     private void checkCreatePermission(Lecture lecture, User user) {
         if (user.getId() != lecture.getCourse().getCreator().getId()
-                || !user.getRole().getName().equals("admin")) {
+                ||  user.getRole().getId() != 3) {
             throw new AuthorizationException(MODIFY_THE_LECTURE);
 
         }
