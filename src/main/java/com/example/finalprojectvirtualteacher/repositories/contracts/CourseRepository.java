@@ -1,10 +1,6 @@
 package com.example.finalprojectvirtualteacher.repositories.contracts;
 
 import com.example.finalprojectvirtualteacher.models.*;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
@@ -28,5 +24,11 @@ public interface CourseRepository{
 
     Course rateCourse(Rate rate);
     Course updateRating(Rate rate);
+
+    List<Course> getAllPublishedCoursesFromTeacher(User user);
+
+    List<Course> getAllNotPublishedCoursesFromTeacher(User user);
+
+    List<Course> getAllActiveCoursesNotEnrolled(User user);
 
 }

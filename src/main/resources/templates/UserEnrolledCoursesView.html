@@ -100,8 +100,8 @@
                                             <div class="col-lg-4 col-md-6 col-12" th:each="course : ${enrolledCourses}">
                                                 <div class="rbt-card variation-01 rbt-hover">
                                                     <div class="rbt-card-img">
-                                                        <a href="course-details.html">
-                                                            <img src="assets/images/course/course-online-01.jpg" alt="Card image">
+                                                        <a href="course-details.html" th:href="@{/courses/{courseId}(courseId=${course.getId()})}">
+                                                            <img src="../static/images/course/course-online-01.jpg" alt="Card image">
                                                         </a>
                                                     </div>
                                                     <div class="rbt-card-body">
@@ -117,8 +117,9 @@
                                                                 <span class="rating-count"> (15 Reviews)</span>
                                                             </div>
                                                         </div>
-                                                        <h4 class="rbt-card-title"><a href="course-details.html"
-                                                                                      th:text="${#strings.length(course.getTitle()) > 25 ? #strings.substring(course.getTitle(), 0, 25) + '...' : course.getTitle()}">React Front To Back</a>
+                                                        <h4 class="rbt-card-title">
+                                                            <a href="course-details.html" th:href="@{/courses/{courseId}(courseId=${course.getId()})}"
+                                                               th:text="${#strings.length(course.getTitle()) > 25 ? #strings.substring(course.getTitle(), 0, 25) + '...' : course.getTitle()}">React Front To Back</a>
                                                         </h4>
                                                         <ul class="rbt-meta">
                                                             <i class="feather-book"></i><li th:text="${course.getLectures().size()}">20 Lessons</li>
@@ -146,11 +147,11 @@
                                         <div class="row g-5">
 
                                             <!-- Start Single Course  -->
-                                            <div class="col-lg-4 col-md-6 col-12">
+                                            <div class="col-lg-4 col-md-6 col-12" th:each="course : ${activeCourses}">
                                                 <div class="rbt-card variation-01 rbt-hover">
                                                     <div class="rbt-card-img">
-                                                        <a href="course-details.html">
-                                                            <img src="assets/images/course/course-online-04.jpg" alt="Card image">
+                                                        <a href="course-details.html" th:href="@{/courses/{courseId}(courseId=${course.getId()})}">
+                                                            <img src="../static/images/course/course-online-04.jpg" alt="Card image">
                                                         </a>
                                                     </div>
                                                     <div class="rbt-card-body">
@@ -165,121 +166,23 @@
                                                                 </div>
                                                                 <span class="rating-count"> (3 Reviews)</span>
                                                             </div>
-                                                            <div class="rbt-bookmark-btn">
-                                                                <a class="rbt-round-btn" title="Bookmark" href="#"><i
-                                                                        class="feather-bookmark"></i></a>
-                                                            </div>
                                                         </div>
-                                                        <h4 class="rbt-card-title"><a href="course-details.html">English Langiage Club</a>
+                                                        <h4 class="rbt-card-title"><a href="course-details.html"
+                                                                                      th:href="@{/courses/{courseId}(courseId=${course.getId()})}" th:text="${course.getTitle()}">English Langiage Club</a>
                                                         </h4>
                                                         <ul class="rbt-meta">
-                                                            <li><i class="feather-book"></i>20 Lessons</li>
-                                                            <li><i class="feather-users"></i>30 Students</li>
+                                                            <i class="feather-book"></i><li th:text="${course.getLectures().size()}">20 Lessons</li>
+                                                            <i class="feather-users"></i><li th:text="${course.getStudents().size()}">40 Students</li>
                                                         </ul>
 
                                                         <div class="rbt-card-bottom">
-                                                            <div class="rbt-price">
-                                                                <span class="current-price">$40</span>
-                                                                <span class="off-price">$86</span>
-                                                            </div>
-                                                            <a class="rbt-btn-link" href="course-details.html">Learn
+                                                            <a class="rbt-btn-link" href="course-details.html" th:href="@{/courses/{courseId}(courseId=${course.getId()})}">Learn
                                                                 More<i class="feather-arrow-right"></i></a>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <!-- End Single Course  -->
-
-                                            <!-- Start Single Course  -->
-                                            <div class="col-lg-4 col-md-6 col-12">
-                                                <div class="rbt-card variation-01 rbt-hover">
-                                                    <div class="rbt-card-img">
-                                                        <a href="course-details.html">
-                                                            <img src="assets/images/course/course-online-06.jpg" alt="Card image">
-                                                        </a>
-                                                    </div>
-                                                    <div class="rbt-card-body">
-                                                        <div class="rbt-card-top">
-                                                            <div class="rbt-review">
-                                                                <div class="rating">
-                                                                    <i class="fas fa-star"></i>
-                                                                    <i class="fas fa-star"></i>
-                                                                    <i class="fas fa-star"></i>
-                                                                    <i class="fas fa-star"></i>
-                                                                    <i class="fas fa-star"></i>
-                                                                </div>
-                                                                <span class="rating-count"> (3 Reviews)</span>
-                                                            </div>
-                                                            <div class="rbt-bookmark-btn">
-                                                                <a class="rbt-round-btn" title="Bookmark" href="#"><i
-                                                                        class="feather-bookmark"></i></a>
-                                                            </div>
-                                                        </div>
-                                                        <h4 class="rbt-card-title"><a href="course-details.html">Graphic Courses Club</a>
-                                                        </h4>
-                                                        <ul class="rbt-meta">
-                                                            <li><i class="feather-book"></i>50 Lessons</li>
-                                                            <li><i class="feather-users"></i>10 Students</li>
-                                                        </ul>
-
-                                                        <div class="rbt-card-bottom">
-                                                            <div class="rbt-price">
-                                                                <span class="current-price">$40</span>
-                                                                <span class="off-price">$86</span>
-                                                            </div>
-                                                            <a class="rbt-btn-link" href="course-details.html">Learn
-                                                                More<i class="feather-arrow-right"></i></a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- End Single Course  -->
-
-                                            <!-- Start Single Course  -->
-                                            <div class="col-lg-4 col-md-6 col-12">
-                                                <div class="rbt-card variation-01 rbt-hover">
-                                                    <div class="rbt-card-img">
-                                                        <a href="course-details.html">
-                                                            <img src="assets/images/course/course-online-05.jpg" alt="Card image">
-                                                        </a>
-                                                    </div>
-                                                    <div class="rbt-card-body">
-                                                        <div class="rbt-card-top">
-                                                            <div class="rbt-review">
-                                                                <div class="rating">
-                                                                    <i class="fas fa-star"></i>
-                                                                    <i class="fas fa-star"></i>
-                                                                    <i class="fas fa-star"></i>
-                                                                    <i class="fas fa-star"></i>
-                                                                    <i class="fas fa-star"></i>
-                                                                </div>
-                                                                <span class="rating-count"> (3 Reviews)</span>
-                                                            </div>
-                                                            <div class="rbt-bookmark-btn">
-                                                                <a class="rbt-round-btn" title="Bookmark" href="#"><i
-                                                                        class="feather-bookmark"></i></a>
-                                                            </div>
-                                                        </div>
-                                                        <h4 class="rbt-card-title"><a href="course-details.html">Wed Design Club</a>
-                                                        </h4>
-                                                        <ul class="rbt-meta">
-                                                            <li><i class="feather-book"></i>20 Lessons</li>
-                                                            <li><i class="feather-users"></i>30 Students</li>
-                                                        </ul>
-
-                                                        <div class="rbt-card-bottom">
-                                                            <div class="rbt-price">
-                                                                <span class="current-price">$40</span>
-                                                                <span class="off-price">$86</span>
-                                                            </div>
-                                                            <a class="rbt-btn-link" href="course-details.html">Learn
-                                                                More<i class="feather-arrow-right"></i></a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- End Single Course  -->
-
                                         </div>
                                     </div>
 

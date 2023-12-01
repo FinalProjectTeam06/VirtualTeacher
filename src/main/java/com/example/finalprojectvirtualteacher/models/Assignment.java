@@ -27,6 +27,10 @@ public class Assignment {
     @Column(name = "assignment_url")
     private String assignmentUrl;
 
+    @ManyToOne
+    @JoinColumn(name = "grade_id")
+    private Grade grade;
+
     public Assignment() {
     }
 
@@ -60,6 +64,14 @@ public class Assignment {
 
     public void setAssignmentUrl(String assignmentUrl) {
         this.assignmentUrl = assignmentUrl;
+    }
+
+    public Grade getGrade() {
+        return grade;
+    }
+
+    public void setGrade(Grade grade) {
+        this.grade = grade;
     }
 
     @Override

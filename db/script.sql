@@ -1,8 +1,10 @@
-drop database if exists virtual_teacher;
+create table grades
+(
+    grade_id   int auto_increment
+        primary key,
+    grade_name varchar(100) not null
+);
 
-create database virtual_teacher;
-
-use virtual_teacher;
 create table roles
 (
     role_id int auto_increment
@@ -84,6 +86,9 @@ create table assignments_submissions
     lecture_id     int            not null,
     user_id        int            not null,
     assignment_url varchar(10000) not null,
+    grade_id       int default 1  null,
+    constraint assignments_submissions_grades_grade_id_fk
+        foreign key (grade_id) references grades (grade_id),
     constraint assignments_submissions_lectures_lecture_id_fk
         foreign key (lecture_id) references lectures (lecture_id),
     constraint assignments_submissions_users_user_id_fk
@@ -139,3 +144,4 @@ create table rates
     constraint rates_users_user_id_fk
         foreign key (user_id) references users (user_id)
 );
+

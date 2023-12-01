@@ -1,10 +1,7 @@
 package com.example.finalprojectvirtualteacher.repositories;
 
 import com.example.finalprojectvirtualteacher.exceptions.EntityNotFoundException;
-import com.example.finalprojectvirtualteacher.models.Course;
-import com.example.finalprojectvirtualteacher.models.FilterOptions;
-import com.example.finalprojectvirtualteacher.models.Lecture;
-import com.example.finalprojectvirtualteacher.models.Rate;
+import com.example.finalprojectvirtualteacher.models.*;
 import com.example.finalprojectvirtualteacher.repositories.contracts.CourseRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -30,6 +27,33 @@ public class CourseRepositoryImpl implements CourseRepository {
     public List<Course> getAll() {
         try (Session session = sessionFactory.openSession()) {
             Query<Course> query = session.createQuery("from Course ", Course.class);
+            return query.list();
+        }
+    }
+
+    @Override
+    public List<Course> getAllActiveCoursesNotEnrolled(User user) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Course> query = session.createQuery("SELECT c FROM Course c LEFT JOIN c.enrolledUsers e WHERE e.id != :userId OR e IS NULL AND c.creator.id != :userId", Course.class);
+            query.setParameter("userId", user.getId());
+            return query.list();
+        }
+    }
+
+    @Override
+    public List<Course> getAllPublishedCoursesFromTeacher(User user) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Course> query = session.createQuery("from Course c where c.creator.id= :userId AND c.isPublished= true", Course.class);
+            query.setParameter("userId", user.getId());
+            return query.list();
+        }
+    }
+
+    @Override
+    public List<Course> getAllNotPublishedCoursesFromTeacher(User user) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Course> query = session.createQuery("from Course c where c.creator.id= :userId AND c.isPublished= false", Course.class);
+            query.setParameter("userId", user.getId());
             return query.list();
         }
     }

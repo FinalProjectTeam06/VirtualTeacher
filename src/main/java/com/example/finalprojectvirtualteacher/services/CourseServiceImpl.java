@@ -40,6 +40,11 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    public List<Course> getAllActiveCoursesNotEnrolled(User user) {
+        return courseRepository.getAllActiveCoursesNotEnrolled(user);
+    }
+
+    @Override
     public List<Course> getAllByUserCompleted(int userId) {
         return courseRepository.getAllByUserCompleted(userId);
     }
@@ -47,6 +52,18 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public List<Course> getAllByUserNotCompleted(int userId) {
         return courseRepository.getAllByUserNotCompleted(userId);
+    }
+
+    @Override
+    public List<Course> getAllPublishedCoursesFromTeacher(User user){
+        checkModifyPermission(user);
+        return courseRepository.getAllPublishedCoursesFromTeacher(user);
+    }
+
+    @Override
+    public List<Course> getAllNotPublishedCoursesFromTeacher(User user) {
+        checkModifyPermission(user);
+        return courseRepository.getAllNotPublishedCoursesFromTeacher(user);
     }
 
     @Override
@@ -64,7 +81,7 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public Course create(CourseDto courseDto, User creator) {
         Course course = courseMapper.fromDtoIn(courseDto, creator);
-        checkCreatePermission(creator);
+        checkModifyPermission(creator);
         return courseRepository.create(course);
     }
 
@@ -81,6 +98,12 @@ public class CourseServiceImpl implements CourseService {
         Course course = getById(courseId);
         checkPermission(course, user);
         courseRepository.delete(course);
+    }
+    @Override
+    public Course publishCourse(int courseId, User user){
+        Course course=getById(courseId);
+        course.setPublished(true);
+        return courseRepository.update(course);
     }
 
     @Override
@@ -126,7 +149,7 @@ public class CourseServiceImpl implements CourseService {
 
 
 
-    private void checkCreatePermission(User user) {
+    private void checkModifyPermission(User user) {
         if (!user.getRole().getName().equals("admin") && !user.getRole().getName().equals("teacher")) {
             throw new AuthorizationException(PERMISSION_ERROR);
         }

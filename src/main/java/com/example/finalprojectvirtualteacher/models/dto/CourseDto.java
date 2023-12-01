@@ -18,6 +18,7 @@ public class CourseDto {
     @NotNull
     private LocalDate startDate;
 
+
     @NotNull
     private int minGrade;
 

@@ -81,10 +81,6 @@
 
                         <div class=" title-wrapper">
                             <h1 class="title mb--0" th:text="'All courses from ' + ${topicName}">All Courses</h1>
-                            50 Courses
-                            <a href="#" class="rbt-badge-2">
-                                <div class="image">🎉</div>
-                            </a>
                         </div>
 
                         <p class="description">Courses that help beginner designers become true unicorns. </p>
@@ -215,13 +211,14 @@
                         <div class="inner">
                             <h4 class="rbt-widget-title">Instructors</h4>
                             <ul class="rbt-sidebar-list-wrapper instructor-list-check">
-                                <li class="rbt-check-group">
-                                    <div th:each="teacher : ${teachers}">
-                                    <input id="ins-list-1" th:field="*{teacherId}" th:value="${teacher.id}" type="checkbox" name="ins-list-1">
-                                    <label for="ins-list-1" th:text="${teacher.getFirstName()}">Slaughter <span class="rbt-lable count">15</span></label>
-                                    </div>
+<!--                                <li class="rbt-check-group">-->
+<!--                                    <input id="ins-list-1" type="checkbox" name="ins-list-1">-->
+<!--                                    <label for="ins-list-1">Slaughter</label>-->
+<!--                                </li>-->
+                                <li th:each="teacher : ${teachers}" class="rbt-check-group" >
+                                    <input th:id="'ins-list-' + ${teacher.id}"  type="checkbox" th:name="'ins-list-' + ${teacher.id}" th:field="*{teacherId}" th:value="${teacher.id}">
+                                    <label th:for="'ins-list-' + ${teacher.id}" th:text="${teacher.getFirstName()} + ' ' + ${teacher.getLastName()}">Slaughter <span class="rbt-lable count">15</span></label>
                                 </li>
-
                             </ul>
                         </div>
                     </div>
