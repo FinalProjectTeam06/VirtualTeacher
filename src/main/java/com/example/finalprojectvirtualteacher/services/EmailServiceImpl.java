@@ -21,14 +21,14 @@ public class EmailServiceImpl implements EmailService {
     }
 
     private String userCreationTemplate(int code, User user) {
-        return String.format("Hello %s , \n welcome to Job Match! \n To activate your account use this code\n %d",
+        return String.format("Hello, %s , \n Welcome to HiStudy! \n \n To activate your account use this code\n %d",
                 user.getEmail(), code);
     }
 
     @Async
     public void sendMessage(String to, String subject, String text) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("jobmatchproject1@gmail.com");
+        message.setFrom("amin.histudy@gmail.com");
         message.setTo(to);
         message.setSubject(subject);
         message.setText(text);
@@ -38,7 +38,7 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public void sendUserCreationVerificationCode(User user, int code) {
         String msg = userCreationTemplate(code, user);
-        sendMessage(user.getEmail(), "Job Match account created", msg);
+        sendMessage(user.getEmail(), "HiStudy account activation", msg);
 
     }
 

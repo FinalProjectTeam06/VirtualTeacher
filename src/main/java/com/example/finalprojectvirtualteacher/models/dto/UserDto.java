@@ -21,7 +21,7 @@ public class UserDto extends LoginDto {
     @NotNull
     private int roleId;
 
-    @NotNull(message = "Password can't be empty.")
+//    @NotNull(message = "Password can't be empty.")
     @Size(min = 8, message = "Password should be at least 8 symbols.")
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$", message = "regex not match")
     private String passwordConfirm;
