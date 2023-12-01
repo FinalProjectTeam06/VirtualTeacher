@@ -3,6 +3,7 @@ package com.example.finalprojectvirtualteacher.helpers;
 import com.example.finalprojectvirtualteacher.exceptions.AuthorizationException;
 import com.example.finalprojectvirtualteacher.exceptions.EntityNotFoundException;
 import com.example.finalprojectvirtualteacher.models.User;
+import com.example.finalprojectvirtualteacher.services.contacts.RecaptchaService;
 import com.example.finalprojectvirtualteacher.services.contacts.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +17,14 @@ public class AuthenticationHelper {
     public static final String AUTHORIZATION_HEADER_NAME = "Authorization";
     public static final String INVALID_AUTHENTICATION_ERROR = "Invalid authentication.";
     private final UserService userService;
+    private final RecaptchaService recaptchaService;
+
+
 
     @Autowired
-    public AuthenticationHelper(UserService userService) {
+    public AuthenticationHelper(UserService userService, RecaptchaService recaptchaService, RecaptchaService recaptchaService1) {
         this.userService = userService;
+        this.recaptchaService = recaptchaService1;
     }
 
     public User tryGetUser(HttpHeaders headers) {

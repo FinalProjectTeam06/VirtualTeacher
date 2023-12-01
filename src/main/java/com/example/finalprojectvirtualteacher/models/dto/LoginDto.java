@@ -10,6 +10,7 @@ public class LoginDto {
     @NotEmpty(message = "Password can't be empty.")
     private String password;
 
+
     public LoginDto() {
     }
 

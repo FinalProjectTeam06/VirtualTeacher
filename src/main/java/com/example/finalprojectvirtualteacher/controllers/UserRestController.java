@@ -103,6 +103,7 @@ public class UserRestController {
         }
     }
 
+
     @PostMapping("/activate/{code}")
     public String activateUser(@PathVariable int code) {
         try {
