@@ -97,7 +97,7 @@
                                                     </td>
                                                     <td>
                                                         <div class="rbt-button-group justify-content-end">
-                                                            <a class="rbt-btn btn-xs bg-primary-opacity radius-round" href="#" title="Edit"><i class="feather-edit pl--0"></i> Grade</a>
+                                                            <a class="rbt-btn btn-xs bg-primary-opacity radius-round" href="#" th:href="@{/courses/assignments/{assignmentId}/grade(assignmentId=${assignment.getId()})}" title="Edit"><i class="feather-edit pl--0"></i> Grade</a>
                                                         </div>
                                                     </td>
                                                 </tr>

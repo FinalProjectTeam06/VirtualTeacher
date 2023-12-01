@@ -7,8 +7,11 @@ import java.util.List;
 
 public interface AssignmentRepository {
     Lecture submitAssignment(Assignment assignment);
+    List<Assignment> getByTeacherForGrade(int teacherId);
 
     List<Assignment> getAll();
 
     Assignment getById(int assignmentId);
+
+    Assignment grade(Assignment assignment);
 }

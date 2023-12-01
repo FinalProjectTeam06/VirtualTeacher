@@ -9,8 +9,10 @@ import java.util.List;
 
 public interface AssignmentService {
     List<Assignment> getAll();
+    List<Assignment> getByTeacherForGrade(int teacherId);
     Assignment getById(int assignmentId);
-
     Lecture submitAssignment(User user, int lectureId, MultipartFile multipartFile);
+
+    Assignment grade(int assignmentId, int gradeId);
 
 }

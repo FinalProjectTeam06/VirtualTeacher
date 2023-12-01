@@ -6,6 +6,7 @@ import com.example.finalprojectvirtualteacher.helpers.AuthenticationHelper;
 import com.example.finalprojectvirtualteacher.models.*;
 import com.example.finalprojectvirtualteacher.models.dto.CourseDto;
 import com.example.finalprojectvirtualteacher.models.dto.FilterOptionsDto;
+import com.example.finalprojectvirtualteacher.models.dto.GradeDto;
 import com.example.finalprojectvirtualteacher.models.dto.LectureDto;
 import com.example.finalprojectvirtualteacher.services.contacts.*;
 import jakarta.servlet.http.HttpSession;
@@ -222,21 +223,36 @@ public class CourseMvcController {
             User user = authenticationHelper.tryGetCurrentUser(httpSession);
 
             model.addAttribute("loggedIn", user);
-            model.addAttribute("assignments", assignmentService.getAll());
+            model.addAttribute("assignments", assignmentService.getByTeacherForGrade(user.getId()));
             return "InstructorAssignmentsToCheck";
         } catch (AuthorizationException e) {
             return "redirect:/auth/login";
         }
     }
 
-    @GetMapping("/assignments/{assignmentId}")
-    public String assignmentEvaluation(HttpSession httpSession, Model model, @PathVariable int assignmentId) {
+    @GetMapping("/assignments/{assignmentId}/grade")
+    public String showAssignmentEvaluation(HttpSession httpSession, Model model, @PathVariable int assignmentId) {
         try {
             User user = authenticationHelper.tryGetCurrentUser(httpSession);
             Assignment assignment=assignmentService.getById(assignmentId);
             model.addAttribute("assignment", assignment);
             model.addAttribute("loggedIn", user);
+            model.addAttribute("gradeDto", new GradeDto());
             return "AssignmentEvaluation";
+        } catch (AuthorizationException e) {
+            return "redirect:/auth/login";
+        }
+    }
+
+    @PostMapping("/assignments/{assignmentId}/grade")
+    public String gradeAssignment(@Valid @ModelAttribute("gradeDto") GradeDto gradeDto, HttpSession httpSession, Model model, @PathVariable int assignmentId) {
+        try {
+            User user = authenticationHelper.tryGetCurrentUser(httpSession);
+            Assignment assignment=assignmentService.getById(assignmentId);
+            assignmentService.grade(assignmentId, gradeDto.getGradeId());
+            model.addAttribute("assignment", assignment);
+            model.addAttribute("loggedIn", user);
+            return "redirect:/courses/assignments";
         } catch (AuthorizationException e) {
             return "redirect:/auth/login";
         }

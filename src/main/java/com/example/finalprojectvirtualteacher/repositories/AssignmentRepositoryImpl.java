@@ -30,6 +30,16 @@ public class AssignmentRepositoryImpl implements AssignmentRepository {
     }
 
     @Override
+    public List<Assignment> getByTeacherForGrade(int teacherId) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Assignment> query = session.createQuery("from Assignment where lecture.teacher.id= :teacherId", Assignment.class);
+            query.setParameter("teacherId", teacherId);
+            List<Assignment> assignments=query.list();
+            return query.list();
+        }
+    }
+
+    @Override
     public Assignment getById(int assignmentId) {
         try (Session session = sessionFactory.openSession()) {
             Assignment assignment = session.get(Assignment.class, assignmentId);
@@ -48,5 +58,15 @@ public class AssignmentRepositoryImpl implements AssignmentRepository {
             session.getTransaction().commit();
         }
         return assignment.getLecture();
+    }
+
+    @Override
+    public Assignment grade(Assignment assignment) {
+        try (Session session = sessionFactory.openSession()){
+            session.beginTransaction();
+            session.merge(assignment);
+            session.getTransaction().commit();
+        }
+        return assignment;
     }
 }
