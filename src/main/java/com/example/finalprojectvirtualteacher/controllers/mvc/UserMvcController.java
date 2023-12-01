@@ -6,6 +6,7 @@ import com.example.finalprojectvirtualteacher.helpers.ImageHelper;
 import com.example.finalprojectvirtualteacher.helpers.UserMapper;
 import com.example.finalprojectvirtualteacher.models.User;
 import com.example.finalprojectvirtualteacher.models.dto.UserDtoUpdate;
+import com.example.finalprojectvirtualteacher.services.contacts.CourseService;
 import com.example.finalprojectvirtualteacher.services.contacts.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
@@ -23,12 +24,14 @@ public class UserMvcController {
     private final UserMapper userMapper;
     private final UserService userService;
     private final ImageHelper imageHelper;
+    private final CourseService courseService;
 
-    public UserMvcController(AuthenticationHelper authenticationHelper, UserMapper userMapper, UserService userService, ImageHelper imageHelper) {
+    public UserMvcController(AuthenticationHelper authenticationHelper, UserMapper userMapper, UserService userService, ImageHelper imageHelper, CourseService courseService) {
         this.authenticationHelper = authenticationHelper;
         this.userMapper = userMapper;
         this.userService = userService;
         this.imageHelper = imageHelper;
+        this.courseService = courseService;
     }
 
     @ModelAttribute("isAuthenticated")
@@ -109,6 +112,21 @@ public class UserMvcController {
             return "redirect:/auth/login";
         } catch (IOException e){
             return "Error404";
+        }
+    }
+
+    @PostMapping("/course/{courseId}/enroll")
+    public String enrollCourse(HttpSession httpSession, Model model, @PathVariable int courseId) {
+        try {
+            User user = authenticationHelper.tryGetCurrentUser(httpSession);
+            userService.enrollCourse(user, courseId);
+            model.addAttribute("loggedIn", user);
+            model.addAttribute("enrolledCourses", courseService.getAllByUserNotCompleted(user.getId()));
+            model.addAttribute("completedCourses", courseService.getAllByUserCompleted(user.getId()));
+            model.addAttribute("activeCourses", courseService.getAllActiveCoursesNotEnrolled(user));
+            return "UserEnrolledCoursesView";
+        } catch (AuthorizationException e) {
+            return "redirect:/auth/login";
         }
     }
 }

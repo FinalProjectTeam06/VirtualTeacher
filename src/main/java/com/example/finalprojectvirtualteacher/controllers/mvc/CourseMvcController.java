@@ -12,7 +12,6 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,16 +27,16 @@ public class CourseMvcController {
     private final AuthenticationHelper authenticationHelper;
     private final LectureService lectureService;
     private final AssignmentsHelper assignmentsHelper;
-    private final CommentService commentService;
+    private final AssignmentService assignmentService;
 
-    public CourseMvcController(CourseService courseService, UserService userService, TopicService topicService, AuthenticationHelper authenticationHelper, LectureService lectureService, AssignmentsHelper assignmentsHelper, CommentService commentService) {
+    public CourseMvcController(CourseService courseService, UserService userService, TopicService topicService, AuthenticationHelper authenticationHelper, LectureService lectureService, AssignmentsHelper assignmentsHelper, AssignmentService assignmentService) {
         this.courseService = courseService;
         this.userService = userService;
         this.topicService = topicService;
         this.authenticationHelper = authenticationHelper;
         this.lectureService = lectureService;
         this.assignmentsHelper = assignmentsHelper;
-        this.commentService = commentService;
+        this.assignmentService = assignmentService;
     }
 
     @ModelAttribute("topics")
@@ -82,12 +81,13 @@ public class CourseMvcController {
             model.addAttribute("loggedIn", user);
             model.addAttribute("enrolledCourses", courseService.getAllByUserNotCompleted(user.getId()));
             model.addAttribute("completedCourses", courseService.getAllByUserCompleted(user.getId()));
-            model.addAttribute("activeCourses", courseService.getAllActiveCourses());
+            model.addAttribute("activeCourses", courseService.getAllActiveCoursesNotEnrolled(user));
             return "UserEnrolledCoursesView";
         } catch (AuthorizationException e) {
             return "redirect:/auth/login";
         }
     }
+
 
     @GetMapping("/create")
     public String createCourseView(HttpSession httpSession, Model model) {
@@ -128,6 +128,7 @@ public class CourseMvcController {
             return "redirect:/auth/login";
         }
     }
+
     @PostMapping("/prepare/{courseId}")
     public String prepareCourseAddLectures(@Valid @ModelAttribute("lectureDto") LectureDto lectureDto,
                                            @RequestParam("file") MultipartFile file,
@@ -145,6 +146,7 @@ public class CourseMvcController {
             return "Error404";
         }
     }
+
     @PostMapping("/{courseId}/publish")
     public String publishCourse(HttpSession httpSession, @PathVariable int courseId) {
         try {
@@ -183,7 +185,6 @@ public class CourseMvcController {
     }
 
 
-
     @GetMapping("/{courseId}/lecture/{lectureId}")
     public String showLectureView(HttpSession httpSession, Model model, @PathVariable int courseId, @PathVariable int lectureId) {
         try {
@@ -195,6 +196,62 @@ public class CourseMvcController {
             model.addAttribute("course", course);
             model.addAttribute("lecture", lecture);
             return "LectureView";
+        } catch (AuthorizationException e) {
+            return "redirect:/auth/login";
+        }
+    }
+
+    @GetMapping("/{courseId}/lecture/{lectureId}/assignment")
+    public String showSubmitAssignmentView(HttpSession httpSession, Model model, @PathVariable int courseId, @PathVariable int lectureId) {
+        try {
+            User user = authenticationHelper.tryGetCurrentUser(httpSession);
+            Course course = courseService.getById(courseId);
+            Lecture lecture = lectureService.getById(lectureId);
+
+            model.addAttribute("course", course);
+            model.addAttribute("lecture", lecture);
+            return "LectureAssignmentSubmit";
+        } catch (AuthorizationException e) {
+            return "redirect:/auth/login";
+        }
+    }
+
+    @GetMapping("/assignments")
+    public String assignmentsToCheck(HttpSession httpSession, Model model) {
+        try {
+            User user = authenticationHelper.tryGetCurrentUser(httpSession);
+
+            model.addAttribute("loggedIn", user);
+            model.addAttribute("assignments", assignmentService.getAll());
+            return "InstructorAssignmentsToCheck";
+        } catch (AuthorizationException e) {
+            return "redirect:/auth/login";
+        }
+    }
+
+    @GetMapping("/assignments/{assignmentId}")
+    public String assignmentEvaluation(HttpSession httpSession, Model model, @PathVariable int assignmentId) {
+        try {
+            User user = authenticationHelper.tryGetCurrentUser(httpSession);
+            Assignment assignment=assignmentService.getById(assignmentId);
+            model.addAttribute("assignment", assignment);
+            model.addAttribute("loggedIn", user);
+            return "AssignmentEvaluation";
+        } catch (AuthorizationException e) {
+            return "redirect:/auth/login";
+        }
+    }
+
+    @PostMapping("/{courseId}/lecture/{lectureId}/assignment")
+    public String submitAssignment(@RequestParam("file") MultipartFile file, HttpSession httpSession, Model model, @PathVariable int courseId, @PathVariable int lectureId) {
+        try {
+            User user = authenticationHelper.tryGetCurrentUser(httpSession);
+            Course course = courseService.getById(courseId);
+            Lecture lecture = lectureService.getById(lectureId);
+            assignmentService.submitAssignment(user, lectureId, file);
+            model.addAttribute("course", course);
+            model.addAttribute("lecture", lecture);
+            return "redirect:/courses/" + course.getId();
         } catch (AuthorizationException e) {
             return "redirect:/auth/login";
         }

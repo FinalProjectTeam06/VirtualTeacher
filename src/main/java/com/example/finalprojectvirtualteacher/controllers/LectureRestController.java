@@ -1,15 +1,14 @@
 package com.example.finalprojectvirtualteacher.controllers;
 
 
-import com.example.finalprojectvirtualteacher.helpers.LectureMapper;
 import com.example.finalprojectvirtualteacher.exceptions.AuthorizationException;
 import com.example.finalprojectvirtualteacher.exceptions.EntityNotFoundException;
 import com.example.finalprojectvirtualteacher.helpers.AuthenticationHelper;
-import com.example.finalprojectvirtualteacher.models.Assignment;
 import com.example.finalprojectvirtualteacher.models.Lecture;
 import com.example.finalprojectvirtualteacher.models.Note;
 import com.example.finalprojectvirtualteacher.models.User;
 import com.example.finalprojectvirtualteacher.models.dto.LectureDto;
+import com.example.finalprojectvirtualteacher.services.contacts.AssignmentService;
 import com.example.finalprojectvirtualteacher.services.contacts.LectureService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,11 +27,13 @@ public class LectureRestController {
 
     private final LectureService lectureService;
     private final AuthenticationHelper authenticationHelper;
+    private final AssignmentService assignmentService;
 
     @Autowired
-    public LectureRestController(LectureService lectureService, AuthenticationHelper authenticationHelper) {
+    public LectureRestController(LectureService lectureService, AuthenticationHelper authenticationHelper, AssignmentService assignmentService) {
         this.lectureService = lectureService;
         this.authenticationHelper = authenticationHelper;
+        this.assignmentService = assignmentService;
     }
 
 
@@ -108,7 +109,7 @@ public class LectureRestController {
         try {
             User user=authenticationHelper.tryGetUser(httpHeaders);
             Lecture lecture=lectureService.getById(lectureId);
-            return lectureService.submitAssignment(user, lectureId, file);
+            return assignmentService.submitAssignment(user, lectureId, file);
         }catch (AuthorizationException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
         }catch (EntityNotFoundException e){

@@ -32,9 +32,10 @@ public class CourseRepositoryImpl implements CourseRepository {
     }
 
     @Override
-    public List<Course> getAllActiveCourses() {
+    public List<Course> getAllActiveCoursesNotEnrolled(User user) {
         try (Session session = sessionFactory.openSession()) {
-            Query<Course> query = session.createQuery("from Course where isPublished= true", Course.class);
+            Query<Course> query = session.createQuery("SELECT c FROM Course c LEFT JOIN c.enrolledUsers e WHERE e.id != :userId OR e IS NULL AND c.creator.id != :userId", Course.class);
+            query.setParameter("userId", user.getId());
             return query.list();
         }
     }

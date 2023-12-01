@@ -11,7 +11,7 @@ import java.util.List;
 public interface CourseService {
     List<Course> getAll(FilterOptions filterOptions);
     List<Course> getAll();
-    List<Course> getAllActiveCourses();
+    List<Course> getAllActiveCoursesNotEnrolled(User user);
 
     Course getById(int id);
     int getAllEnrollments();

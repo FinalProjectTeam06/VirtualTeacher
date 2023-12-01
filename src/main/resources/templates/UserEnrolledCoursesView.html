@@ -100,8 +100,8 @@
                                             <div class="col-lg-4 col-md-6 col-12" th:each="course : ${enrolledCourses}">
                                                 <div class="rbt-card variation-01 rbt-hover">
                                                     <div class="rbt-card-img">
-                                                        <a href="course-details.html">
-                                                            <img src="assets/images/course/course-online-01.jpg" alt="Card image">
+                                                        <a href="course-details.html" th:href="@{/courses/{courseId}(courseId=${course.getId()})}">
+                                                            <img src="../static/images/course/course-online-01.jpg" alt="Card image">
                                                         </a>
                                                     </div>
                                                     <div class="rbt-card-body">
@@ -117,8 +117,9 @@
                                                                 <span class="rating-count"> (15 Reviews)</span>
                                                             </div>
                                                         </div>
-                                                        <h4 class="rbt-card-title"><a href="course-details.html"
-                                                                                      th:text="${#strings.length(course.getTitle()) > 25 ? #strings.substring(course.getTitle(), 0, 25) + '...' : course.getTitle()}">React Front To Back</a>
+                                                        <h4 class="rbt-card-title">
+                                                            <a href="course-details.html" th:href="@{/courses/{courseId}(courseId=${course.getId()})}"
+                                                               th:text="${#strings.length(course.getTitle()) > 25 ? #strings.substring(course.getTitle(), 0, 25) + '...' : course.getTitle()}">React Front To Back</a>
                                                         </h4>
                                                         <ul class="rbt-meta">
                                                             <i class="feather-book"></i><li th:text="${course.getLectures().size()}">20 Lessons</li>

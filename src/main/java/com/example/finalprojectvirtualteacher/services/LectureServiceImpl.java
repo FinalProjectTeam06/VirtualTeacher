@@ -115,22 +115,6 @@ public class LectureServiceImpl implements LectureService {
         }
     }
 
-    @Override
-    public Lecture submitAssignment(User user, int lectureId, MultipartFile multipartFile) {
-        try {
-            Lecture lecture = getById(lectureId);
-            String assignmentUrl = assignmentsHelper.uploadAssignment(multipartFile);
-            Assignment assignment = new Assignment();
-            assignment.setAssignmentUrl(assignmentUrl);
-            assignment.setUser(user);
-            assignment.setLecture(lecture);
-            return lectureRepository.submitAssignment(assignment);
-        } catch (IOException e) {
-            throw new FileUploadException(FILE_UPLOAD_ERROR, e);
-        }
-    }
-
-
     public void checkPermission(int id, User user) {
         Lecture lecture = getById(id);
         if (user.getId() == lecture.getTeacher().getId()
