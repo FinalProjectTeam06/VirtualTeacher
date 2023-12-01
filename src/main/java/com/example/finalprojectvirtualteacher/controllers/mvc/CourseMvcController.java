@@ -217,6 +217,21 @@ public class CourseMvcController {
         }
     }
 
+    @GetMapping("/{courseId}/lecture/{lectureId}/assignment/show")
+    public String showAssignmentDemoConditionView(HttpSession httpSession, Model model, @PathVariable int courseId, @PathVariable int lectureId) {
+        try {
+            User user = authenticationHelper.tryGetCurrentUser(httpSession);
+            Course course = courseService.getById(courseId);
+            Lecture lecture = lectureService.getById(lectureId);
+            model.addAttribute("assignmentUrl", lecture.getAssignmentUrl());
+            model.addAttribute("course", course);
+            model.addAttribute("lecture", lecture);
+            return "AssignmentDemoConditionView";
+        } catch (AuthorizationException e) {
+            return "redirect:/auth/login";
+        }
+    }
+
     @GetMapping("/assignments")
     public String assignmentsToCheck(HttpSession httpSession, Model model) {
         try {
@@ -225,6 +240,17 @@ public class CourseMvcController {
             model.addAttribute("loggedIn", user);
             model.addAttribute("assignments", assignmentService.getByTeacherForGrade(user.getId()));
             return "InstructorAssignmentsToCheck";
+        } catch (AuthorizationException e) {
+            return "redirect:/auth/login";
+        }
+    }
+    @GetMapping("/assignments/user/{userId}")
+    public String showUserAssignmentsSubmission(Model model, HttpSession httpSession, @PathVariable int userId) {
+        try {
+            User user = authenticationHelper.tryGetCurrentUser(httpSession);
+            model.addAttribute("loggedIn", user);
+            model.addAttribute("assignments", assignmentService.getByUserSubmitted(user.getId()));
+            return "UserSubmittedAssignmentsView";
         } catch (AuthorizationException e) {
             return "redirect:/auth/login";
         }

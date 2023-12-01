@@ -142,7 +142,7 @@
                                                     </li>
 
                                                     <li>
-                                                        <a href="lesson.html">
+                                                        <a href="lesson.html" th:href="@{/courses/{courseId}/lecture/{lectureId}/assignment/show(courseId=${course.getId()}, lectureId=${lecture.getId()})}">
                                                             <div class="course-content-left">
                                                                 <i class="feather-file-text"></i> <span
                                                                     class="text">Assignment</span>

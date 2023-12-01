@@ -332,6 +332,9 @@
                                                 <li><a href="student-enrolled-courses.html" th:href="@{/courses/enrolled}"><i
                                                         class="feather-book-open"></i><span>Enrolled Courses</span></a>
                                                 </li>
+                                                <li><a href="student-enrolled-courses.html" th:href="@{/courses/assignments/user/{userId}(userId=${loggedIn.getId()})}"><i
+                                                        class="feather-book-open"></i><span>My Assignments</span></a>
+                                                </li>
 
                                             </ul>
                                         </nav>

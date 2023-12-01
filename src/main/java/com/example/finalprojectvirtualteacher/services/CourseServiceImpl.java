@@ -9,6 +9,7 @@ import com.example.finalprojectvirtualteacher.models.FilterOptions;
 import com.example.finalprojectvirtualteacher.models.User;
 import com.example.finalprojectvirtualteacher.models.dto.CourseDto;
 import com.example.finalprojectvirtualteacher.models.dto.RateDto;
+import com.example.finalprojectvirtualteacher.repositories.contracts.AssignmentRepository;
 import com.example.finalprojectvirtualteacher.repositories.contracts.CourseRepository;
 import com.example.finalprojectvirtualteacher.services.contacts.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +23,13 @@ public class CourseServiceImpl implements CourseService {
     public static final String PERMISSION_ERROR = "You don't have permission.";
     private final CourseRepository courseRepository;
     private final CourseMapper courseMapper;
+    private final AssignmentRepository assignmentRepository;
 
     @Autowired
-    public CourseServiceImpl(CourseRepository courseRepository, CourseMapper courseMapper) {
+    public CourseServiceImpl(CourseRepository courseRepository, CourseMapper courseMapper, AssignmentRepository assignmentRepository) {
         this.courseRepository = courseRepository;
         this.courseMapper = courseMapper;
+        this.assignmentRepository = assignmentRepository;
     }
 
     @Override
@@ -146,6 +149,8 @@ public class CourseServiceImpl implements CourseService {
         }
         return sum / rates.size();
     }
+
+
 
 
 

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Instructor Assignments - Online Courses & Education Bootstrap5 Template</title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="../static/images/favicon.png" th:href="@{/images/favicon.png}">
+    <!-- CSS
+    ============================================ -->
+    <link rel="stylesheet" href="../static/css/vendor/bootstrap.min.css" th:href="@{/css/vendor/bootstrap.min.css}">
+    <link rel="stylesheet" href="../static/css/vendor/slick.css" th:href="@{/css/vendor/slick.css}">
+    <link rel="stylesheet" href="../static/css/vendor/slick-theme.css" th:href="@{/css/vendor/slick-theme.css}">
+    <link rel="stylesheet" href="../static/css/plugins/sal.css" th:href="@{/css/plugins/sal.css}">
+    <link rel="stylesheet" href="../static/css/plugins/feather.css" th:href="@{/css/plugins/feather.css}">
+    <link rel="stylesheet" href="../static/css/plugins/fontawesome.min.css"
+          th:href="@{/css/plugins/fontawesome.min.css}">
+    <link rel="stylesheet" href="../static/css/plugins/euclid-circulara.css"
+          th:href="@{/css/plugins/euclid-circulara.css}">
+    <link rel="stylesheet" href="../static/css/plugins/swiper.css" th:href="@{/css/plugins/swiper.css}">
+    <link rel="stylesheet" href="../static/css/plugins/magnify.css" th:href="@{/css/plugins/magnify.css}">
+    <link rel="stylesheet" href="../static/css/plugins/odometer.css" th:href="@{/css/plugins/odometer.css}">
+    <link rel="stylesheet" href="../static/css/plugins/animation.css" th:href="@{/css/plugins/animation.css}">
+    <link rel="stylesheet" href="../static/css/plugins/bootstrap-select.min.css"
+          th:href="@{/css/plugins/bootstrap-select.min.css}">
+    <link rel="stylesheet" href="../static/css/plugins/jquery-ui.css" th:href="@{/css/plugins/jquery-ui.css}">
+    <link rel="stylesheet" href="../static/css/plugins/magnigy-popup.min.css"
+          th:href="@{/css/plugins/magnigy-popup.min.css}">
+    <link rel="stylesheet" href="../static/css/plugins/plyr.css" th:href="@{/css/plugins/plyr.css}">
+    <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<!-- Start Header Area -->
+<header class="rbt-header rbt-header-10"
+        th:replace="${isTeacher} ? ~{InstructorDashboard.html :: HeaderInstructor} : ~{StudentDashboard.html :: HeaderStudent}">
+</header>
+<a class="close_side_menu" href="javascript:void(0);"></a>
+
+<div class="rbt-page-banner-wrapper">
+    <!-- Start Banner BG Image  -->
+    <div class="rbt-banner-image"></div>
+    <!-- End Banner BG Image  -->
+</div>
+
+<!-- Start Card Style -->
+<div class="rbt-dashboard-area rbt-section-overlayping-top rbt-section-gapBottom">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <!-- Start Dashboard Top  -->
+                <div class="rbt-dashboard-content-wrapper"
+                     th:replace="${isTeacher} ? ~{InstructorDashboard.html :: DashboardTopInstructor} : ~{StudentDashboard.html :: DashboardTopStudent}">
+                </div>
+                <!-- End Dashboard Top  -->
+
+                <div class="row g-5">
+                    <div class="col-lg-3" th:replace="${isTeacher} ? ~{InstructorDashboard.html :: dashboardSidebarInstructor} : ~{StudentDashboard.html :: dashboardSidebarStudent}">
+                    </div>
+                    <div class="col-lg-9">
+                        <!-- Start Enrole Course  -->
+                        <div class="rbt-dashboard-content bg-color-white rbt-shadow-box">
+                            <div class="content">
+                                <div class="section-title">
+                                    <h4 class="rbt-title-style-3">Assignments
+                                    </h4>
+                                </div>
+
+                                <hr class="mt--30">
+
+                                <div class="rbt-dashboard-table table-responsive mobile-table-750 mt--30">
+                                    <table class="rbt-table table table-borderless">
+                                        <thead>
+                                        <tr>
+                                            <th>Lecture Title</th>
+                                            <th>Grade</th>
+                                            <th></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="assignment : ${assignments}">
+                                            <th>
+                                                <span class="h6 mb--5" th:text="${assignment.getLecture().getTitle()}">Write a short essay on yourself using the 5</span>
+                                                <p class="b3">Course: <a href="#" th:text="${assignment.getLecture().getCourse().getTitle()}" th:href="@{/courses/{courseId}(courseId=${assignment.getLecture().getCourse().getId()})}">Fundamentals 101</a></p>
+                                            </th>
+                                            <td>
+                                                <p class="b3" th:text="${assignment.getGrade().getName()}">80</p>
+                                            </td>
+                                            <td>
+                                                <div class="rbt-button-group justify-content-end">
+                                                    <a class="rbt-btn btn-xs bg-primary-opacity radius-round" href="#" th:href="@{/courses/assignments/{assignmentId}/grade(assignmentId=${assignment.getId()})}" title="Edit"><i class="feather-edit pl--0"></i> Edit</a>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                        </tbody>
+
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- End Enrole Course  -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Card Style -->
+
+
+
+
+<div class="rbt-separator-mid">
+    <div class="container">
+        <hr class="rbt-separator m-0">
+    </div>
+</div>
+<div class="rbt-progress-parent">
+    <svg class="rbt-back-circle svg-inner" width="100%" height="100%" viewBox="-1 -1 102 102">
+        <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" />
+    </svg>
+</div>
+
+<!-- JS
+============================================ -->
+<!-- Modernizer JS -->
+<script src="../static/js/vendor/modernizr.min.js" th:src="@{/js/vendor/modernizr.min.js}"></script>
+<!-- jQuery JS -->
+<script src="../static/js/vendor/jquery.js" th:src="@{/js/vendor/jquery.js}"></script>
+<!-- Bootstrap JS -->
+<script src="../static/js/vendor/bootstrap.min.js" th:src="@{/js/vendor/bootstrap.min.js}"></script>
+<!-- sal.js -->
+<script src="../static/js/vendor/sal.js" th:src="@{/js/vendor/sal.js}"></script>
+<script src="../static/js/vendor/swiper.js" th:src="@{/js/vendor/swiper.js}"></script>
+<script src="../static/js/vendor/magnify.min.js" th:src="@{/js/vendor/magnify.min.js}"></script>
+<script src="../static/js/vendor/jquery-appear.js" th:src="@{/js/vendor/jquery-appear.js}"></script>
+<script src="../static/js/vendor/odometer.js" th:src="@{/js/vendor/odometer.js}"></script>
+<script src="../static/js/vendor/backtotop.js" th:src="@{/js/vendor/backtotop.js}"></script>
+<script src="../static/js/vendor/isotop.js" th:src="@{/js/vendor/isotop.js}"></script>
+<script src="../static/js/vendor/imageloaded.js" th:src="@{/js/vendor/imageloaded.js}"></script>
+
+<script src="../static/js/vendor/wow.js" th:src="@{/js/vendor/wow.js}"></script>
+<script src="../static/js/vendor/waypoint.min.js" th:src="@{/js/vendor/waypoint.min.js}"></script>
+<script src="../static/js/vendor/easypie.js" th:src="@{/js/vendor/easypie.js}"></script>
+<script src="../static/js/vendor/text-type.js" th:src="@{/js/vendor/text-type.js}"></script>
+<script src="../static/js/vendor/jquery-one-page-nav.js" th:src="@{/js/vendor/jquery-one-page-nav.js}"></script>
+<script src="../static/js/vendor/bootstrap-select.min.js" th:src="@{/js/vendor/bootstrap-select.min.js}"></script>
+<script src="../static/js/vendor/jquery-ui.js" th:src="@{/js/vendor/bootstrap-select.min.js}"></script>
+<script src="../static/js/vendor/magnify-popup.min.js" th:src="@{/js/vendor/magnify-popup.min.js}"></script>
+<script src="../static/js/vendor/paralax-scroll.js" th:src="@{/js/vendor/paralax-scroll.js}"></script>
+<script src="../static/js/vendor/paralax.min.js" th:src="@{/js/vendor/paralax.min.js}"></script>
+<script src="../static/js/vendor/countdown.js" th:src="@{/js/vendor/countdown.js}"></script>
+<script src="../static/js/vendor/plyr.js" th:src="@{/js/vendor/plyr.js}"></script>
+<!-- Main JS -->
+<script src="../static/js/main.js" th:src="@{/js/main.js}"></script>
+</body>
+
+</html>

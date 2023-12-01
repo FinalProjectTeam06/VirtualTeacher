@@ -10,8 +10,12 @@ import java.util.List;
 public interface AssignmentService {
     List<Assignment> getAll();
     List<Assignment> getByTeacherForGrade(int teacherId);
+
+    List<Assignment> getByUserSubmitted(int userId);
+
     Assignment getById(int assignmentId);
     Lecture submitAssignment(User user, int lectureId, MultipartFile multipartFile);
+    double getGradeForCourse(int userId, int courseId);
 
     Assignment grade(int assignmentId, int gradeId);
 
