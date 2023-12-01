@@ -1,11 +1,20 @@
-INSERT INTO virtual_teacher.topics (topic_id, name) VALUES (1, 'History');
-INSERT INTO virtual_teacher.topics (topic_id, name) VALUES (2, 'Science');
-INSERT INTO virtual_teacher.topics (topic_id, name) VALUES (3, 'Literature');
-INSERT INTO virtual_teacher.topics (topic_id, name) VALUES (4,'IT and Software');
+INSERT INTO virtual_teacher.topics (topic_id, name) VALUES (1, 'Web Design');
+INSERT INTO virtual_teacher.topics (topic_id, name) VALUES (2, 'Graphic Design');
+INSERT INTO virtual_teacher.topics (topic_id, name) VALUES (3, 'Personal Development');
+INSERT INTO virtual_teacher.topics (topic_id, name) VALUES (4, 'IT and Software');
+
 
 INSERT INTO virtual_teacher.roles (role_id, name) VALUES (1, 'student');
 INSERT INTO virtual_teacher.roles (role_id, name) VALUES (2, 'teacher');
 INSERT INTO virtual_teacher.roles (role_id, name) VALUES (3, 'admin');
+
+INSERT INTO virtual_teacher.grades (grade_id, grade_name) VALUES (1, 'Not Graded');
+INSERT INTO virtual_teacher.grades (grade_id, grade_name) VALUES (2, 'Unsatisfactory');
+INSERT INTO virtual_teacher.grades (grade_id, grade_name) VALUES (3, 'Satisfactory');
+INSERT INTO virtual_teacher.grades (grade_id, grade_name) VALUES (4, 'Good');
+INSERT INTO virtual_teacher.grades (grade_id, grade_name) VALUES (5, 'Very Good');
+INSERT INTO virtual_teacher.grades (grade_id, grade_name) VALUES (6, 'Excellent');
+
 
 INSERT INTO virtual_teacher.users (user_id, first_name, last_name, email, password, role_id, profile_picture_url, is_activated) VALUES (1, 'Ivan', 'Ivan', 'ivan.ivanov@example.com', 'Ivan.ivanov@123', 1, 'https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500', 0);
 INSERT INTO virtual_teacher.users (user_id, first_name, last_name, email, password, role_id, profile_picture_url, is_activated) VALUES (2, 'Petar', 'Stoqnov', 'petar.stoqnov@example.com', 'Petar.stoqnov@123', 1, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmXy63Plt-UY_UKrIgj5Ogv9C1tglLP43YJF5_mWbVSA&s', 0);
@@ -34,6 +43,17 @@ INSERT INTO virtual_teacher.lectures (lecture_id, title, description, video_url,
 ', 'https://www.youtube.com/watch?v=Wb_aruwUan8', 'https://quizizz.com/admin/quiz/5c65816a6850410020576bc4/the-rise-and-fall-of-the-roman-empire', 4, 1);
 INSERT INTO virtual_teacher.lectures (lecture_id, title, description, video_url, assignment_url, teacher_id, course_id) VALUES (6, 'Literary Genres and Subgenres', 'This video and worksheet teaches literary genres of fiction, nonfiction, drama, and poetry, as well as subgenres of each. Learners see an example of each genre and subgenre and practice identifying the genre and subgenre of several descriptions, then check their responses. This video was created by a US public school teacher for use with ESOL students learning mainstream English curriculum', 'https://www.youtube.com/watch?v=oarGRayak5o', 'https://study.com/academy/practice/quiz-worksheet-literary-genres.html', 5, 8);
 INSERT INTO virtual_teacher.lectures (lecture_id, title, description, video_url, assignment_url, teacher_id, course_id) VALUES (7, 'The Four Types of Social Movement', 'Sociologist Nick Lee discusses the four types of social movement: Alterative, Redemptive, Reformative, and Transformative according to David Aberle.', 'https://www.youtube.com/watch?v=U-uYfZkq5SA', 'https://socialsci.libretexts.org/Bookshelves/Sociology/Introduction_to_Sociology/Sociology_(Boundless)/21%3A_Social_Change/21.03%3A_Social_Movements/21.3B%3A_Types_of_Social_Movements', 6, 3);
+
+INSERT INTO virtual_teacher.assignments_submissions (assignment_id, lecture_id, user_id, assignment_url, grade_id) VALUES (1, 1, 8, 'https://ik.imagekit.io/vd81nq14b/assignments/tempAssignment13582731983733153134_--C8kcksS.docx', 1);
+INSERT INTO virtual_teacher.assignments_submissions (assignment_id, lecture_id, user_id, assignment_url, grade_id) VALUES (2, 1, 8, 'https://ik.imagekit.io/vd81nq14b/assignments/tempAssignment13582731983733153134_--C8kcksS.docx', 1);
+INSERT INTO virtual_teacher.assignments_submissions (assignment_id, lecture_id, user_id, assignment_url, grade_id) VALUES (3, 1, 8, 'https://ik.imagekit.io/vd81nq14b/assignments/tempAssignment13582731983733153134_--C8kcksS.docx', 1);
+INSERT INTO virtual_teacher.assignments_submissions (assignment_id, lecture_id, user_id, assignment_url, grade_id) VALUES (4, 1, 8, 'https://ik.imagekit.io/vd81nq14b/assignments/tempAssignment13582731983733153134_--C8kcksS.docx', 1);
+INSERT INTO virtual_teacher.assignments_submissions (assignment_id, lecture_id, user_id, assignment_url, grade_id) VALUES (5, 1, 8, 'https://ik.imagekit.io/vd81nq14b/assignments/tempAssignment13582731983733153134_--C8kcksS.docx', 1);
+INSERT INTO virtual_teacher.assignments_submissions (assignment_id, lecture_id, user_id, assignment_url, grade_id) VALUES (6, 1, 8, 'https://ik.imagekit.io/vd81nq14b/assignments/tempAssignment13582731983733153134_--C8kcksS.docx', 1);
+INSERT INTO virtual_teacher.assignments_submissions (assignment_id, lecture_id, user_id, assignment_url, grade_id) VALUES (7, 1, 8, 'https://ik.imagekit.io/vd81nq14b/assignments/tempAssignment13582731983733153134_--C8kcksS.docx', 1);
+INSERT INTO virtual_teacher.assignments_submissions (assignment_id, lecture_id, user_id, assignment_url, grade_id) VALUES (8, 1, 12, 'https://ik.imagekit.io/vd81nq14b/assignments/tempAssignment13582731983733153134_--C8kcksS.docx', 1);
+INSERT INTO virtual_teacher.assignments_submissions (assignment_id, lecture_id, user_id, assignment_url, grade_id) VALUES (9, 1, 12, 'https://ik.imagekit.io/vd81nq14b/assignments/tempAssignment13582731983733153134_--C8kcksS.docx', 1);
+INSERT INTO virtual_teacher.assignments_submissions (assignment_id, lecture_id, user_id, assignment_url, grade_id) VALUES (10, 1, 12, 'https://ik.imagekit.io/vd81nq14b/assignments/tempAssignment3457200808978073805_vYx69sdhT.docx', 1);
 
 
 INSERT INTO virtual_teacher.comments (comment_id, user_id, lecture_id, content) VALUES (1, 1, 1, 'good lecture');
