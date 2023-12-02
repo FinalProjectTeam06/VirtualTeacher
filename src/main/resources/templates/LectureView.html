@@ -39,7 +39,7 @@
 
 <div class="rbt-lesson-area bg-color-white">
     <div class="rbt-lesson-content-wrapper">
-        <div class="rbt-lesson-leftsidebar">
+        <div class="rbt-lesson-leftsidebar" th:fragment="LessonLeftSideBar">
             <div class="rbt-course-feature-inner rbt-search-activation">
                 <div class="section-title">
                     <h4 class="rbt-title-style-3">Course Content</h4>
@@ -75,7 +75,7 @@
                                         </li>
 
                                         <li>
-                                            <a href="lesson-intro.html" th:href="${lecture.getAssignmentUrl()}" target="_blank" download="assignment.docx">
+                                            <a href="lesson-intro.html" th:href="@{/courses/{courseId}/lecture/{lectureId}/assignment/show(courseId=${course.getId()}, lectureId=${lecture.getId()})}">
                                                 <div class="course-content-left">
                                                     <i class="feather-file-text"></i> <span class="text">Assignment</span>
                                                 </div>
@@ -107,7 +107,7 @@
         </div>
 
         <div class="rbt-lesson-rightsidebar overflow-hidden lesson-video">
-            <div class="lesson-top-bar">
+            <div class="lesson-top-bar" th:fragment="LessonTopBar">
                 <div class="lesson-top-left">
                     <div class="rbt-lesson-toggle">
                         <button class="lesson-toggle-active btn-round-white-opacity" title="Toggle Sidebar"><i class="feather-arrow-left"></i></button>

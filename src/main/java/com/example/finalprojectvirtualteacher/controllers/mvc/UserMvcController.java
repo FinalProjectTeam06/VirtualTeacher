@@ -7,6 +7,7 @@ import com.example.finalprojectvirtualteacher.helpers.UserMapper;
 import com.example.finalprojectvirtualteacher.models.Course;
 import com.example.finalprojectvirtualteacher.models.User;
 import com.example.finalprojectvirtualteacher.models.dto.UserDtoUpdate;
+import com.example.finalprojectvirtualteacher.services.contacts.AssignmentService;
 import com.example.finalprojectvirtualteacher.services.contacts.CourseService;
 import com.example.finalprojectvirtualteacher.services.contacts.UserService;
 import jakarta.servlet.http.HttpSession;
@@ -27,13 +28,15 @@ public class UserMvcController {
     private final UserService userService;
     private final ImageHelper imageHelper;
     private final CourseService courseService;
+    private final AssignmentService assignmentService;
 
-    public UserMvcController(AuthenticationHelper authenticationHelper, UserMapper userMapper, UserService userService, ImageHelper imageHelper, CourseService courseService) {
+    public UserMvcController(AuthenticationHelper authenticationHelper, UserMapper userMapper, UserService userService, ImageHelper imageHelper, CourseService courseService, AssignmentService assignmentService) {
         this.authenticationHelper = authenticationHelper;
         this.userMapper = userMapper;
         this.userService = userService;
         this.imageHelper = imageHelper;
         this.courseService = courseService;
+        this.assignmentService = assignmentService;
     }
 
     @ModelAttribute("isAuthenticated")
@@ -49,17 +52,6 @@ public class UserMvcController {
         } catch (AuthorizationException e) {
             return false;
         }
-    }
-
-    @ModelAttribute("isAdmin")
-    public boolean populateIsAdmin(HttpSession session) {
-        try {
-            User user = authenticationHelper.tryGetCurrentUser(session);
-            return (user.getRole().getId() == 3);
-        } catch (AuthorizationException e) {
-            return false;
-        }
-
     }
 
     @GetMapping
