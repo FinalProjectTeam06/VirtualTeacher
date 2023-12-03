@@ -2,6 +2,7 @@ package com.example.finalprojectvirtualteacher.controllers.mvc;
 
 import com.example.finalprojectvirtualteacher.exceptions.AuthorizationException;
 import com.example.finalprojectvirtualteacher.exceptions.EntityDuplicateException;
+import com.example.finalprojectvirtualteacher.exceptions.InvalidRecaptchaException;
 import com.example.finalprojectvirtualteacher.exceptions.WrongActivationCodeException;
 import com.example.finalprojectvirtualteacher.helpers.AuthenticationHelper;
 import com.example.finalprojectvirtualteacher.helpers.UserMapper;
@@ -57,9 +58,18 @@ public class AuthenticationMvcController {
 
     @PostMapping("/login")
     public String handleLogin(@Valid @ModelAttribute("login") LoginDto loginDto,
-                              BindingResult bindingResult, HttpSession httpSession
+                              BindingResult bindingResult,
+                              @RequestParam(value = G_RECAPTCHA_RESPONSE,required = false) String recaptchaResponse,
+                              HttpSession httpSession,
+                              Model model
                               ) {
         if (bindingResult.hasErrors()) {
+            return "LoginView";
+        }
+        try {
+            recaptchaService.validateRecaptcha(recaptchaResponse);
+        } catch (InvalidRecaptchaException e) {
+            bindingResult.rejectValue("recaptchaResponse", "recaptcha_error", e.getMessage());
             return "LoginView";
         }
         try {

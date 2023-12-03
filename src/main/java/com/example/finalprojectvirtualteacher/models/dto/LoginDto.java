@@ -1,17 +1,26 @@
 package com.example.finalprojectvirtualteacher.models.dto;
 
+import com.example.finalprojectvirtualteacher.models.RecaptchaResponse;
 import jakarta.validation.constraints.*;
 import org.checkerframework.common.aliasing.qual.Unique;
 
-public class LoginDto {
+public class LoginDto  {
+
     @NotEmpty(message = "Email can't be empty.")
     @Email
     private String email;
     @NotEmpty(message = "Password can't be empty.")
     private String password;
-
-
+    private String recaptchaResponse;
     public LoginDto() {
+    }
+
+    public String getRecaptchaResponse() {
+        return recaptchaResponse;
+    }
+
+    public void setRecaptchaResponse(String recaptchaResponse) {
+        this.recaptchaResponse = recaptchaResponse;
     }
 
     public String getEmail() {
