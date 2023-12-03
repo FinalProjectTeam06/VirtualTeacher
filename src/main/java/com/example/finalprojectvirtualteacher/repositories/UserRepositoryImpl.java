@@ -2,14 +2,15 @@ package com.example.finalprojectvirtualteacher.repositories;
 
 import com.example.finalprojectvirtualteacher.exceptions.EntityNotFoundException;
 import com.example.finalprojectvirtualteacher.models.Course;
+import com.example.finalprojectvirtualteacher.models.User;
 import com.example.finalprojectvirtualteacher.models.UserFilterOptions;
 import com.example.finalprojectvirtualteacher.repositories.contracts.UserRepository;
-import com.example.finalprojectvirtualteacher.models.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -128,6 +129,19 @@ public class UserRepositoryImpl implements UserRepository {
             query.setProperties(params);
             List<User> users = query.list();
             return query.list();
+        }
+    }
+
+    @Override
+    public void setCourseEnrollmentStatusToGraduated(int userId, int courseId) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            Query<Course> query = session.createNativeQuery("UPDATE enrolled_courses e set e.graduation_status = 1" +
+                    " where e.user_id = :userId and e.course_id = :courseId", Course.class);
+            query.setParameter("userId", userId);
+            query.setParameter("courseId", courseId);
+            query.executeUpdate();
+            session.getTransaction().commit();
         }
     }
 

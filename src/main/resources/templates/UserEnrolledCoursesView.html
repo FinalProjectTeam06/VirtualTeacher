@@ -99,28 +99,24 @@
                                             <!-- Start Single Course  -->
                                             <div class="col-lg-4 col-md-6 col-12" th:each="course : ${enrolledCourses}">
                                                 <div class="rbt-card variation-01 rbt-hover">
-                                                    <div class="rbt-card-img">
-                                                        <a href="course-details.html" th:href="@{/courses/{courseId}(courseId=${course.getId()})}">
-                                                            <img src="../static/images/course/course-online-01.jpg" alt="Card image">
-                                                        </a>
-                                                    </div>
+<!--                                                    <div class="rbt-card-img">-->
+<!--                                                        <a href="course-details.html" th:href="@{/courses/{courseId}(courseId=${course.getId()})}">-->
+<!--                                                        </a>-->
+<!--                                                    </div>-->
                                                     <div class="rbt-card-body">
-                                                        <div class="rbt-card-top">
-                                                            <div class="rbt-review">
-                                                                <div class="rating">
-                                                                    <i class="fas fa-star"></i>
-                                                                    <i class="fas fa-star"></i>
-                                                                    <i class="fas fa-star"></i>
-                                                                    <i class="fas fa-star"></i>
-                                                                    <i class="fas fa-star"></i>
-                                                                </div>
-                                                                <span class="rating-count"> (15 Reviews)</span>
-                                                            </div>
-                                                        </div>
                                                         <h4 class="rbt-card-title">
                                                             <a href="course-details.html" th:href="@{/courses/{courseId}(courseId=${course.getId()})}"
                                                                th:text="${#strings.length(course.getTitle()) > 25 ? #strings.substring(course.getTitle(), 0, 25) + '...' : course.getTitle()}">React Front To Back</a>
                                                         </h4>
+                                                        <div class="rbt-review">
+                                                            <div class="rating">
+                                                                <th:block th:each="star : ${#numbers.sequence(1, course.getRating())}">
+                                                                    <a href="#"><i class="fa fa-star"></i></a>
+                                                                </th:block>
+                                                            </div>
+                                                            <span class="rating-count" th:text="${course.getRates().size()} + ' Reviews'"> (15 Reviews)</span>
+                                                        </div>
+
                                                         <ul class="rbt-meta">
                                                             <i class="feather-book"></i><li th:text="${course.getLectures().size()}">20 Lessons</li>
                                                             <i class="feather-users"></i><li th:text="${course.getStudents().size()}">40 Students</li>
@@ -149,27 +145,23 @@
                                             <!-- Start Single Course  -->
                                             <div class="col-lg-4 col-md-6 col-12" th:each="course : ${activeCourses}">
                                                 <div class="rbt-card variation-01 rbt-hover">
-                                                    <div class="rbt-card-img">
-                                                        <a href="course-details.html" th:href="@{/courses/{courseId}(courseId=${course.getId()})}">
-                                                            <img src="../static/images/course/course-online-04.jpg" alt="Card image">
-                                                        </a>
-                                                    </div>
+<!--                                                    <div class="rbt-card-img">-->
+<!--                                                        <a href="course-details.html" th:href="@{/courses/{courseId}(courseId=${course.getId()})}">-->
+<!--                                                        </a>-->
+<!--                                                    </div>-->
                                                     <div class="rbt-card-body">
-                                                        <div class="rbt-card-top">
-                                                            <div class="rbt-review">
-                                                                <div class="rating">
-                                                                    <i class="fas fa-star"></i>
-                                                                    <i class="fas fa-star"></i>
-                                                                    <i class="fas fa-star"></i>
-                                                                    <i class="fas fa-star"></i>
-                                                                    <i class="fas fa-star"></i>
-                                                                </div>
-                                                                <span class="rating-count"> (3 Reviews)</span>
-                                                            </div>
-                                                        </div>
                                                         <h4 class="rbt-card-title"><a href="course-details.html"
                                                                                       th:href="@{/courses/{courseId}(courseId=${course.getId()})}" th:text="${course.getTitle()}">English Langiage Club</a>
                                                         </h4>
+                                                            <div class="rbt-review">
+                                                                <div class="rating">
+                                                                    <th:block th:each="star : ${#numbers.sequence(1, course.getRating())}">
+                                                                        <a href="#"><i class="fa fa-star"></i></a>
+                                                                    </th:block>
+                                                                </div>
+                                                                <span class="rating-count" th:text="${course.getRates().size()} + ' Reviews'"> (3 Reviews)</span>
+                                                            </div>
+
                                                         <ul class="rbt-meta">
                                                             <i class="feather-book"></i><li th:text="${course.getLectures().size()}">20 Lessons</li>
                                                             <i class="feather-users"></i><li th:text="${course.getStudents().size()}">40 Students</li>
@@ -190,27 +182,22 @@
                                         <div class="row g-5">
                                             <div class="col-lg-4 col-md-6 col-12" th:each="course : ${completedCourses}">
                                                 <div class="rbt-card variation-01 rbt-hover">
-                                                    <div class="rbt-card-img">
-                                                        <a href="course-details.html">
-                                                            <img src="assets/images/course/course-online-01.jpg" alt="Card image">
-                                                        </a>
-                                                    </div>
+<!--                                                    <div class="rbt-card-img">-->
+<!--                                                        <a href="course-details.html">-->
+<!--                                                        </a>-->
+<!--                                                    </div>-->
                                                     <div class="rbt-card-body">
-                                                        <div class="rbt-card-top">
+                                                        <h4 class="rbt-card-title"><a th:text="${#strings.length(course.getTitle()) > 25 ? #strings.substring(course.getTitle(), 0, 25) + '...' : course.getTitle()}">React Front To Back</a>
+                                                        </h4>
                                                             <div class="rbt-review">
                                                                 <div class="rating">
-                                                                    <i class="fas fa-star"></i>
-                                                                    <i class="fas fa-star"></i>
-                                                                    <i class="fas fa-star"></i>
-                                                                    <i class="fas fa-star"></i>
-                                                                    <i class="fas fa-star"></i>
+                                                                    <th:block th:each="star : ${#numbers.sequence(1, course.getRating())}">
+                                                                        <a href="#"><i class="fa fa-star"></i></a>
+                                                                    </th:block>
                                                                 </div>
-                                                                <span class="rating-count"> (15 Reviews)</span>
+                                                                <span class="rating-count" th:text="${course.getRates().size()} + ' Reviews'"> (15 Reviews)</span>
                                                             </div>
-                                                        </div>
-                                                        <h4 class="rbt-card-title"><a href="course-details.html"
-                                                                                      th:text="${#strings.length(course.getTitle()) > 25 ? #strings.substring(course.getTitle(), 0, 25) + '...' : course.getTitle()}">React Front To Back</a>
-                                                        </h4>
+
                                                         <ul class="rbt-meta">
                                                             <i class="feather-book"></i><li th:text="${course.getLectures().size()}">20 Lessons</li>
                                                             <i class="feather-users"></i><li th:text="${course.getStudents().size()}">40 Students</li>

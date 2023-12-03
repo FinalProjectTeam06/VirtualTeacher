@@ -93,8 +93,8 @@
                                                 <p class="b3" th:text="${assignment.getGrade().getName()}">80</p>
                                             </td>
                                             <td>
-                                                <div class="rbt-button-group justify-content-end">
-                                                    <a class="rbt-btn btn-xs bg-primary-opacity radius-round" href="#" th:href="@{/courses/assignments/{assignmentId}/grade(assignmentId=${assignment.getId()})}" title="Edit"><i class="feather-edit pl--0"></i> Edit</a>
+                                                <div class="rbt-button-group justify-content-end" th:if="${assignment.getGrade().getId()==1}">
+                                                    <a class="rbt-btn btn-xs bg-primary-opacity radius-round" href="#" th:href="@{/courses/{courseId}/lecture/{lectureId}/assignment(courseId=${assignment.getLecture().getCourse().getId()}, lectureId=${assignment.getLecture().getId()})}" title="Edit"><i class="feather-edit pl--0"></i> Edit</a>
                                                 </div>
                                             </td>
                                         </tr>

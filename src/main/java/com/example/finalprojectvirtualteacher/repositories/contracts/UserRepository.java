@@ -1,5 +1,6 @@
 package com.example.finalprojectvirtualteacher.repositories.contracts;
 
+import com.example.finalprojectvirtualteacher.models.Course;
 import com.example.finalprojectvirtualteacher.models.User;
 import com.example.finalprojectvirtualteacher.models.UserFilterOptions;
 
@@ -22,5 +23,5 @@ public interface UserRepository {
 
     void deleteUser(User user);
 
-
+    void setCourseEnrollmentStatusToGraduated(int userId, int courseId);
 }

@@ -58,6 +58,11 @@ public class AssignmentServiceImpl implements AssignmentService {
     }
 
     @Override
+    public List<Assignment> getAllAssignmentsForCourse(int courseId) {
+        return assignmentRepository.getAllAssignmentsForCourse(courseId);
+    }
+
+    @Override
     public Assignment getById(int assignmentId) {
         return assignmentRepository.getById(assignmentId);
     }
@@ -83,23 +88,45 @@ public class AssignmentServiceImpl implements AssignmentService {
         }
     }
 
-    public double getGradeForCourse(int userId, int courseId){
-        Course course=courseService.getById(courseId);
-        List<Assignment> submittedAssignments= assignmentRepository.getByUserSubmittedToCourse(userId, courseId);
-        int submittedAssignmentsCount=submittedAssignments.size();
-        int assignmentsToSubmit=course.getLectures().size();
-        int sum=0;
+    @Override
+    public List<Assignment> getByUserSubmittedToCourse(int userId, int courseId) {
+        return assignmentRepository.getByUserSubmittedToCourseAndGraded(userId, courseId);
+    }
+
+    public double getGradeForCourse(int userId, int courseId) {
+        Course course = courseService.getById(courseId);
+        List<Assignment> submittedAssignments = assignmentRepository.getByUserSubmittedToCourseAndGraded(userId, courseId);
+        int submittedAssignmentsCount = submittedAssignments.size();
+        int assignmentsToSubmit = course.getLectures().size();
+        int sum = 0;
         for (Assignment submittedAssignment : submittedAssignments) {
-            sum+=submittedAssignment.getGrade().getId();
+            if (submittedAssignment.getGrade().getId()>1) {
+                sum += submittedAssignment.getGrade().getId();
+            }
         }
-        double resultCountGrades=(assignmentsToSubmit-submittedAssignmentsCount)*2+sum;
-        return resultCountGrades/assignmentsToSubmit;
+        double resultCountGrades = (assignmentsToSubmit - submittedAssignmentsCount) * 2 + sum;
+        return resultCountGrades / assignmentsToSubmit;
     }
 
     @Override
-    public Assignment grade(int assignmentId, int gradeId) {
+    public Assignment grade(int assignmentId, int gradeId, int courseId, int studentId) {
         Assignment assignment = getById(assignmentId);
         assignment.setGrade(gradeService.getById(gradeId));
-        return assignmentRepository.grade(assignment);
+        assignment = assignmentRepository.grade(assignment);
+
+        List<Assignment> courseAssignments = getAllAssignmentsForCourse(courseId);
+        List<Assignment> userSubmittedAssignments = getByUserSubmittedToCourse(studentId, courseId);
+        if (courseAssignments.size() == userSubmittedAssignments.size()) {
+            boolean isGraded = true;
+            for (Assignment courseAssignment : userSubmittedAssignments) {
+                if (courseAssignment.getGrade().getId() == 1) {
+                    isGraded = false;
+                }
+            }
+            if (isGraded) {
+                userService.setEnrollmentCourseStatusToGraduated(studentId, courseId);
+            }
+        }
+        return assignment;
     }
 }

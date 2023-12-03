@@ -11,6 +11,7 @@ import com.example.finalprojectvirtualteacher.services.contacts.EmailService;
 import com.example.finalprojectvirtualteacher.services.contacts.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -117,6 +118,13 @@ public class UserServiceImpl implements UserService {
         user.addCourse(course);
         return userRepository.updateUser(user);
     }
+
+    @Transactional
+    @Override
+    public void setEnrollmentCourseStatusToGraduated(int userId, int courseId){
+        userRepository.setCourseEnrollmentStatusToGraduated(userId, courseId);
+    }
+
 
     @Override
     public User addProfilePhoto(User user, String url) {
