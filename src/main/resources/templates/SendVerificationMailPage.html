@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Email Verification</title>
+
+    <!-- Font Awesome -->
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Muli:400,400i,800,800i" rel="stylesheet" type="text/css" />
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="../static/images/favicon.png" th:href="@{/images/favicon.png}">
+
+    <!-- Vendor CSS -->
+    <link rel="stylesheet" href="../static/css/vendor/bootstrap.min.css" th:href="@{/css/vendor/bootstrap.min.css}">
+    <!-- Add other CSS links from the second template -->
+
+    <!-- Your Custom CSS -->
+    <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}">
+
+</head>
+
+<body class="rbt-header-sticky">
+
+<!-- Start Side Navigation -->
+<!-- Include content from the second template -->
+
+<!-- Start Breadcrumb Area -->
+<!-- Include content from the second template -->
+
+<!-- Main Content Area -->
+<!-- ... (Previous code) ... -->
+
+<!-- ... (Previous code) ... -->
+
+<!-- Main Content Area -->
+<div class="rbt-elements-area bg-color-white rbt-section-gap">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="rbt-contact-form contact-form-style-1 max-width-auto text-center">
+                    <h3 class="title">Verification</h3>
+                    <form th:action="${action}" th:object="${code}" method="post">
+                        <!-- Add the activation code input box -->
+                        <div class="form-group">
+                            <label for="activationCode">Activation Code:</label>
+                            <input type="text" id="activationCode" name="activationCode" class="form-control" required/>
+                        </div>
+                        <!-- Include other input fields and form content as needed -->
+                        <button type="submit" class="btn btn-primary btn-lg">Verify</button>
+                        <br/><br/>
+                    </form>
+                    <div class="row">
+                        <div class="col">
+                            <p>Don't see the email? Check your spam folder. If that does not help, click the button below
+                                to send a new one.</p>
+                            <!-- Add a larger size to the button -->
+                            <button class="btn btn-primary btn-lg" id="send-new-code" onclick="send_new_code()">Send New Code</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ... (Remaining code) ... -->
+
+
+
+<!-- Other Content Area -->
+<!-- Include other content from the second template -->
+
+<!-- JS Scripts -->
+<!-- Include script references from the second template -->
+
+<!-- JS
+============================================ -->
+<!-- Modernizer JS -->
+<script src="../static/js/vendor/modernizr.min.js" th:src="@{/js/vendor/modernizr.min.js}"></script>
+<!-- jQuery JS -->
+<script src="../static/js/vendor/jquery.js" th:src="@{/js/vendor/jquery.js}"></script>
+<!-- Bootstrap JS -->
+<script src="../static/js/vendor/bootstrap.min.js" th:src="@{/js/vendor/bootstrap.min.js}"></script>
+<!-- sal.js -->
+<script src="../static/js/vendor/sal.js" th:src="@{/js/vendor/sal.js}"></script>
+<script src="../static/js/vendor/swiper.js" th:src="@{/js/vendor/swiper.js}"></script>
+<script src="../static/js/vendor/magnify.min.js" th:src="@{/js/vendor/magnify.min.js}"></script>
+<script src="../static/js/vendor/jquery-appear.js" th:src="@{/js/vendor/jquery-appear.js}"></script>
+<script src="../static/js/vendor/odometer.js" th:src="@{/js/vendor/odometer.js}"></script>
+<script src="../static/js/vendor/backtotop.js" th:src="@{/js/vendor/backtotop.js}"></script>
+<script src="../static/js/vendor/isotop.js" th:src="@{/js/vendor/isotop.js}"></script>
+<script src="../static/js/vendor/imageloaded.js" th:src="@{/js/vendor/imageloaded.js}"></script>
+
+<script src="../static/js/vendor/wow.js" th:src="@{/js/vendor/wow.js}"></script>
+<script src="../static/js/vendor/waypoint.min.js" th:src="@{/js/vendor/waypoint.min.js}"></script>
+<script src="../static/js/vendor/easypie.js" th:src="@{/js/vendor/easypie.js}"></script>
+<script src="../static/js/vendor/text-type.js" th:src="@{/js/vendor/text-type.js}"></script>
+<script src="../static/js/vendor/jquery-one-page-nav.js" th:src="@{/js/vendor/jquery-one-page-nav.js}"></script>
+<script src="../static/js/vendor/bootstrap-select.min.js" th:src="@{/js/vendor/bootstrap-select.min.js}"></script>
+<script src="../static/js/vendor/jquery-ui.js" th:src="@{/js/vendor/bootstrap-select.min.js}"></script>
+<script src="../static/js/vendor/magnify-popup.min.js" th:src="@{/js/vendor/magnify-popup.min.js}"></script>
+<script src="../static/js/vendor/paralax-scroll.js" th:src="@{/js/vendor/paralax-scroll.js}"></script>
+<script src="../static/js/vendor/paralax.min.js" th:src="@{/js/vendor/paralax.min.js}"></script>
+<script src="../static/js/vendor/countdown.js" th:src="@{/js/vendor/countdown.js}"></script>
+<script src="../static/js/vendor/plyr.js" th:src="@{/js/vendor/plyr.js}"></script>
+
+<!-- Main JS -->
+<script src="../static/js/main.js" th:src="@{/js/main.js}"></script>
+<script src="../static/js/script.js" th:src="@{/js/script.js}"></script>
+
+</body>
+
+</html>
