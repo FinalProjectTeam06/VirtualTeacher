@@ -12,11 +12,14 @@ public interface AssignmentService {
     List<Assignment> getByTeacherForGrade(int teacherId);
 
     List<Assignment> getByUserSubmitted(int userId);
+    List<Assignment> getAllAssignmentsForCourse(int courseId);
+    List<Assignment> getByUserSubmittedToCourse(int userId, int courseId);
+
 
     Assignment getById(int assignmentId);
     Lecture submitAssignment(User user, int lectureId, MultipartFile multipartFile);
     double getGradeForCourse(int userId, int courseId);
 
-    Assignment grade(int assignmentId, int gradeId);
+    Assignment grade(int assignmentId, int gradeId, int courseId, int studentId);
 
 }

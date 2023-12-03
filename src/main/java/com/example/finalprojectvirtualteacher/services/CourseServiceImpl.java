@@ -23,13 +23,11 @@ public class CourseServiceImpl implements CourseService {
     public static final String PERMISSION_ERROR = "You don't have permission.";
     private final CourseRepository courseRepository;
     private final CourseMapper courseMapper;
-    private final AssignmentRepository assignmentRepository;
 
     @Autowired
-    public CourseServiceImpl(CourseRepository courseRepository, CourseMapper courseMapper, AssignmentRepository assignmentRepository) {
+    public CourseServiceImpl(CourseRepository courseRepository, CourseMapper courseMapper) {
         this.courseRepository = courseRepository;
         this.courseMapper = courseMapper;
-        this.assignmentRepository = assignmentRepository;
     }
 
     @Override
@@ -149,7 +147,6 @@ public class CourseServiceImpl implements CourseService {
         }
         return sum / rates.size();
     }
-
 
 
 

@@ -86,6 +86,19 @@
                                                 </div>
 
                                                 <div class="col-lg-6">
+                                                    <label for="field-4">Select Minimum Grade</label>
+                                                    <div class="rbt-modern-select bg-transparent height-45 mb--10">
+                                                        <select class="w-100" id="field-4" th:field="*{minGrade}">
+                                                            <option th:value="${2}" name="minGrade" th:selected="${minGrade == 2}">Unsatisfactory</option>
+                                                            <option th:value="${3}" name="minGrade" th:selected="${minGrade == 3}">Satisfactory</option>
+                                                            <option th:value="${4}" name="minGrade" th:selected="${minGrade == 4}">Good</option>
+                                                            <option th:value="${5}" name="minGrade" th:selected="${minGrade == 5}">Very Good</option>
+                                                            <option th:value="${6}" name="minGrade" th:selected="${minGrade == 6}">Excellent</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-6">
                                                     <h5>Select Topic</h5>
                                                     <div class="rbt-modern-select bg-transparent height-45">
                                                         <select class="w-100" th:field="*{topicId}">

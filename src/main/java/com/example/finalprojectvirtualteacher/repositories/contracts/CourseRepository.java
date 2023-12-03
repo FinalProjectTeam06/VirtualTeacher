@@ -11,6 +11,7 @@ public interface CourseRepository{
     Course getById(int id);
     List<Course> getAllByUserCompleted(int userId);
     List<Course> getAllByUserNotCompleted(int userId);
+
     Rate getRating(int courseId, int userId);
 
 

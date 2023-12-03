@@ -66,7 +66,6 @@ public class AssignmentRepositoryImpl implements AssignmentRepository {
             Query<Assignment> query = session.createQuery("from Assignment a where a.user.id= :userId AND a.lecture.course.id =: courseId", Assignment.class);
             query.setParameter("userId", userId);
             query.setParameter("courseId", courseId);
-            List<Assignment> assignments=query.list();
             return query.list();
         }
     }
@@ -82,6 +81,16 @@ public class AssignmentRepositoryImpl implements AssignmentRepository {
                 throw new EntityNotFoundException(ASSIGNMENT_NOT_FOUND);
             }
             return result.get(0);
+        }
+    }
+
+    @Override
+    public List<Assignment> getAllAssignmentsForCourse(int courseId) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Assignment> query = session.createQuery("from Assignment a where a.lecture.course.id =: courseId", Assignment.class);
+            query.setParameter("courseId", courseId);
+
+            return query.list();
         }
     }
 

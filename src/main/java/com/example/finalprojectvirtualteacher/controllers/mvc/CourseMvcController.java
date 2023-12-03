@@ -82,7 +82,7 @@ public class CourseMvcController {
             model.addAttribute("loggedIn", user);
             model.addAttribute("enrolledCourses", courseService.getAllByUserNotCompleted(user.getId()));
             model.addAttribute("completedCourses", courseService.getAllByUserCompleted(user.getId()));
-            model.addAttribute("activeCourses", courseService.getAllActiveCoursesNotEnrolled(user));
+            model.addAttribute("activeCourses", courseService.getAll());
             return "UserEnrolledCoursesView";
         } catch (AuthorizationException e) {
             return "redirect:/auth/login";
@@ -108,7 +108,7 @@ public class CourseMvcController {
             User user = authenticationHelper.tryGetCurrentUser(httpSession);
             Course course = courseService.create(courseDto, user);
             model.addAttribute("loggedIn", user);
-            return "redirect:/courses/prepare" + course.getId();
+            return "redirect:/courses/prepare/" + course.getId();
         } catch (AuthorizationException e) {
             return "redirect:/auth/login";
         }
@@ -173,6 +173,8 @@ public class CourseMvcController {
                     filterOptionsDto.getSortBy(),
                     filterOptionsDto.getSortBy());
             List<Course> teacherCourses = courseService.getAll(filterOptions);
+            model.addAttribute("assignments", assignmentService.getByUserSubmittedToCourse(user.getId(), courseId));
+            model.addAttribute("averageGrade", assignmentService.getGradeForCourse(user.getId(), courseId));
             model.addAttribute("teacherCourses", teacherCourses);
             model.addAttribute("course", course);
             model.addAttribute("loggedIn", user);
@@ -244,6 +246,7 @@ public class CourseMvcController {
             return "redirect:/auth/login";
         }
     }
+
     @GetMapping("/assignments/user/{userId}")
     public String showUserAssignmentsSubmission(Model model, HttpSession httpSession, @PathVariable int userId) {
         try {
@@ -260,7 +263,7 @@ public class CourseMvcController {
     public String showAssignmentEvaluation(HttpSession httpSession, Model model, @PathVariable int assignmentId) {
         try {
             User user = authenticationHelper.tryGetCurrentUser(httpSession);
-            Assignment assignment=assignmentService.getById(assignmentId);
+            Assignment assignment = assignmentService.getById(assignmentId);
             model.addAttribute("assignment", assignment);
             model.addAttribute("loggedIn", user);
             model.addAttribute("gradeDto", new GradeDto());
@@ -274,8 +277,8 @@ public class CourseMvcController {
     public String gradeAssignment(@Valid @ModelAttribute("gradeDto") GradeDto gradeDto, HttpSession httpSession, Model model, @PathVariable int assignmentId) {
         try {
             User user = authenticationHelper.tryGetCurrentUser(httpSession);
-            Assignment assignment=assignmentService.getById(assignmentId);
-            assignmentService.grade(assignmentId, gradeDto.getGradeId());
+            Assignment assignment = assignmentService.getById(assignmentId);
+            assignmentService.grade(assignmentId, gradeDto.getGradeId(), assignment.getLecture().getCourse().getId(), assignment.getUser().getId());
             model.addAttribute("assignment", assignment);
             model.addAttribute("loggedIn", user);
             return "redirect:/courses/assignments";

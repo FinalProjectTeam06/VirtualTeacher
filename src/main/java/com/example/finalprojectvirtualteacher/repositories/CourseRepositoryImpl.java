@@ -34,7 +34,7 @@ public class CourseRepositoryImpl implements CourseRepository {
     @Override
     public List<Course> getAllActiveCoursesNotEnrolled(User user) {
         try (Session session = sessionFactory.openSession()) {
-            Query<Course> query = session.createQuery("SELECT c FROM Course c LEFT JOIN c.enrolledUsers e WHERE e.id != :userId OR e IS NULL AND c.creator.id != :userId", Course.class);
+            Query<Course> query = session.createQuery("SELECT c FROM Course c LEFT JOIN c.enrolledUsers e WHERE e.id != :userId AND c.creator.id != :userId", Course.class);
             query.setParameter("userId", user.getId());
             return query.list();
         }
@@ -136,6 +136,8 @@ public class CourseRepositoryImpl implements CourseRepository {
             return query.list();
         }
     }
+
+
 
     public String generateOrderBy(FilterOptions filterOptions) {
         if (filterOptions.getSortBy().isEmpty()) {

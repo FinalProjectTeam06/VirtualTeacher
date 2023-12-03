@@ -168,6 +168,49 @@
                             </div>
                         </div>
                     </div>
+
+                        <div class="rbt-dashboard-content bg-color-white rbt-shadow-box">
+                            <div class="content">
+                                <div class="section-title">
+                                    <h4 class="rbt-title-style-3">Assignments
+                                    </h4>
+                                </div>
+
+                                <hr class="mt--30">
+
+                                <div class="rbt-dashboard-table table-responsive mobile-table-750 mt--30">
+                                    <table class="rbt-table table table-borderless">
+                                        <thead>
+                                        <tr>
+                                            <th>Lecture Title</th>
+                                            <th>Grade</th>
+                                            <th></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="assignment : ${assignments}">
+                                            <th>
+                                                <span class="h6 mb--5" th:text="${assignment.getLecture().getTitle()}">Write a short essay on yourself using the 5</span>
+                                                <p class="b3">Course: <a href="#" th:text="${assignment.getLecture().getCourse().getTitle()}" th:href="@{/courses/{courseId}(courseId=${assignment.getLecture().getCourse().getId()})}">Fundamentals 101</a></p>
+                                            </th>
+                                            <td>
+                                                <p class="b3" th:text="${assignment.getGrade().getName()}">80</p>
+                                            </td>
+                                            <td>
+                                                <div class="rbt-button-group justify-content-end" th:if="${assignment.getGrade().getId()==1}">
+                                                    <a class="rbt-btn btn-xs bg-primary-opacity radius-round" href="#" th:href="@{/courses/{courseId}/lecture/{lectureId}/assignment(courseId=${course.getId()}, lectureId=${assignment.getLecture().getId()})}" title="Edit"><i class="feather-edit pl--0"></i> Edit</a>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        <!-- End Enrole Course  -->
+                    </div>
+
+
                     <div th:if="${course.getEnrolledUsers().contains(loggedIn)==false && course.getCreator().equals(loggedIn)==false}">
                         <div class="rbt-course-feature-box rbt-shadow-box details-wrapper mt--30" id="publish">
                             <div class="rbt-form-group">

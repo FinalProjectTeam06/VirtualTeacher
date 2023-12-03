@@ -20,4 +20,6 @@ public interface AssignmentRepository {
     Assignment getByUserSubmittedToLecture(int userId, int lectureId);
 
     Lecture update(Assignment assignment);
+
+    List<Assignment> getAllAssignmentsForCourse(int courseId);
 }

@@ -22,6 +22,7 @@ public interface UserService {
     void deleteUser(int id, User user);
 
     User enrollCourse(User user, int courseId);
+    void setEnrollmentCourseStatusToGraduated(int userId, int courseId);
 
     User addProfilePhoto(User user, String url);
     void activateAccount(int code);

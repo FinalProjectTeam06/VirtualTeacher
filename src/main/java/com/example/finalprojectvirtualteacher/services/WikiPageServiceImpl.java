@@ -34,10 +34,12 @@ public class WikiPageServiceImpl {
             URI searchUri = UriComponentsBuilder.fromUriString(API_BASE_URL)
                     .queryParam("action", "query")
                     .queryParam("list", "search")
+                    .queryParam("prop", "extracts")
                     .queryParam("srsearch", searchValue)
-                    .queryParam("utf8", "")
                     .queryParam("format", "json")
                     .queryParam("srlimit", 3)
+                    .queryParam("exintro")
+                    .queryParam("explaintext")
                     .build()
                     .toUri();
 
@@ -51,10 +53,11 @@ public class WikiPageServiceImpl {
             for (String title : titles) {
                 URI snippetUri = UriComponentsBuilder.fromUriString(API_BASE_URL)
                         .queryParam("action", "query")
-                        .queryParam("prop", "revisions")
-                        .queryParam("rvprop", "content")
+                        .queryParam("prop", "extracts")
                         .queryParam("titles", title)
                         .queryParam("format", "json")
+                        .queryParam("exintro")
+                        .queryParam("explaintext")
                         .build()
                         .toUri();
 
@@ -134,10 +137,9 @@ public class WikiPageServiceImpl {
 
         JsonNode pageNode = pagesNode.elements().next();
 
-        JsonNode revisionsNode = pageNode.path("revisions");
-        JsonNode revisionNode = revisionsNode.elements().next();
+        JsonNode revisionsNode = pageNode.path("extract");
 
-        return revisionNode.path("*").asText();
+        return revisionsNode.asText();
     }
 
     private String parseFullUrl(String response) throws IOException {
