@@ -25,6 +25,7 @@ public class RegisterMvcDto {
 
     private boolean isTeacher;
 
+
     public RegisterMvcDto() {
     }
 

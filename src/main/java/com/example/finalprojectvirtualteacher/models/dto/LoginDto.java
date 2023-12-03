@@ -15,6 +15,7 @@ public class LoginDto  {
     public LoginDto() {
     }
 
+
     public String getRecaptchaResponse() {
         return recaptchaResponse;
     }

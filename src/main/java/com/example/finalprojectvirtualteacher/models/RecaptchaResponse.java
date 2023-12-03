@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Objects;
 
 public class RecaptchaResponse {
+
     @JsonProperty("success")
     private boolean success;
     @JsonProperty("challenge")
