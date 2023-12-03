@@ -1107,9 +1107,30 @@
 
                                         <nav class="mainmenu-nav">
                                             <ul class="dashboard-mainmenu rbt-default-sidebar-list">
-                                                <li><a href="instructor-course.html" th:href="@{/courses/user/{teacherId}(teacherId=${loggedIn.getId()})}"><i class="feather-monitor"></i><span>My Courses</span></a></li>
+                                                <li><a href="instructor-course.html" th:href="@{/courses/user/{teacherId}(teacherId=${loggedIn.getId()})}">
+                                                    <i class="feather-monitor"></i><span>My Courses</span></a></li>
                                                 <li><a href="instructor-assignments.html" th:href="@{/courses/assignments}"><i class="feather-list"></i><span>Assignments</span></a></li>
                                             </ul>
+                                        </nav>
+
+
+                                        <nav class="mainmenu-nav">
+                                        <div th:if="${isAdmin==true}">
+                                            <div class="section-title mt--40 mb--20">
+                                                <h6 class="rbt-title-style-2">Admin portal</h6>
+
+                                            <ul class="dashboard-mainmenu rbt-default-sidebar-list">
+
+
+                                            <li> <a href="Users.html" th:href="@{/users/all}">
+                                                <i class="feather-user"></i><span>Users</span></a></li>
+                                                <li> <a href="AllCourses.html" th:href="@{/users/allCourses}">
+                                                    <i class="feather-book-open"></i><span>All courses</span></a></li>
+                                            </ul>
+                                            </div>
+
+                                        </div>
+
                                         </nav>
 
                                         <div class="section-title mt--40 mb--20">
@@ -1128,8 +1149,7 @@
                             </div>
                         </div>
                         <!-- End Dashboard Sidebar  -->
-                    </div>
-
+                </div>
                     <div class="col-lg-9">
                         <div class="rbt-dashboard-content bg-color-white rbt-shadow-box mb--60">
                             <div class="content">

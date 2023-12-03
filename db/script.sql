@@ -1,3 +1,10 @@
+drop database if exists virtual_teacher;
+
+create database virtual_teacher;
+
+use virtual_teacher;
+
+
 create table grades
 (
     grade_id   int auto_increment

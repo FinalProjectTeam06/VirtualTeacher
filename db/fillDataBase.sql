@@ -4,9 +4,9 @@ INSERT INTO virtual_teacher.topics (topic_id, name) VALUES (3, 'Personal Develop
 INSERT INTO virtual_teacher.topics (topic_id, name) VALUES (4, 'IT and Software');
 
 
-INSERT INTO virtual_teacher.roles (role_id, name) VALUES (1, 'student');
-INSERT INTO virtual_teacher.roles (role_id, name) VALUES (2, 'teacher');
-INSERT INTO virtual_teacher.roles (role_id, name) VALUES (3, 'admin');
+INSERT INTO virtual_teacher.roles (role_id, name) VALUES (1, 'Student');
+INSERT INTO virtual_teacher.roles (role_id, name) VALUES (2, 'Teacher');
+INSERT INTO virtual_teacher.roles (role_id, name) VALUES (3, 'Admin');
 
 INSERT INTO virtual_teacher.grades (grade_id, grade_name) VALUES (1, 'Not Graded');
 INSERT INTO virtual_teacher.grades (grade_id, grade_name) VALUES (2, 'Unsatisfactory');
@@ -51,9 +51,6 @@ INSERT INTO virtual_teacher.assignments_submissions (assignment_id, lecture_id, 
 INSERT INTO virtual_teacher.assignments_submissions (assignment_id, lecture_id, user_id, assignment_url, grade_id) VALUES (5, 1, 8, 'https://ik.imagekit.io/vd81nq14b/assignments/tempAssignment13582731983733153134_--C8kcksS.docx', 1);
 INSERT INTO virtual_teacher.assignments_submissions (assignment_id, lecture_id, user_id, assignment_url, grade_id) VALUES (6, 1, 8, 'https://ik.imagekit.io/vd81nq14b/assignments/tempAssignment13582731983733153134_--C8kcksS.docx', 1);
 INSERT INTO virtual_teacher.assignments_submissions (assignment_id, lecture_id, user_id, assignment_url, grade_id) VALUES (7, 1, 8, 'https://ik.imagekit.io/vd81nq14b/assignments/tempAssignment13582731983733153134_--C8kcksS.docx', 1);
-INSERT INTO virtual_teacher.assignments_submissions (assignment_id, lecture_id, user_id, assignment_url, grade_id) VALUES (8, 1, 12, 'https://ik.imagekit.io/vd81nq14b/assignments/tempAssignment13582731983733153134_--C8kcksS.docx', 1);
-INSERT INTO virtual_teacher.assignments_submissions (assignment_id, lecture_id, user_id, assignment_url, grade_id) VALUES (9, 1, 12, 'https://ik.imagekit.io/vd81nq14b/assignments/tempAssignment13582731983733153134_--C8kcksS.docx', 1);
-INSERT INTO virtual_teacher.assignments_submissions (assignment_id, lecture_id, user_id, assignment_url, grade_id) VALUES (10, 1, 12, 'https://ik.imagekit.io/vd81nq14b/assignments/tempAssignment3457200808978073805_vYx69sdhT.docx', 1);
 
 
 INSERT INTO virtual_teacher.comments (comment_id, user_id, lecture_id, content) VALUES (1, 1, 1, 'good lecture');
