@@ -1,6 +1,7 @@
 package com.example.finalprojectvirtualteacher.services;
 
 import com.example.finalprojectvirtualteacher.models.WikiPage;
+import com.example.finalprojectvirtualteacher.services.contacts.WikiPageService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 
 @Service
-public class WikiPageServiceImpl {
+public class WikiPageServiceImpl  implements WikiPageService {
 
     private static final String API_BASE_URL = "https://en.wikipedia.org/w/api.php";
 
@@ -29,6 +30,7 @@ public class WikiPageServiceImpl {
         this.httpClient = HttpClient.newHttpClient();
     }
 
+    @Override
     public List<WikiPage> searchWikiPages(String searchValue) {
         try {
             URI searchUri = UriComponentsBuilder.fromUriString(API_BASE_URL)

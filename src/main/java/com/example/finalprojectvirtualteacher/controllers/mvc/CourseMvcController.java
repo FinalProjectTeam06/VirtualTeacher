@@ -29,8 +29,9 @@ public class CourseMvcController {
     private final LectureService lectureService;
     private final AssignmentsHelper assignmentsHelper;
     private final AssignmentService assignmentService;
+    private final WikiPageService wikiPageService;
 
-    public CourseMvcController(CourseService courseService, UserService userService, TopicService topicService, AuthenticationHelper authenticationHelper, LectureService lectureService, AssignmentsHelper assignmentsHelper, AssignmentService assignmentService) {
+    public CourseMvcController(CourseService courseService, UserService userService, TopicService topicService, AuthenticationHelper authenticationHelper, LectureService lectureService, AssignmentsHelper assignmentsHelper, AssignmentService assignmentService, WikiPageService wikiPageService) {
         this.courseService = courseService;
         this.userService = userService;
         this.topicService = topicService;
@@ -38,6 +39,7 @@ public class CourseMvcController {
         this.lectureService = lectureService;
         this.assignmentsHelper = assignmentsHelper;
         this.assignmentService = assignmentService;
+        this.wikiPageService = wikiPageService;
     }
 
     @ModelAttribute("topics")
@@ -186,6 +188,7 @@ public class CourseMvcController {
             return "redirect:/auth/login";
         }
     }
+
 
 
     @GetMapping("/{courseId}/lecture/{lectureId}")

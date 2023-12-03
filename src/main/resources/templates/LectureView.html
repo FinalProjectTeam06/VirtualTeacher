@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Lesson - Online Courses & Education Bootstrap5 Template</title>
-    <meta name="robots" content="noindex, follow" />
+    <meta name="robots" content="noindex, follow"/>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -38,12 +38,68 @@
 <body class="rbt-header-sticky">
 
 <div class="rbt-lesson-area bg-color-white">
+    <div class="rbt-search-dropdown">
+        <div class="wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <form action="#">
+                        <input type="text" placeholder="Search in Wikipedia?">
+                        <div class="submit-btn">
+                            <a class="rbt-btn btn-gradient btn-md" href="#">Search</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="rbt-separator-mid">
+                <hr class="rbt-separator m-0">
+            </div>
+
+            <div class="row g-4 pt--30 pb--60">
+                <div class="col-lg-12">
+                    <div class="section-title">
+                        <h5 class="rbt-title-style-2">Our Top Course</h5>
+                    </div>
+                </div>
+
+
+                <!-- Start Single Card  -->
+                <div class="col-lg-12 col-md-4 col-sm-6 col-12">
+                    <div class="rbt-card variation-01 rbt-hover">
+                        <div class="rbt-card-body">
+                            <h5 class="rbt-card-title"><a href="course-details.html">Web Design</a></h5>
+                            <div class="rbt-card-bottom">
+                                <h6>ddddddddddddddddddddddddddddddddddddddd</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Single Card  -->
+            </div>
+
+        </div>
+    </div>
+
     <div class="rbt-lesson-content-wrapper">
         <div class="rbt-lesson-leftsidebar" th:fragment="LessonLeftSideBar">
+
+
             <div class="rbt-course-feature-inner rbt-search-activation">
                 <div class="section-title">
                     <h4 class="rbt-title-style-3">Course Content</h4>
                 </div>
+
+                <ul class="quick-access">
+                    <li class="access-icon ms-3">
+                        <a class="search-trigger-active rbt-round-btn" href="#">
+                            <i class="feather-search"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <span>Search In Wikipedia</span>
+                    </li>
+                </ul>
+
 
                 <hr class="mt--10">
 
@@ -55,15 +111,19 @@
                         <div class="accordion-item card" th:each="lecture : ${course.getLectures()}">
                             <h2 class="accordion-header card-header" id="headingTwo1">
                                 <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                        aria-expanded="true" data-bs-target="#collapseTwo1" aria-controls="collapseTwo1" th:text="${lecture.getTitle()}">
-                                    Welcome Histudy</button>
+                                        aria-expanded="true" data-bs-target="#collapseTwo1" aria-controls="collapseTwo1"
+                                        th:text="${lecture.getTitle()}">
+                                    Welcome Histudy
+                                </button>
                             </h2>
-                            <div id="collapseTwo1" class="accordion-collapse collapse show" aria-labelledby="headingTwo1">
+                            <div id="collapseTwo1" class="accordion-collapse collapse show"
+                                 aria-labelledby="headingTwo1">
                                 <div class="accordion-body card-body">
                                     <ul class="rbt-course-main-content liststyle">
 
                                         <li>
-                                            <a href="lesson.html" th:href="@{/courses/{courseId}/lecture/{lectureId}(courseId=${course.getId()}, lectureId=${lecture.getId()})}">
+                                            <a href="lesson.html"
+                                               th:href="@{/courses/{courseId}/lecture/{lectureId}(courseId=${course.getId()}, lectureId=${lecture.getId()})}">
                                                 <div class="course-content-left">
                                                     <i class="feather-play-circle"></i> <span class="text">Course
                                             Intro</span>
@@ -75,9 +135,11 @@
                                         </li>
 
                                         <li>
-                                            <a href="lesson-intro.html" th:href="@{/courses/{courseId}/lecture/{lectureId}/assignment/show(courseId=${course.getId()}, lectureId=${lecture.getId()})}">
+                                            <a href="lesson-intro.html"
+                                               th:href="@{/courses/{courseId}/lecture/{lectureId}/assignment/show(courseId=${course.getId()}, lectureId=${lecture.getId()})}">
                                                 <div class="course-content-left">
-                                                    <i class="feather-file-text"></i> <span class="text">Assignment</span>
+                                                    <i class="feather-file-text"></i> <span
+                                                        class="text">Assignment</span>
                                                 </div>
                                                 <div class="course-content-right">
                                                     <span class="rbt-check"><i class="feather-check"></i></span>
@@ -86,7 +148,8 @@
                                         </li>
 
                                         <li>
-                                            <a href="lesson-intro.html" th:href="@{/courses/{courseId}/lecture/{lectureId}/assignment(courseId=${course.getId()}, lectureId=${lecture.getId()})}">
+                                            <a href="lesson-intro.html"
+                                               th:href="@{/courses/{courseId}/lecture/{lectureId}/assignment(courseId=${course.getId()}, lectureId=${lecture.getId()})}">
                                                 <div class="course-content-left">
                                                     <i class="feather-file-text"></i> <span class="text">Assignment Submit</span>
                                                 </div>
@@ -105,24 +168,26 @@
                 </div>
             </div>
         </div>
-
         <div class="rbt-lesson-rightsidebar overflow-hidden lesson-video">
             <div class="lesson-top-bar" th:fragment="LessonTopBar">
                 <div class="lesson-top-left">
                     <div class="rbt-lesson-toggle">
-                        <button class="lesson-toggle-active btn-round-white-opacity" title="Toggle Sidebar"><i class="feather-arrow-left"></i></button>
+                        <button class="lesson-toggle-active btn-round-white-opacity" title="Toggle Sidebar"><i
+                                class="feather-arrow-left"></i></button>
                     </div>
                     <h5 th:text="${lecture.getTitle()}">The Complete Histudy 2023: From Zero to Expert!</h5>
                 </div>
                 <div class="lesson-top-right">
                     <div class="rbt-btn-close">
-                        <a href="course-details.html"  title="Go Back to Course" class="rbt-round-btn"><i class="feather-x"></i></a>
+                        <a href="course-details.html" title="Go Back to Course" class="rbt-round-btn"><i
+                                class="feather-x"></i></a>
                     </div>
                 </div>
             </div>
             <div class="inner">
                 <div class="plyr__video-embed rbtplayer">
-                    <iframe src="https://www.youtube.com/embed/qKzhrXqT6oE" th:src="${lecture.getVideoUrl()}" allowfullscreen allow="autoplay"></iframe>
+                    <iframe src="https://www.youtube.com/embed/qKzhrXqT6oE" th:src="${lecture.getVideoUrl()}"
+                            allowfullscreen allow="autoplay"></iframe>
                 </div>
             </div>
 
@@ -143,15 +208,23 @@
             </div>
 
         </div>
+
+
+
+
     </div>
 </div>
 
 
+
+
 <div class="rbt-progress-parent">
     <svg class="rbt-back-circle svg-inner" width="100%" height="100%" viewBox="-1 -1 102 102">
-        <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" />
+        <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98"/>
     </svg>
 </div>
+
+
 
 <!-- JS
 ============================================ -->

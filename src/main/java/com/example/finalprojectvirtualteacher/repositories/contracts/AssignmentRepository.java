@@ -16,7 +16,7 @@ public interface AssignmentRepository {
     Assignment grade(Assignment assignment);
 
     List<Assignment> getByUserSubmitted(int userId);
-    List<Assignment> getByUserSubmittedToCourse(int userId, int courseId);
+    List<Assignment> getByUserSubmittedToCourseAndGraded(int userId, int courseId);
     Assignment getByUserSubmittedToLecture(int userId, int lectureId);
 
     Lecture update(Assignment assignment);

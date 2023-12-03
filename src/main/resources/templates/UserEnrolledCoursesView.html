@@ -110,13 +110,11 @@
                                                         </h4>
                                                         <div class="rbt-review">
                                                             <div class="rating">
-                                                                <i class="fas fa-star"></i>
-                                                                <i class="fas fa-star"></i>
-                                                                <i class="fas fa-star"></i>
-                                                                <i class="fas fa-star"></i>
-                                                                <i class="fas fa-star"></i>
+                                                                <th:block th:each="star : ${#numbers.sequence(1, course.getRating())}">
+                                                                    <a href="#"><i class="fa fa-star"></i></a>
+                                                                </th:block>
                                                             </div>
-                                                            <span class="rating-count"> (15 Reviews)</span>
+                                                            <span class="rating-count" th:text="${course.getRates().size()} + ' Reviews'"> (15 Reviews)</span>
                                                         </div>
 
                                                         <ul class="rbt-meta">
@@ -157,13 +155,11 @@
                                                         </h4>
                                                             <div class="rbt-review">
                                                                 <div class="rating">
-                                                                    <i class="fas fa-star"></i>
-                                                                    <i class="fas fa-star"></i>
-                                                                    <i class="fas fa-star"></i>
-                                                                    <i class="fas fa-star"></i>
-                                                                    <i class="fas fa-star"></i>
+                                                                    <th:block th:each="star : ${#numbers.sequence(1, course.getRating())}">
+                                                                        <a href="#"><i class="fa fa-star"></i></a>
+                                                                    </th:block>
                                                                 </div>
-                                                                <span class="rating-count"> (3 Reviews)</span>
+                                                                <span class="rating-count" th:text="${course.getRates().size()} + ' Reviews'"> (3 Reviews)</span>
                                                             </div>
 
                                                         <ul class="rbt-meta">
@@ -191,18 +187,15 @@
 <!--                                                        </a>-->
 <!--                                                    </div>-->
                                                     <div class="rbt-card-body">
-                                                        <h4 class="rbt-card-title"><a href="course-details.html"
-                                                                                      th:text="${#strings.length(course.getTitle()) > 25 ? #strings.substring(course.getTitle(), 0, 25) + '...' : course.getTitle()}">React Front To Back</a>
+                                                        <h4 class="rbt-card-title"><a th:text="${#strings.length(course.getTitle()) > 25 ? #strings.substring(course.getTitle(), 0, 25) + '...' : course.getTitle()}">React Front To Back</a>
                                                         </h4>
                                                             <div class="rbt-review">
                                                                 <div class="rating">
-                                                                    <i class="fas fa-star"></i>
-                                                                    <i class="fas fa-star"></i>
-                                                                    <i class="fas fa-star"></i>
-                                                                    <i class="fas fa-star"></i>
-                                                                    <i class="fas fa-star"></i>
+                                                                    <th:block th:each="star : ${#numbers.sequence(1, course.getRating())}">
+                                                                        <a href="#"><i class="fa fa-star"></i></a>
+                                                                    </th:block>
                                                                 </div>
-                                                                <span class="rating-count"> (15 Reviews)</span>
+                                                                <span class="rating-count" th:text="${course.getRates().size()} + ' Reviews'"> (15 Reviews)</span>
                                                             </div>
 
                                                         <ul class="rbt-meta">

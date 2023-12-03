@@ -61,11 +61,12 @@ public class AssignmentRepositoryImpl implements AssignmentRepository {
     }
 
     @Override
-    public List<Assignment> getByUserSubmittedToCourse(int userId, int courseId) {
+    public List<Assignment> getByUserSubmittedToCourseAndGraded(int userId, int courseId) {
         try (Session session = sessionFactory.openSession()) {
-            Query<Assignment> query = session.createQuery("from Assignment a where a.user.id= :userId AND a.lecture.course.id =: courseId", Assignment.class);
+            Query<Assignment> query = session.createQuery("from Assignment a where a.user.id= :userId AND a.lecture.course.id =: courseId and a.grade.id !=:notGraded", Assignment.class);
             query.setParameter("userId", userId);
             query.setParameter("courseId", courseId);
+            query.setParameter("notGraded", 1);
             return query.list();
         }
     }

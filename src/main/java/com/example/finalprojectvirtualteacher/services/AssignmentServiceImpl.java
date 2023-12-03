@@ -90,17 +90,19 @@ public class AssignmentServiceImpl implements AssignmentService {
 
     @Override
     public List<Assignment> getByUserSubmittedToCourse(int userId, int courseId) {
-        return assignmentRepository.getByUserSubmittedToCourse(userId, courseId);
+        return assignmentRepository.getByUserSubmittedToCourseAndGraded(userId, courseId);
     }
 
     public double getGradeForCourse(int userId, int courseId) {
         Course course = courseService.getById(courseId);
-        List<Assignment> submittedAssignments = assignmentRepository.getByUserSubmittedToCourse(userId, courseId);
+        List<Assignment> submittedAssignments = assignmentRepository.getByUserSubmittedToCourseAndGraded(userId, courseId);
         int submittedAssignmentsCount = submittedAssignments.size();
         int assignmentsToSubmit = course.getLectures().size();
         int sum = 0;
         for (Assignment submittedAssignment : submittedAssignments) {
-            sum += submittedAssignment.getGrade().getId();
+            if (submittedAssignment.getGrade().getId()>1) {
+                sum += submittedAssignment.getGrade().getId();
+            }
         }
         double resultCountGrades = (assignmentsToSubmit - submittedAssignmentsCount) * 2 + sum;
         return resultCountGrades / assignmentsToSubmit;
