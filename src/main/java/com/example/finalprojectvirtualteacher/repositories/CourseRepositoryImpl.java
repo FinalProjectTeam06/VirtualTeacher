@@ -34,7 +34,9 @@ public class CourseRepositoryImpl implements CourseRepository {
     @Override
     public List<Course> getAllActiveCoursesNotEnrolled(User user) {
         try (Session session = sessionFactory.openSession()) {
-            Query<Course> query = session.createQuery("SELECT c FROM Course c LEFT JOIN c.enrolledUsers e WHERE e.id != :userId AND c.creator.id != :userId", Course.class);
+            Query<Course> query = session.createQuery("SELECT c FROM Course c " +
+                    "WHERE :userId <> ALL(SELECT u.id FROM c.enrolledUsers u) " +
+                    "AND c.creator.id <> :userId", Course.class);
             query.setParameter("userId", user.getId());
             return query.list();
         }
@@ -118,7 +120,7 @@ public class CourseRepositoryImpl implements CourseRepository {
                     "select c.* from courses c " +
                             "join enrolled_courses ec on c.course_id = ec.course_id " +
                             "where ec.user_id = :id " +
-                            "and ec.graduation_status=1", Course.class);
+                            "and ec.isFinished=1", Course.class);
             query.setParameter("id", userId);
             return query.list();
         }
@@ -129,9 +131,9 @@ public class CourseRepositoryImpl implements CourseRepository {
         try (Session session = sessionFactory.openSession()) {
             Query<Course> query = session.createNativeQuery(
                     "select c.* from courses c " +
-                            "join virtual_teacher.enrolled_courses ec on c.course_id = ec.course_id " +
+                            "join enrolled_courses ec on c.course_id = ec.course_id " +
                             "where ec.user_id = :id " +
-                            "and ec.graduation_status=0", Course.class);
+                            "and ec.isFinished=0", Course.class);
             query.setParameter("id", userId);
             return query.list();
         }

@@ -29,9 +29,10 @@ public class CourseMvcController {
     private final LectureService lectureService;
     private final AssignmentsHelper assignmentsHelper;
     private final AssignmentService assignmentService;
+    private final EnrollmentService enrollmentService;
     private final WikiPageService wikiPageService;
 
-    public CourseMvcController(CourseService courseService, UserService userService, TopicService topicService, AuthenticationHelper authenticationHelper, LectureService lectureService, AssignmentsHelper assignmentsHelper, AssignmentService assignmentService, WikiPageService wikiPageService) {
+    public CourseMvcController(CourseService courseService, UserService userService, TopicService topicService, AuthenticationHelper authenticationHelper, LectureService lectureService, AssignmentsHelper assignmentsHelper, AssignmentService assignmentService, EnrollmentService enrollmentService, WikiPageService wikiPageService) {
         this.courseService = courseService;
         this.userService = userService;
         this.topicService = topicService;
@@ -39,6 +40,7 @@ public class CourseMvcController {
         this.lectureService = lectureService;
         this.assignmentsHelper = assignmentsHelper;
         this.assignmentService = assignmentService;
+        this.enrollmentService = enrollmentService;
         this.wikiPageService = wikiPageService;
     }
 
@@ -83,8 +85,8 @@ public class CourseMvcController {
             model.addAttribute("enrolledCourses", user.getCourses());
             model.addAttribute("loggedIn", user);
             model.addAttribute("enrolledCourses", courseService.getAllByUserNotCompleted(user.getId()));
-            model.addAttribute("completedCourses", courseService.getAllByUserCompleted(user.getId()));
-            model.addAttribute("activeCourses", courseService.getAll());
+            model.addAttribute("finishedCourses", enrollmentService.getAllFinished(user.getId()));
+            model.addAttribute("activeCourses", courseService.getAllActiveCoursesNotEnrolled(user));
             return "UserEnrolledCoursesView";
         } catch (AuthorizationException e) {
             return "redirect:/auth/login";

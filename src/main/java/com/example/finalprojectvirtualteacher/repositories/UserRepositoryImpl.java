@@ -57,6 +57,16 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    public List<User> getAllStudents() {
+        try (Session session = sessionFactory.openSession()) {
+            Query<User> query = session.createQuery("from User where role.id= :roleId", User.class);
+            query.setParameter("roleId", 3);
+
+            return query.list();
+        }
+    }
+
+    @Override
     public User getByEmail(String email) {
         try (Session session = sessionFactory.openSession()) {
             Query<User> query = session.createQuery("from User where email= :email", User.class);
@@ -133,7 +143,20 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void setCourseEnrollmentStatusToGraduated(int userId, int courseId) {
+    public void setCourseEnrollmentStatusToFinished(int userId, int courseId) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            Query<Course> query = session.createNativeQuery("UPDATE enrolled_courses e set e.isFinished = 1" +
+                    " where e.user_id = :userId and e.course_id = :courseId", Course.class);
+            query.setParameter("userId", userId);
+            query.setParameter("courseId", courseId);
+            query.executeUpdate();
+            session.getTransaction().commit();
+        }
+    }
+
+    @Override
+    public void setEnrollmentCourseStatusToGraduated(int userId, int courseId) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             Query<Course> query = session.createNativeQuery("UPDATE enrolled_courses e set e.graduation_status = 1" +

@@ -40,6 +40,8 @@ public class CourseServiceImpl implements CourseService {
         return courseRepository.getAll();
     }
 
+
+
     @Override
     public List<Course> getAllActiveCoursesNotEnrolled(User user) {
         return courseRepository.getAllActiveCoursesNotEnrolled(user);
