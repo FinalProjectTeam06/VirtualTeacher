@@ -180,41 +180,35 @@
 
                                     <div class="tab-pane fade" id="contact-4" role="tabpanel" aria-labelledby="contact-tab-4">
                                         <div class="row g-5">
-                                            <div class="col-lg-4 col-md-6 col-12" th:each="course : ${completedCourses}">
+                                            <div class="col-lg-4 col-md-6 col-12" th:each="enrollment : ${finishedCourses}">
                                                 <div class="rbt-card variation-01 rbt-hover">
 <!--                                                    <div class="rbt-card-img">-->
 <!--                                                        <a href="course-details.html">-->
 <!--                                                        </a>-->
 <!--                                                    </div>-->
                                                     <div class="rbt-card-body">
-                                                        <h4 class="rbt-card-title"><a th:text="${#strings.length(course.getTitle()) > 25 ? #strings.substring(course.getTitle(), 0, 25) + '...' : course.getTitle()}">React Front To Back</a>
+                                                        <h4 class="rbt-card-title"><a th:text="${#strings.length(enrollment.getCourse().getTitle()) > 25 ? #strings.substring(enrollment.getCourse().getTitle(), 0, 25) + '...' : enrollment.getCourse().getTitle()}">React Front To Back</a>
                                                         </h4>
                                                             <div class="rbt-review">
                                                                 <div class="rating">
-                                                                    <th:block th:each="star : ${#numbers.sequence(1, course.getRating())}">
+                                                                    <th:block th:each="star : ${#numbers.sequence(1, enrollment.getCourse().getRating())}">
                                                                         <a href="#"><i class="fa fa-star"></i></a>
                                                                     </th:block>
                                                                 </div>
-                                                                <span class="rating-count" th:text="${course.getRates().size()} + ' Reviews'"> (15 Reviews)</span>
+                                                                <span class="rating-count" th:text="${enrollment.getCourse().getRates().size()} + ' Reviews'"> (15 Reviews)</span>
                                                             </div>
 
                                                         <ul class="rbt-meta">
-                                                            <i class="feather-book"></i><li th:text="${course.getLectures().size()}">20 Lessons</li>
-                                                            <i class="feather-users"></i><li th:text="${course.getStudents().size()}">40 Students</li>
+                                                            <i class="feather-book"></i><li th:text="${enrollment.getCourse().getLectures().size()}">20 Lessons</li>
+                                                            <i class="feather-users"></i><li th:text="${enrollment.getCourse().getStudents().size()}">40 Students</li>
                                                         </ul>
 
-                                                        <div class="rbt-progress-style-1 mb--20 mt--10">
-                                                            <div class="single-progress">
-                                                                <h6 class="rbt-title-style-2 mb--10">Complete</h6>
-                                                                <div class="progress">
-                                                                    <div class="progress-bar wow fadeInLeft bar-color-success" data-wow-duration="0.5s" data-wow-delay=".3s" role="progressbar" style="width: 90%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">
-                                                                    </div>
-                                                                    <span class="rbt-title-style-2 progress-number">90%</span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="rbt-card-bottom">
+
+                                                        <div class="rbt-card-bottom" th:if="${enrollment.isGraduated()==true}">
                                                             <a class="rbt-btn btn-sm bg-primary-opacity w-100 text-center" href="#">Download Certificate</a>
+                                                        </div>
+                                                        <div class="rbt-card-bottom" th:if="${enrollment.isGraduated()==false}">
+                                                            <a class="rbt-btn btn-sm bg-primary-opacity w-100 text-center">Not Graduated</a>
                                                         </div>
                                                     </div>
                                                 </div>

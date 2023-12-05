@@ -100,7 +100,7 @@ public class AssignmentServiceImpl implements AssignmentService {
         int assignmentsToSubmit = course.getLectures().size();
         int sum = 0;
         for (Assignment submittedAssignment : submittedAssignments) {
-            if (submittedAssignment.getGrade().getId()>1) {
+            if (submittedAssignment.getGrade().getId() > 1) {
                 sum += submittedAssignment.getGrade().getId();
             }
         }
@@ -124,6 +124,9 @@ public class AssignmentServiceImpl implements AssignmentService {
                 }
             }
             if (isGraded) {
+                userService.setEnrollmentCourseStatusToFinished(studentId, courseId);
+            }
+            if (courseService.getById(courseId).getMinGrade() < getGradeForCourse(studentId, courseId)) {
                 userService.setEnrollmentCourseStatusToGraduated(studentId, courseId);
             }
         }

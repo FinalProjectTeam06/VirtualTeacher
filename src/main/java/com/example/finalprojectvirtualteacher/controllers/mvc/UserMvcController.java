@@ -9,6 +9,7 @@ import com.example.finalprojectvirtualteacher.models.User;
 import com.example.finalprojectvirtualteacher.models.dto.UserDtoUpdate;
 import com.example.finalprojectvirtualteacher.services.contacts.AssignmentService;
 import com.example.finalprojectvirtualteacher.services.contacts.CourseService;
+import com.example.finalprojectvirtualteacher.services.contacts.EnrollmentService;
 import com.example.finalprojectvirtualteacher.services.contacts.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
@@ -28,14 +29,16 @@ public class UserMvcController {
     private final UserService userService;
     private final ImageHelper imageHelper;
     private final CourseService courseService;
+    private final EnrollmentService enrollmentService;
     private final AssignmentService assignmentService;
 
-    public UserMvcController(AuthenticationHelper authenticationHelper, UserMapper userMapper, UserService userService, ImageHelper imageHelper, CourseService courseService, AssignmentService assignmentService) {
+    public UserMvcController(AuthenticationHelper authenticationHelper, UserMapper userMapper, UserService userService, ImageHelper imageHelper, CourseService courseService, EnrollmentService enrollmentService, AssignmentService assignmentService) {
         this.authenticationHelper = authenticationHelper;
         this.userMapper = userMapper;
         this.userService = userService;
         this.imageHelper = imageHelper;
         this.courseService = courseService;
+        this.enrollmentService = enrollmentService;
         this.assignmentService = assignmentService;
     }
 
@@ -69,9 +72,15 @@ public class UserMvcController {
             User user = authenticationHelper.tryGetCurrentUser(httpSession);
             if (user.getRole().getId() == 1) {
                 model.addAttribute("loggedIn", user);
+                model.addAttribute("activeCourses", courseService.getAllByUserNotCompleted(user.getId()));
+                model.addAttribute("completedCourses", courseService.getAllByUserCompleted(user.getId()));
                 return "StudentDashboard";
             } else {
                 model.addAttribute("loggedIn", user);
+                model.addAttribute("activeCourses", courseService.getAllByUserNotCompleted(user.getId()));
+                model.addAttribute("completedCourses", courseService.getAllByUserCompleted(user.getId()));
+                model.addAttribute("allCourses", courseService.getAll());
+                model.addAttribute("allStudents", userService.getAllStudents());
                 return "InstructorDashboard";
             }
         } catch (AuthorizationException e) {
@@ -138,7 +147,7 @@ public class UserMvcController {
             userService.enrollCourse(user, courseId);
             model.addAttribute("loggedIn", user);
             model.addAttribute("enrolledCourses", courseService.getAllByUserNotCompleted(user.getId()));
-            model.addAttribute("completedCourses", courseService.getAllByUserCompleted(user.getId()));
+            model.addAttribute("finishedCourses", enrollmentService.getAllFinished(user.getId()));
             model.addAttribute("activeCourses", courseService.getAllActiveCoursesNotEnrolled(user));
             return "UserEnrolledCoursesView";
         } catch (AuthorizationException e) {

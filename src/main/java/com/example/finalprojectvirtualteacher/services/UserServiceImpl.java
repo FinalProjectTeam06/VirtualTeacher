@@ -54,6 +54,9 @@ public class UserServiceImpl implements UserService {
     public List<User> getAll() {
         return userRepository.getAll();
     }
+    public List<User> getAllStudents() {
+        return userRepository.getAllStudents();
+    }
 
     @Override
     public List<User> getAllTeachers() {
@@ -126,10 +129,14 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public void setEnrollmentCourseStatusToGraduated(int userId, int courseId){
-        userRepository.setCourseEnrollmentStatusToGraduated(userId, courseId);
+    public void setEnrollmentCourseStatusToFinished(int userId, int courseId){
+        userRepository.setCourseEnrollmentStatusToFinished(userId, courseId);
     }
 
+    @Override
+    public void setEnrollmentCourseStatusToGraduated(int userId, int courseId) {
+        userRepository.setEnrollmentCourseStatusToGraduated(userId, courseId);
+    }
 
     @Override
     public User addProfilePhoto(User user, String url) {
