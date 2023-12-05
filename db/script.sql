@@ -1,10 +1,3 @@
-drop database if exists virtual_teacher;
-
-create database virtual_teacher;
-
-use virtual_teacher;
-
-
 create table grades
 (
     grade_id   int auto_increment
@@ -61,8 +54,11 @@ create table courses
 
 create table enrolled_courses
 (
+    enrollment_id     int auto_increment
+        primary key,
     user_id           int                  not null,
     course_id         int                  not null,
+    isFinished        tinyint(1) default 0 not null,
     graduation_status tinyint(1) default 0 not null,
     constraint enrolled_courses_courses_course_id_fk
         foreign key (course_id) references courses (course_id),
