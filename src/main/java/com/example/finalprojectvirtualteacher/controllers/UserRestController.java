@@ -2,7 +2,7 @@ package com.example.finalprojectvirtualteacher.controllers;
 
 import com.example.finalprojectvirtualteacher.exceptions.*;
 import com.example.finalprojectvirtualteacher.helpers.AuthenticationHelper;
-import com.example.finalprojectvirtualteacher.helpers.UserMapper;
+import com.example.finalprojectvirtualteacher.helpers.mappers.UserMapper;
 import com.example.finalprojectvirtualteacher.models.User;
 import com.example.finalprojectvirtualteacher.models.UserFilterOptions;
 import com.example.finalprojectvirtualteacher.models.dto.UserDto;

@@ -2,8 +2,8 @@ package com.example.finalprojectvirtualteacher.controllers.mvc;
 
 import com.example.finalprojectvirtualteacher.exceptions.AuthorizationException;
 import com.example.finalprojectvirtualteacher.helpers.AuthenticationHelper;
-import com.example.finalprojectvirtualteacher.helpers.ImageHelper;
-import com.example.finalprojectvirtualteacher.helpers.UserMapper;
+import com.example.finalprojectvirtualteacher.helpers.mappers.ImageHelper;
+import com.example.finalprojectvirtualteacher.helpers.mappers.UserMapper;
 import com.example.finalprojectvirtualteacher.models.Course;
 import com.example.finalprojectvirtualteacher.models.User;
 import com.example.finalprojectvirtualteacher.models.dto.UserDtoUpdate;
@@ -49,6 +49,15 @@ public class UserMvcController {
         try {
             User user = authenticationHelper.tryGetCurrentUser(session);
             return (user.getRole().getId() == 2 || user.getRole().getId() == 3);
+        } catch (AuthorizationException e) {
+            return false;
+        }
+    }
+    @ModelAttribute("isAdmin")
+    public boolean populateIsAdmin(HttpSession session) {
+        try{
+            User user = authenticationHelper.tryGetCurrentUser(session);
+            return (user.getRole().getId()==3);
         } catch (AuthorizationException e) {
             return false;
         }
@@ -166,6 +175,7 @@ public class UserMvcController {
             List<Course> courses = courseService.getAll();
             model.addAttribute("user",user);
             model.addAttribute("courses",courses);
+            model.addAttribute("loggedIn",user);
             return "AllCourses";
         } catch (AuthorizationException e) {
             return "redirect:/auth/login";

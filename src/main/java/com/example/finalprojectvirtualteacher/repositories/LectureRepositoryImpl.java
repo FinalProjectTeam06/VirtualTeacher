@@ -73,19 +73,6 @@ public class LectureRepositoryImpl implements LectureRepository {
 
 
     @Override
-    public Note getNote(int lectureId, int userId) {
-        try (Session session = sessionFactory.openSession()) {
-            Query<Note> query = session.createQuery("from Note where lecture.id=:lectureId AND user.id=:userId", Note.class);
-            query.setParameter("lectureId", lectureId);
-            query.setParameter("userId", userId);
-            if (query.list().isEmpty()) {
-                throw new EntityNotFoundException("Note not found");
-            }
-            return query.list().get(0);
-        }
-    }
-
-    @Override
     public Lecture create(Lecture lecture) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
@@ -130,29 +117,11 @@ public class LectureRepositoryImpl implements LectureRepository {
         }
     }
 
-    @Override
-        public Note createNote (Note note){
-            try (Session session = sessionFactory.openSession()) {
-                session.beginTransaction();
-                session.persist(note);
-                session.getTransaction().commit();
-            }
-            return note;
-        }
 
-        @Override
-        public Note updateNote (Note note){
-            try (Session session = sessionFactory.openSession()) {
-                session.beginTransaction();
-                session.merge(note);
-                session.getTransaction().commit();
-            }
-            return note;
-        }
 
     @Override
     public Lecture submitAssignment(Assignment assignment) {
-        try (Session session = sessionFactory.openSession()){
+        try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             session.persist(assignment);
             session.getTransaction().commit();

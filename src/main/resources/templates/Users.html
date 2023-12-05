@@ -38,7 +38,6 @@
 <body>
 
 <!-- Start Header Area -->
-<!--/*@thymesVar id="isTeacher" type=""*/-->
 <header class="rbt-header rbt-header-10"
         th:replace="${isTeacher} ? ~{InstructorDashboard.html :: HeaderInstructor} : ~{StudentDashboard.html :: HeaderStudent}">
 </header>
@@ -98,8 +97,7 @@
                                                         <div class="d-flex align-items-center">
                                                             <figure class="me-2 mb-0">
                                                                 <img th:src="${user.getProfilePictureUrl()}" class="img-sm rounded-circle"
-                                                                     style="height: 50px"
-                                                                    >
+                                                                     style="height: 50px">
                                                             </figure>
                                                             <div>
                                                                 <h5 th:text="${user.getFirstName()} +' '+ ${user.getLastName()}">First name Last name</h5>
@@ -116,10 +114,10 @@
                                             </td>
                                             <td>
                                                 <div class="rbt-button-group justify-content-end">
-                                                    <form method="post" action="#" th:action="@{/users/{userId} (id=${user.getId()})}" >
+                                                    <form  action="#"  th:action="@{/users/{userId} (userId=${user.getId()})}" method="post">
 
-                                                    <a class="rbt-btn btn-xs bg-primary-opacity delete" href="#" title="Delete">
-                                                        <i class="feather-edit pl--0"></i> Delete</a>
+                                                    <button type="submit" class="rbt-btn btn-xs bg-primary-opacity delete"  href="#" title="Delete">
+                                                        <i class="feather-edit pl--0" style="color: red" ></i> Delete</button>
                                                     </form>
                                                 </div>
 

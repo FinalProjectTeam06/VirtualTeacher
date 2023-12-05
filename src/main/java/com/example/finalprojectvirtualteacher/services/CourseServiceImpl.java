@@ -2,14 +2,13 @@ package com.example.finalprojectvirtualteacher.services;
 
 import com.example.finalprojectvirtualteacher.exceptions.AuthorizationException;
 import com.example.finalprojectvirtualteacher.exceptions.EntityNotFoundException;
-import com.example.finalprojectvirtualteacher.helpers.CourseMapper;
+import com.example.finalprojectvirtualteacher.helpers.mappers.CourseMapper;
 import com.example.finalprojectvirtualteacher.models.Course;
 import com.example.finalprojectvirtualteacher.models.Rate;
 import com.example.finalprojectvirtualteacher.models.FilterOptions;
 import com.example.finalprojectvirtualteacher.models.User;
 import com.example.finalprojectvirtualteacher.models.dto.CourseDto;
 import com.example.finalprojectvirtualteacher.models.dto.RateDto;
-import com.example.finalprojectvirtualteacher.repositories.contracts.AssignmentRepository;
 import com.example.finalprojectvirtualteacher.repositories.contracts.CourseRepository;
 import com.example.finalprojectvirtualteacher.services.contacts.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +23,12 @@ public class CourseServiceImpl implements CourseService {
     private final CourseRepository courseRepository;
     private final CourseMapper courseMapper;
 
+
     @Autowired
     public CourseServiceImpl(CourseRepository courseRepository, CourseMapper courseMapper) {
         this.courseRepository = courseRepository;
         this.courseMapper = courseMapper;
+
     }
 
     @Override
@@ -147,6 +148,7 @@ public class CourseServiceImpl implements CourseService {
         }
         return sum / rates.size();
     }
+
 
 
 

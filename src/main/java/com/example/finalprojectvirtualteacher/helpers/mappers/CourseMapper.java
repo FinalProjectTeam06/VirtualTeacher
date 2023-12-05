@@ -1,4 +1,4 @@
-package com.example.finalprojectvirtualteacher.helpers;
+package com.example.finalprojectvirtualteacher.helpers.mappers;
 
 import com.example.finalprojectvirtualteacher.models.Course;
 import com.example.finalprojectvirtualteacher.models.User;

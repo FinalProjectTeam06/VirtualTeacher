@@ -81,55 +81,35 @@
                                     <table class="rbt-table table table-borderless">
                                         <thead>
                                         <tr>
-                                            <th><h5>Name</h5></th>
-                                            <th><h5>Students</h5></th>
+                                            <th>Courses</th>
+                                            <th>Students</th>
                                             <th></th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <div class="col-md-6 align-items-center justify-content-center">
-                                            <div class="card rounded" >
-                                                <tr th:each="course: ${courses}">
-                                                    <th>
-                                                        <div class="card-body">
+                                        <tr th:each="course : ${courses}">
+                                            <th>
+                                                <span class="h6 mb--5" th:text="${course.getTitle()}">Title</span>
+                                                <p class="b3"> <a href="#" th:text="${course.getTopic().getName()}"> </a></p>
+                                            </th>
+                                            <td>
+                                                <p class="b3" th:text="${course.getEnrolledUsers().size()}">80</p>
+                                            </td>
+                                            <td>
+                                                <div class="rbt-button-group justify-content-end">
+                                                    <form action="#" th:action="@{/courses/{courseId}/delete (courseId=${course.getId()})}" method="post">
+                                                    <button type="submit" class="rbt-btn btn-xs bg-primary-opacity radius-round"
+                                                            href="#"  title="Edit">
+                                                        <i class="feather-edit pl--0" style="color: red" ></i> Delete</button>
+                                                    </form>
+                                                </div>
+                                            </td>
+                                        </tr>
 
-                                                            <div class="d-flex justify-content-between align-items-center pb-1 mb-1">
-
-                                                                <div class="d-flex align-items-center">
-                                                                    <figure class="me-2 mb-0">
-<!--                                                                        <img th:src="${course.get}" class="img-sm rounded-circle"-->
-<!--                                                                             style="height: 50px"-->
-
-                                                                    </figure>
-                                                                    <div>
-                                                                        <h5 th:text="${course.getTitle()}">Title</h5>
-                                                                        <h6 th:text="${course.getTopic()}">Topic</h6>
-
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        </div>
-                                                    </th>
-                                                    <td>
-
-
-                                                    </td>
-                                                    <td>
-                                                        <div class="rbt-button-group justify-content-end">
-                                                            <form method="post" action="#" th:action="@{/users/{userId} (id=${user.getId()})}" >
-
-                                                                <a class="rbt-btn btn-xs bg-primary-opacity delete" href="#" title="Delete">
-                                                                    <i class="feather-edit pl--0"></i> Delete</a>
-                                                            </form>
-                                                        </div>
-
-                                                    </td>
-                                                </tr>
-                                            </div>
-                                        </div>
                                         </tbody>
 
                                     </table>
+
                                 </div>
 
                             </div>

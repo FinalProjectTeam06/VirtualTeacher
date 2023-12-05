@@ -1,4 +1,4 @@
-package com.example.finalprojectvirtualteacher.helpers;
+package com.example.finalprojectvirtualteacher.helpers.mappers;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;

@@ -111,6 +111,11 @@ public class UserServiceImpl implements UserService {
         User userToDelete = getById(id);
         userRepository.deleteUser(userToDelete);
     }
+//    @Override
+//    public void delete(int id,User user){
+//        User delete = getById(10);
+//
+//    }
 
     @Override
     public User enrollCourse(User user, int courseId) {

@@ -2,15 +2,11 @@ package com.example.finalprojectvirtualteacher.services;
 
 import com.example.finalprojectvirtualteacher.exceptions.AuthorizationException;
 import com.example.finalprojectvirtualteacher.exceptions.EntityNotFoundException;
-import com.example.finalprojectvirtualteacher.exceptions.FileUploadException;
 import com.example.finalprojectvirtualteacher.helpers.AssignmentsHelper;
-import com.example.finalprojectvirtualteacher.helpers.LectureMapper;
-import com.example.finalprojectvirtualteacher.models.Assignment;
+import com.example.finalprojectvirtualteacher.helpers.mappers.LectureMapper;
 import com.example.finalprojectvirtualteacher.models.Note;
 
-import com.example.finalprojectvirtualteacher.exceptions.EntityNotFoundException;
 import com.example.finalprojectvirtualteacher.models.Lecture;
-import com.example.finalprojectvirtualteacher.models.Note;
 import com.example.finalprojectvirtualteacher.models.User;
 import com.example.finalprojectvirtualteacher.models.dto.LectureDto;
 import com.example.finalprojectvirtualteacher.repositories.contracts.LectureRepository;
@@ -18,9 +14,7 @@ import com.example.finalprojectvirtualteacher.repositories.contracts.LectureRepo
 import com.example.finalprojectvirtualteacher.services.contacts.LectureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -91,34 +85,10 @@ public class LectureServiceImpl implements LectureService {
 
     }
 
-    @Override
-    public Note getNote(int lectureId, int userId) {
-        return lectureRepository.getNote(lectureId, userId);
-    }
-
-
-    @Override
-    public Note createNote(int lectureId, User user, String text) {
-        if (!user.getCourses().contains(getById(lectureId).getCourse())) {
-            throw new EntityNotFoundException(USER_IS_NOT_ENROLLED);
-        }
-        try {
-            Note note = getNote(lectureId, user.getId());
-            note.setText(text);
-            return lectureRepository.updateNote(note);
-        } catch (EntityNotFoundException e) {
-            Note note = new Note();
-            note.setLecture(getById(lectureId));
-            note.setText(text);
-            note.setUser(user);
-            return lectureRepository.createNote(note);
-        }
-    }
-
     public void checkPermission(int id, User user) {
         Lecture lecture = getById(id);
         if (user.getId() == lecture.getTeacher().getId()
-                ||  user.getRole().getId() != 3) {
+                || user.getRole().getId() != 3) {
             throw new AuthorizationException(MODIFY_THE_LECTURE);
 
         }
@@ -126,7 +96,7 @@ public class LectureServiceImpl implements LectureService {
 
     private void checkCreatePermission(Lecture lecture, User user) {
         if (user.getId() != lecture.getCourse().getCreator().getId()
-                ||  user.getRole().getId() != 3) {
+                || user.getRole().getId() != 3) {
             throw new AuthorizationException(MODIFY_THE_LECTURE);
 
         }

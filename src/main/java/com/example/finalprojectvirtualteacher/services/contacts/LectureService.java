@@ -11,6 +11,7 @@ import java.util.List;
 
 public interface LectureService {
 
+
     List<Lecture> getAll();
 
     Lecture getById(int id);
@@ -22,11 +23,5 @@ public interface LectureService {
     Lecture update(LectureDto lectureDto,User user,int lectureId);
 
     void delete (int id,User user);
-
-    Note getNote(int lectureId, int userId);
-
-    Note createNote(int lectureId, User user, String note);
-
-
 
 }

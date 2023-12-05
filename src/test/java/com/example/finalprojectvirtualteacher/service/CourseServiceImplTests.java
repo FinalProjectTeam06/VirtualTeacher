@@ -2,7 +2,7 @@ package com.example.finalprojectvirtualteacher.service;
 
 import com.example.finalprojectvirtualteacher.exceptions.AuthorizationException;
 import com.example.finalprojectvirtualteacher.exceptions.EntityNotFoundException;
-import com.example.finalprojectvirtualteacher.helpers.CourseMapper;
+import com.example.finalprojectvirtualteacher.helpers.mappers.CourseMapper;
 import com.example.finalprojectvirtualteacher.models.Course;
 import com.example.finalprojectvirtualteacher.models.FilterOptions;
 import com.example.finalprojectvirtualteacher.models.Rate;

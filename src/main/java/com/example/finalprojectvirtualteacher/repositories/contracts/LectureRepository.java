@@ -23,10 +23,5 @@ public interface LectureRepository {
 
     Lecture update(Lecture updatedLecture);
 
-    Note createNote(Note note1);
-
-    Note getNote(int lectureId, int userId);
-
-    Note updateNote(Note note);
     Lecture submitAssignment(Assignment assignment);
 }
