@@ -44,11 +44,11 @@
             <div class="col-lg-6">
                 <div class="rbt-contact-form contact-form-style-1 max-width-auto text-center">
                     <h3 class="title">Verification</h3>
-                    <form th:action="${action}" th:object="${code}" method="post">
+                    <form th:action="@{/verification/{email}(email=${email})}" th:object="${code}" method="post">
                         <!-- Add the activation code input box -->
                         <div class="form-group">
                             <label for="activationCode">Activation Code:</label>
-                            <input type="text" id="activationCode" name="activationCode" class="form-control" required/>
+                            <input type="text" th:field="*{code}" id="activationCode" name="activationCode" class="form-control" required/>
                         </div>
                         <!-- Include other input fields and form content as needed -->
                         <button type="submit" class="btn btn-primary btn-lg">Verify</button>
@@ -59,7 +59,9 @@
                             <p>Don't see the email? Check your spam folder. If that does not help, click the button below
                                 to send a new one.</p>
                             <!-- Add a larger size to the button -->
-                            <button class="btn btn-primary btn-lg" id="send-new-code" onclick="send_new_code()">Send New Code</button>
+                            <form th:action="@{/verification/new-code/{email}(email=${email})}" method="post">
+                            <button type="submit" class="btn btn-primary btn-lg" id="send-new-code" >Send New Code</button>
+                            </form>
                         </div>
                     </div>
                 </div>

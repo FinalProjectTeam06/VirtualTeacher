@@ -90,17 +90,17 @@ public class LectureRestController {
         }
     }
 
-    @PostMapping("/{lectureId}/note")
-    public Note createNote(@RequestHeader HttpHeaders httpHeaders, @RequestBody String text, @PathVariable int lectureId) {
-        try {
-            User user = authenticationHelper.tryGetUser(httpHeaders);
-            return lectureService.createNote(lectureId, user, text);
-        } catch (AuthorizationException e) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
-        }catch (EntityNotFoundException e){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-        }
-    }
+//    @PostMapping("/{lectureId}/note")
+//    public Note createNote(@RequestHeader HttpHeaders httpHeaders, @RequestBody String text, @PathVariable int lectureId) {
+//        try {
+//            User user = authenticationHelper.tryGetUser(httpHeaders);
+//            return lectureService.createNote(lectureId, user, text);
+//        } catch (AuthorizationException e) {
+//            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
+//        }catch (EntityNotFoundException e){
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+//        }
+//    }
 
     @PostMapping("/{lectureId}/assignment")
     public Lecture submitAssignment(@RequestHeader HttpHeaders httpHeaders,

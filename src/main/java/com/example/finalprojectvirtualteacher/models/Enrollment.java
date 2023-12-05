@@ -1,9 +1,11 @@
 package com.example.finalprojectvirtualteacher.models;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Immutable;
 
 @Entity
 @Table(name = "enrolled_courses")
+@Immutable
 public class Enrollment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
