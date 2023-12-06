@@ -131,24 +131,43 @@ public class UserRestController {
         }
     }
 
+//    @PostMapping("/invite")
+//    public ResponseEntity<String> inviteFriend(@RequestHeader HttpHeaders httpHeaders,
+//                                               @RequestParam String friendEmail) {
+//        try {
+//            User inviter = authenticationHelper.tryGetUser(httpHeaders);
+//            User existingFriend = userService.getByEmail(friendEmail);
+//
+//            if (existingFriend != null) {
+//                userService.inviteFriend(inviter, friendEmail);
+//                return new ResponseEntity<>("Invitation sent successfully", HttpStatus.OK);
+//            } else {
+//                return new ResponseEntity<>("User with email " + friendEmail + " not found.", HttpStatus.NOT_FOUND);
+//            }
+//        } catch (EntityDuplicateException e) {
+//            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+//        } catch (Exception e) {
+//            return new ResponseEntity<>("Error sending invitation: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//
+//    }
+
     @PostMapping("/invite")
     public ResponseEntity<String> inviteFriend(@RequestHeader HttpHeaders httpHeaders,
                                                @RequestParam String friendEmail) {
-        try {
-            User inviter = authenticationHelper.tryGetUser(httpHeaders);
-            User existingFriend = userService.getByEmail(friendEmail);
 
-            if (existingFriend != null) {
-                userService.inviteFriend(inviter, friendEmail);
-                return new ResponseEntity<>("Invitation sent successfully", HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>("User with email " + friendEmail + " not found.", HttpStatus.NOT_FOUND);
-            }
+        try {
+            User inviter= authenticationHelper.tryGetUser(httpHeaders);
+            User existingFriend = userService.getByEmail(friendEmail);
+            return new ResponseEntity<>("User with email " + friendEmail + " is already registered.", HttpStatus.NOT_FOUND);
         } catch (EntityDuplicateException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
-        } catch (Exception e) {
-            return new ResponseEntity<>("Error sending invitation: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (EntityNotFoundException e) {
+            User inviter= authenticationHelper.tryGetUser(httpHeaders);
+            userService.inviteFriend(inviter, friendEmail);
+            return new ResponseEntity<>("Invitation sent successfully", HttpStatus.OK);
+        }catch (AuthorizationException e){
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
         }
-
     }
 }

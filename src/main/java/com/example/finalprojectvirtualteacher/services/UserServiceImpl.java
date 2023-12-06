@@ -193,10 +193,7 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public void inviteFriend(User inviter, String friendEmail) {
-        User existingFriend = userRepository.getByEmail(friendEmail);
-        if (existingFriend != null) {
-            throw new EntityDuplicateException("User", "email", friendEmail + " is already registered.");
-        }
+
         String invitationLink = "http://localhost:8080/auth/register";
         String invitationMessage = String.format("Hello! You have been invited by %s %s to join our site. Click the following link to register: %s",
                 inviter.getFirstName(),inviter.getLastName(), invitationLink);
