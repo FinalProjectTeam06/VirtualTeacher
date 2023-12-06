@@ -10,10 +10,9 @@ public class Note {
     @Column(name = "note_id")
     private int noteId;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
+    @Column(name = "user_id")
     @JsonIgnore
-    private User user;
+    private int userId;
 
     @ManyToOne
     @JoinColumn(name = "lecture_id")
@@ -25,6 +24,9 @@ public class Note {
 
     public Note() {
     }
+    public Note(String text){
+        this.text = text;
+    }
 
     public int getNoteId() {
         return noteId;
@@ -34,12 +36,12 @@ public class Note {
         this.noteId = noteId;
     }
 
-    public User getUser() {
-        return user;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public Lecture getLecture() {

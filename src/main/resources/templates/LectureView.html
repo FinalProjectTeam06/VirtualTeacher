@@ -94,7 +94,6 @@
         <div class="rbt-lesson-leftsidebar" th:fragment="LessonLeftSideBar">
 
 
-
             <div class="rbt-course-feature-inner rbt-search-activation">
                 <div class="section-title">
                     <h4 class="rbt-title-style-3">Course Content</h4>
@@ -255,6 +254,33 @@
                                                 }
                                             </script>
 
+                                        </div>
+<!--                                        <div class="sticky-note">-->
+<!--                                            <label>-->
+<!--                                                <textarea class="note-content" placeholder="Write your note here..."></textarea>-->
+<!--                                            </label>-->
+<!--                                            <button class="save-note" onclick="function saveNote() {-->
+<!--                                            }-->
+<!--                                            saveNote()">Save</button>-->
+<!--                                        </div>-->
+                                            </div>
+                                            <!--                                        <div class="sticky-note">-->
+                                            <!--                                            <label>-->
+                                            <!--                                                <textarea class="note-content" placeholder="Write your note here..."></textarea>-->
+                                            <!--                                            </label>-->
+                                            <!--                                            <button class="save-note" onclick="function saveNote() {-->
+                                            <!--                                            }-->
+                                            <!--                                            saveNote()">Save</button>-->
+                                            <!--                                        </div>-->
+                                        <div id="notes-container" class="notes-container">
+                                            <form style="display:inline-block" action="#"
+                                                  th:action="@{/course/{courseId}/lecture/{lectureId}/notes/new
+                                                  (courseId=${course.getId()}, lectureId=${lecture.getId()})}" th:object="${note}"   method="post">
+                                                <div class="text-area">
+                                                    <textarea id="new-note-content" class="new-note-content" th:field="*{note}" placeholder="Write your new note here..."></textarea>
+                                            <button type="submit" class="rbt-btn rbt-switch-btn no-padding">Add Note</button>
+                                                </div>
+                                            </form>
                                         </div>
 <!--                                        <div class="sticky-note">-->
 <!--                                            <label>-->
