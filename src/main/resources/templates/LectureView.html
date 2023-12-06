@@ -164,84 +164,14 @@
                                         <br>
 
                                         <div id="notes-container" class="notes-container">
-
-                                        <textarea id="new-note-content" class="new-note-content" placeholder="Write your new note here..."></textarea>
-                                            <button onclick="addNote()" class="rbt-btn rbt-switch-btn no-padding">Add Note</button>
-
-
-                                            <script>
-                                                window.onload = function() {
-                                                    loadNotes();
-                                                };
-
-                                                // Function to add a new note
-                                                function addNote() {
-                                                    const content = document.getElementById('new-note-content').value;
-                                                    if (content.trim() !== '') {
-                                                        const notesContainer = document.getElementById('notes-container');
-                                                        const newNote = document.createElement('div');
-                                                        newNote.className = 'note';
-
-                                                        const noteContent = document.createElement('textarea');
-                                                        noteContent.className = 'note-content';
-                                                        noteContent.value = content;
-                                                        noteContent.readOnly = true;
-
-                                                        const deleteButton = document.createElement('button');
-                                                        deleteButton.className = 'delete-note';
-                                                        deleteButton.textContent = 'Delete';
-                                                        deleteButton.onclick = function() {
-                                                            deleteNote();
-                                                        };
-
-                                                        newNote.appendChild(noteContent);
-                                                        newNote.appendChild(deleteButton);
-                                                        notesContainer.appendChild(newNote);
-
-                                                        saveNotes(); // Save notes to local storage after adding a new note
-                                                    }
-                                                }
-                                                // Function to delete a note
-                                                function deleteNote() {
-                                                    const note = event.target.parentNode;
-                                                    note.parentNode.removeChild(note);
-                                                    saveNotes(); // Save notes to local storage after deleting a note
-                                                }
-                                                // Function to save notes to local storage
-                                                function saveNotes() {
-                                                    const notes = document.querySelectorAll('.note-content');
-                                                    const notesArray = Array.from(notes).map(note => note.value);
-                                                    localStorage.setItem('stickyNotes', JSON.stringify(notesArray));
-                                                }
-                                                // Function to load notes from local storage
-                                                function loadNotes() {
-                                                    const notesContainer = document.getElementById('notes-container');
-                                                    const savedNotes = JSON.parse(localStorage.getItem('stickyNotes'));
-                                                    if (savedNotes) {
-                                                        savedNotes.forEach(note => {
-                                                            const newNote = document.createElement('div');
-                                                            newNote.className = 'note';
-
-                                                            const noteContent = document.createElement('textarea');
-                                                            noteContent.className = 'note-content';
-                                                            noteContent.value = note;
-                                                            noteContent.readOnly = true;
-
-                                                            const deleteButton = document.createElement('button');
-                                                            deleteButton.className = 'delete-note';
-                                                            deleteButton.textContent = 'Delete';
-                                                            deleteButton.onclick = function() {
-                                                                deleteNote();
-                                                            };
-
-                                                            newNote.appendChild(noteContent);
-                                                            newNote.appendChild(deleteButton);
-                                                            notesContainer.appendChild(newNote);
-                                                        });
-                                                    }
-                                                }
-                                            </script>
-
+                                            <form style="display:inline-block" action="#"
+                                                  th:action="@{/course/{courseId}/lecture/{lectureId}/notes/new
+                                                  (courseId=${course.getId()}, lectureId=${lecture.getId()})}" th:object="${note}"   method="post">
+                                                <div class="text-area">
+                                                    <textarea id="new-note-content" class="new-note-content" th:field="*{note}" placeholder="Write your new note here..."></textarea>
+                                            <button type="submit" class="rbt-btn rbt-switch-btn no-padding">Add Note</button>
+                                                </div>
+                                            </form>
                                         </div>
 <!--                                        <div class="sticky-note">-->
 <!--                                            <label>-->

@@ -10,6 +10,7 @@ import com.example.finalprojectvirtualteacher.models.User;
 import com.example.finalprojectvirtualteacher.models.dto.LectureDto;
 import com.example.finalprojectvirtualteacher.services.contacts.AssignmentService;
 import com.example.finalprojectvirtualteacher.services.contacts.LectureService;
+import com.example.finalprojectvirtualteacher.services.contacts.NoteService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -28,12 +29,14 @@ public class LectureRestController {
     private final LectureService lectureService;
     private final AuthenticationHelper authenticationHelper;
     private final AssignmentService assignmentService;
+    private final NoteService noteService;
 
     @Autowired
-    public LectureRestController(LectureService lectureService, AuthenticationHelper authenticationHelper, AssignmentService assignmentService) {
+    public LectureRestController(LectureService lectureService, AuthenticationHelper authenticationHelper, AssignmentService assignmentService, NoteService noteService) {
         this.lectureService = lectureService;
         this.authenticationHelper = authenticationHelper;
         this.assignmentService = assignmentService;
+        this.noteService = noteService;
     }
 
 
@@ -94,7 +97,7 @@ public class LectureRestController {
     public Note createNote(@RequestHeader HttpHeaders httpHeaders, @RequestBody String text, @PathVariable int lectureId) {
         try {
             User user = authenticationHelper.tryGetUser(httpHeaders);
-            return lectureService.createNote(lectureId, user, text);
+            return noteService.create(new Note(text));
         } catch (AuthorizationException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
         }catch (EntityNotFoundException e){

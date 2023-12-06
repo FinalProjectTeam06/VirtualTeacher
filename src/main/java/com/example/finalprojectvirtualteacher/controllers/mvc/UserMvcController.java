@@ -7,10 +7,7 @@ import com.example.finalprojectvirtualteacher.helpers.mappers.UserMapper;
 import com.example.finalprojectvirtualteacher.models.Course;
 import com.example.finalprojectvirtualteacher.models.User;
 import com.example.finalprojectvirtualteacher.models.dto.UserDtoUpdate;
-import com.example.finalprojectvirtualteacher.services.contacts.AssignmentService;
-import com.example.finalprojectvirtualteacher.services.contacts.CourseService;
-import com.example.finalprojectvirtualteacher.services.contacts.EnrollmentService;
-import com.example.finalprojectvirtualteacher.services.contacts.UserService;
+import com.example.finalprojectvirtualteacher.services.contacts.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,8 +28,9 @@ public class UserMvcController {
     private final CourseService courseService;
     private final EnrollmentService enrollmentService;
     private final AssignmentService assignmentService;
+    private final NoteService noteService;
 
-    public UserMvcController(AuthenticationHelper authenticationHelper, UserMapper userMapper, UserService userService, ImageHelper imageHelper, CourseService courseService, EnrollmentService enrollmentService, AssignmentService assignmentService) {
+    public UserMvcController(AuthenticationHelper authenticationHelper, UserMapper userMapper, UserService userService, ImageHelper imageHelper, CourseService courseService, EnrollmentService enrollmentService, AssignmentService assignmentService, NoteService noteService) {
         this.authenticationHelper = authenticationHelper;
         this.userMapper = userMapper;
         this.userService = userService;
@@ -40,6 +38,7 @@ public class UserMvcController {
         this.courseService = courseService;
         this.enrollmentService = enrollmentService;
         this.assignmentService = assignmentService;
+        this.noteService = noteService;
     }
 
     @ModelAttribute("isAuthenticated")
@@ -62,6 +61,15 @@ public class UserMvcController {
             User user = authenticationHelper.tryGetCurrentUser(session);
             return (user.getRole().getId()==3);
         } catch (AuthorizationException e) {
+            return false;
+        }
+    }
+    @ModelAttribute("isStudent")
+    public boolean populateIsStudent(HttpSession session) {
+        try{
+            User user = authenticationHelper.tryGetCurrentUser(session);
+            return (user.getRole().getId()==1);
+        } catch (AuthorizationException e){
             return false;
         }
     }
@@ -113,7 +121,9 @@ public class UserMvcController {
     }
 
     @PostMapping("/update")
-    public String updateProfile(@ModelAttribute("updateDto") UserDtoUpdate userDtoUpdate, Model model, HttpSession httpSession, BindingResult bindingResult) {
+    public String updateProfile(@ModelAttribute("updateDto") UserDtoUpdate userDtoUpdate,
+                                Model model, HttpSession httpSession,
+                                BindingResult bindingResult) {
         try {
             User user = authenticationHelper.tryGetCurrentUser(httpSession);
             model.addAttribute("userToUpdate", user);
@@ -187,6 +197,18 @@ public class UserMvcController {
             model.addAttribute("loggedIn",user);
             return "AllCourses";
         } catch (AuthorizationException e) {
+            return "redirect:/auth/login";
+        }
+    }
+//todo - da napravq stranica za belejkite na potrebitelq
+    @GetMapping("/myNotes")
+    public String showUserNotes(Model model, HttpSession session) {
+        try{
+            User user = authenticationHelper.tryGetCurrentUser(session);
+            model.addAttribute("loggedIn",user);
+            model.addAttribute("notes",noteService.getByUserId(user.getId()));
+            return "UserNotes";
+        }catch (AuthorizationException e){
             return "redirect:/auth/login";
         }
     }

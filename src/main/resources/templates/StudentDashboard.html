@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -194,9 +193,14 @@
                                                 <li><a href="student-enrolled-courses.html" th:href="@{/courses/assignments/user/{userId}(userId=${loggedIn.getId()})}"><i
                                                         class="feather-book-open"></i><span>My Assignments</span></a>
                                                 </li>
-
+                                                <li>
+                                                    <a href="UserNotes.html"
+                                                       th:href="@{/users/myNotes}"><i class="feather-list"></i>
+                                                        <span>My Notes</span></a></li>
                                             </ul>
                                         </nav>
+
+
 
                                         <div class="section-title mt--40 mb--20">
                                             <h6 class="rbt-title-style-2">User</h6>
@@ -206,7 +210,7 @@
                                             <ul class="dashboard-mainmenu rbt-default-sidebar-list">
                                                 <li><a href="ProfileSettings.html" th:href="@{/users/update}"><i
                                                         class="feather-settings"></i><span>Settings</span></a></li>
-                                                <li><a href="index.html" th:href="@{/auth/logout}"><i
+                                                <li><a href="HomeView.html" th:href="@{/auth/logout}"><i
                                                         class="feather-log-out"></i><span>Logout</span></a></li>
                                             </ul>
                                         </nav>
