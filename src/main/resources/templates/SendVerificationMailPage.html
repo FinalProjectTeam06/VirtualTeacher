@@ -51,7 +51,7 @@
                             <input type="text" th:field="*{code}" id="activationCode" name="activationCode" class="form-control" required/>
                         </div>
                         <!-- Include other input fields and form content as needed -->
-                        <button type="submit" class="btn btn-primary btn-lg">Verify</button>
+                        <button type="submit" class="rbt-btn btn-md btn-gradient hover-icon-reverse w-100">Verify</button>
                         <br/><br/>
                     </form>
                     <div class="row">
@@ -60,7 +60,7 @@
                                 to send a new one.</p>
                             <!-- Add a larger size to the button -->
                             <form th:action="@{/verification/new-code/{email}(email=${email})}" method="post">
-                            <button type="submit" class="btn btn-primary btn-lg" id="send-new-code" >Send New Code</button>
+                            <button type="submit" class="rbt-btn btn-md btn-gradient hover-icon-reverse w-100" id="send-new-code" >Send New Code</button>
                             </form>
                         </div>
                     </div>
