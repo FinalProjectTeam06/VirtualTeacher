@@ -35,193 +35,243 @@
     <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}">
 </head>
 
+<style>
+    .rbt-btn-close {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        z-index: 1000;
+    }
+</style>
+
 <body class="rbt-header-sticky">
 
 <div class="rbt-lesson-area bg-color-white">
+    <div class="rbt-search-dropdown" th:classappend="${isSearch} ? active">
+        <div class="wrapper">
+            <div class="row">
+
+            </div>
+
+            <div class="rbt-separator-mid">
+                <hr class="rbt-separator m-0">
+            </div>
+
+            <div class="row g-4 pt--30 pb--60">
+                <div class="col-lg-12">
+                    <div class="section-title">
+                        <h5 class="rbt-title-style-2">Search results</h5>
+                        <div class="rbt-btn-close">
+                            <a href="course-details.html" th:href="@{/courses/{courseId}/lecture/{lectureId}(courseId=${course.getId()}, lectureId=${lecture.getId()})}" title="Go Back to Course" class="rbt-round-btn"><i
+                                    class="feather-x"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Start Single Card  -->
+                <div class="col-lg-12 col-md-4 col-sm-6 col-12" th:each="result : ${results}">
+                    <div class="rbt-card variation-01 rbt-hover">
+                        <div class="rbt-card-body">
+                        <h5 class="rbt-card-title"><a href="course-details.html" th:text="${result.getTitle()}">Web Design</a></h5>
+                            <div class="rbt-card-bottom">
+                                <h6  th:text="${#strings.length(result.getContentSnippet()) > 500 ? #strings.substring(result.getContentSnippet(), 0, 500) + '...' : result.getContentSnippet()}">ddddddddddddddddddddddddddddddddddddddd</h6>
+                            </div>
+                            <div class="rbt-card-bottom">
+                                <a th:href="${result.getFullUrl()}">Link to this article</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Single Card  -->
+            </div>
+
+        </div>
+    </div>
+
 
     <div class="rbt-lesson-content-wrapper">
         <div class="rbt-lesson-leftsidebar" th:fragment="LessonLeftSideBar">
+
 
 
             <div class="rbt-course-feature-inner rbt-search-activation">
                 <div class="section-title">
                     <h4 class="rbt-title-style-3">Course Content</h4>
                 </div>
-                <form>
-                    <ul class="quick-access">
-                        <li class="access-icon ms-3">
-                            <button type="submit" class="search-trigger rbt-round-btn" href="#">
-                                <i class="feather-search"></i>
-                            </button>
-                        </li>
-                        <li>
-                            <input type="text" name="search_query" placeholder="Search In Wikipedia">
-                        </li>
-                    </ul>
+                <form action="#" th:action="@{/courses/{courseId}/lecture/{lectureId}(courseId=${course.getId()}, lectureId=${lecture.getId()})}" method="post">
+
+                <ul class="quick-access">
+                    <li class="access-icon ms-3">
+                        <button type="submit" class="rbt-round-btn">
+                            <i class="feather-search"></i>
+                        </button>
+                    </li>
+                    <li>
+                        <input type="text" name="search" id="search" placeholder="Search In Wikipedia">
+                    </li>
+
+                </ul>
                 </form>
 
-                    <hr class="mt--10">
-
-                    <div class="rbt-accordion-style rbt-accordion-02 for-right-content accordion">
 
 
-                        <div class="accordion" id="accordionExampleb2">
 
-                            <div class="accordion-item card" th:each="lecture : ${course.getLectures()}">
-                                <h2 class="accordion-header card-header" id="headingTwo1">
-                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                            aria-expanded="true" data-bs-target="#collapseTwo1"
-                                            aria-controls="collapseTwo1"
-                                            th:text="${lecture.getTitle()}">
-                                        Welcome Histudy
-                                    </button>
-                                </h2>
-                                <div id="collapseTwo1" class="accordion-collapse collapse show"
-                                     aria-labelledby="headingTwo1">
-                                    <div class="accordion-body card-body">
-                                        <ul class="rbt-course-main-content liststyle">
+                <hr class="mt--10">
 
-                                            <li>
-                                                <a href="lesson.html"
-                                                   th:href="@{/courses/{courseId}/lecture/{lectureId}(courseId=${course.getId()}, lectureId=${lecture.getId()})}">
-                                                    <div class="course-content-left">
-                                                        <i class="feather-play-circle"></i> <span class="text">Course
+                <div class="rbt-accordion-style rbt-accordion-02 for-right-content accordion">
+
+
+                    <div class="accordion" id="accordionExampleb2">
+
+                        <div class="accordion-item card" th:each="lecture : ${course.getLectures()}">
+                            <h2 class="accordion-header card-header" id="headingTwo1">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                        aria-expanded="true" data-bs-target="#collapseTwo1" aria-controls="collapseTwo1"
+                                        th:text="${lecture.getTitle()}">
+                                    Welcome Histudy
+                                </button>
+                            </h2>
+                            <div id="collapseTwo1" class="accordion-collapse collapse show"
+                                 aria-labelledby="headingTwo1">
+                                <div class="accordion-body card-body">
+                                    <ul class="rbt-course-main-content liststyle">
+
+                                        <li>
+                                            <a href="lesson.html"
+                                               th:href="@{/courses/{courseId}/lecture/{lectureId}(courseId=${course.getId()}, lectureId=${lecture.getId()})}">
+                                                <div class="course-content-left">
+                                                    <i class="feather-play-circle"></i> <span class="text">Course
                                             Intro</span>
-                                                    </div>
-                                                    <div class="course-content-right">
-                                                        <span class="rbt-check"><i class="feather-check"></i></span>
-                                                    </div>
-                                                </a>
-                                            </li>
+                                                </div>
+                                                <div class="course-content-right">
+                                                    <span class="rbt-check"><i class="feather-check"></i></span>
+                                                </div>
+                                            </a>
+                                        </li>
 
-                                            <li>
-                                                <a href="lesson-intro.html"
-                                                   th:href="@{/courses/{courseId}/lecture/{lectureId}/assignment/show(courseId=${course.getId()}, lectureId=${lecture.getId()})}">
-                                                    <div class="course-content-left">
-                                                        <i class="feather-file-text"></i> <span
-                                                            class="text">Assignment</span>
-                                                    </div>
-                                                    <div class="course-content-right">
-                                                        <span class="rbt-check"><i class="feather-check"></i></span>
-                                                    </div>
-                                                </a>
-                                            </li>
+                                        <li>
+                                            <a href="lesson-intro.html"
+                                               th:href="@{/courses/{courseId}/lecture/{lectureId}/assignment/show(courseId=${course.getId()}, lectureId=${lecture.getId()})}">
+                                                <div class="course-content-left">
+                                                    <i class="feather-file-text"></i> <span
+                                                        class="text">Assignment</span>
+                                                </div>
+                                                <div class="course-content-right">
+                                                    <span class="rbt-check"><i class="feather-check"></i></span>
+                                                </div>
+                                            </a>
+                                        </li>
 
-                                            <li>
-                                                <a href="lesson-intro.html"
-                                                   th:href="@{/courses/{courseId}/lecture/{lectureId}/assignment(courseId=${course.getId()}, lectureId=${lecture.getId()})}">
-                                                    <div class="course-content-left">
-                                                        <i class="feather-file-text"></i> <span class="text">Assignment Submit</span>
-                                                    </div>
-                                                    <div class="course-content-right">
-                                                        <span class="rbt-check"><i class="feather-check"></i></span>
-                                                    </div>
-                                                </a>
-                                            </li>
-                                            <br>
+                                        <li>
+                                            <a href="lesson-intro.html"
+                                               th:href="@{/courses/{courseId}/lecture/{lectureId}/assignment(courseId=${course.getId()}, lectureId=${lecture.getId()})}">
+                                                <div class="course-content-left">
+                                                    <i class="feather-file-text"></i> <span class="text">Assignment Submit</span>
+                                                </div>
+                                                <div class="course-content-right">
+                                                    <span class="rbt-check"><i class="feather-check"></i></span>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <br>
 
-                                            <div id="notes-container" class="notes-container">
+                                        <div id="notes-container" class="notes-container">
 
-                                                <textarea id="new-note-content" class="new-note-content"
-                                                          placeholder="Write your new note here..."></textarea>
-                                                <button onclick="addNote()" class="rbt-btn rbt-switch-btn no-padding">
-                                                    Add Note
-                                                </button>
+                                        <textarea id="new-note-content" class="new-note-content" placeholder="Write your new note here..."></textarea>
+                                            <button onclick="addNote()" class="rbt-btn rbt-switch-btn no-padding">Add Note</button>
 
 
-                                                <script>
-                                                    window.onload = function () {
-                                                        loadNotes();
-                                                    };
+                                            <script>
+                                                window.onload = function() {
+                                                    loadNotes();
+                                                };
 
-                                                    // Function to add a new note
-                                                    function addNote() {
-                                                        const content = document.getElementById('new-note-content').value;
-                                                        if (content.trim() !== '') {
-                                                            const notesContainer = document.getElementById('notes-container');
+                                                // Function to add a new note
+                                                function addNote() {
+                                                    const content = document.getElementById('new-note-content').value;
+                                                    if (content.trim() !== '') {
+                                                        const notesContainer = document.getElementById('notes-container');
+                                                        const newNote = document.createElement('div');
+                                                        newNote.className = 'note';
+
+                                                        const noteContent = document.createElement('textarea');
+                                                        noteContent.className = 'note-content';
+                                                        noteContent.value = content;
+                                                        noteContent.readOnly = true;
+
+                                                        const deleteButton = document.createElement('button');
+                                                        deleteButton.className = 'delete-note';
+                                                        deleteButton.textContent = 'Delete';
+                                                        deleteButton.onclick = function() {
+                                                            deleteNote();
+                                                        };
+
+                                                        newNote.appendChild(noteContent);
+                                                        newNote.appendChild(deleteButton);
+                                                        notesContainer.appendChild(newNote);
+
+                                                        saveNotes(); // Save notes to local storage after adding a new note
+                                                    }
+                                                }
+                                                // Function to delete a note
+                                                function deleteNote() {
+                                                    const note = event.target.parentNode;
+                                                    note.parentNode.removeChild(note);
+                                                    saveNotes(); // Save notes to local storage after deleting a note
+                                                }
+                                                // Function to save notes to local storage
+                                                function saveNotes() {
+                                                    const notes = document.querySelectorAll('.note-content');
+                                                    const notesArray = Array.from(notes).map(note => note.value);
+                                                    localStorage.setItem('stickyNotes', JSON.stringify(notesArray));
+                                                }
+                                                // Function to load notes from local storage
+                                                function loadNotes() {
+                                                    const notesContainer = document.getElementById('notes-container');
+                                                    const savedNotes = JSON.parse(localStorage.getItem('stickyNotes'));
+                                                    if (savedNotes) {
+                                                        savedNotes.forEach(note => {
                                                             const newNote = document.createElement('div');
                                                             newNote.className = 'note';
 
                                                             const noteContent = document.createElement('textarea');
                                                             noteContent.className = 'note-content';
-                                                            noteContent.value = content;
+                                                            noteContent.value = note;
                                                             noteContent.readOnly = true;
 
                                                             const deleteButton = document.createElement('button');
                                                             deleteButton.className = 'delete-note';
                                                             deleteButton.textContent = 'Delete';
-                                                            deleteButton.onclick = function () {
+                                                            deleteButton.onclick = function() {
                                                                 deleteNote();
                                                             };
 
                                                             newNote.appendChild(noteContent);
                                                             newNote.appendChild(deleteButton);
                                                             notesContainer.appendChild(newNote);
-
-                                                            saveNotes(); // Save notes to local storage after adding a new note
-                                                        }
+                                                        });
                                                     }
+                                                }
+                                            </script>
 
-                                                    // Function to delete a note
-                                                    function deleteNote() {
-                                                        const note = event.target.parentNode;
-                                                        note.parentNode.removeChild(note);
-                                                        saveNotes(); // Save notes to local storage after deleting a note
-                                                    }
-
-                                                    // Function to save notes to local storage
-                                                    function saveNotes() {
-                                                        const notes = document.querySelectorAll('.note-content');
-                                                        const notesArray = Array.from(notes).map(note => note.value);
-                                                        localStorage.setItem('stickyNotes', JSON.stringify(notesArray));
-                                                    }
-
-                                                    // Function to load notes from local storage
-                                                    function loadNotes() {
-                                                        const notesContainer = document.getElementById('notes-container');
-                                                        const savedNotes = JSON.parse(localStorage.getItem('stickyNotes'));
-                                                        if (savedNotes) {
-                                                            savedNotes.forEach(note => {
-                                                                const newNote = document.createElement('div');
-                                                                newNote.className = 'note';
-
-                                                                const noteContent = document.createElement('textarea');
-                                                                noteContent.className = 'note-content';
-                                                                noteContent.value = note;
-                                                                noteContent.readOnly = true;
-
-                                                                const deleteButton = document.createElement('button');
-                                                                deleteButton.className = 'delete-note';
-                                                                deleteButton.textContent = 'Delete';
-                                                                deleteButton.onclick = function () {
-                                                                    deleteNote();
-                                                                };
-
-                                                                newNote.appendChild(noteContent);
-                                                                newNote.appendChild(deleteButton);
-                                                                notesContainer.appendChild(newNote);
-                                                            });
-                                                        }
-                                                    }
-                                                </script>
-
-                                            </div>
-                                            <!--                                        <div class="sticky-note">-->
-                                            <!--                                            <label>-->
-                                            <!--                                                <textarea class="note-content" placeholder="Write your note here..."></textarea>-->
-                                            <!--                                            </label>-->
-                                            <!--                                            <button class="save-note" onclick="function saveNote() {-->
-                                            <!--                                            }-->
-                                            <!--                                            saveNote()">Save</button>-->
-                                            <!--                                        </div>-->
+                                        </div>
+<!--                                        <div class="sticky-note">-->
+<!--                                            <label>-->
+<!--                                                <textarea class="note-content" placeholder="Write your note here..."></textarea>-->
+<!--                                            </label>-->
+<!--                                            <button class="save-note" onclick="function saveNote() {-->
+<!--                                            }-->
+<!--                                            saveNote()">Save</button>-->
+<!--                                        </div>-->
 
 
-                                        </ul>
-                                    </div>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
             </div>
         </div>
         <div class="rbt-lesson-rightsidebar overflow-hidden lesson-video">
@@ -235,7 +285,7 @@
                 </div>
                 <div class="lesson-top-right">
                     <div class="rbt-btn-close">
-                        <a href="course-details.html" title="Go Back to Course" class="rbt-round-btn"><i
+                        <a href="course-details.html" th:href="@{/courses/{courseId}(courseId=${course.getId()})}" title="Go Back to Course" class="rbt-round-btn"><i
                                 class="feather-x"></i></a>
                     </div>
                 </div>
@@ -247,27 +297,31 @@
                 </div>
             </div>
 
-            <div class="bg-color-extra2 ptb--15 overflow-hidden">
-                <div class="rbt-button-group">
+<!--            <div class="bg-color-extra2 ptb&#45;&#45;15 overflow-hidden">-->
+<!--                <div class="rbt-button-group">-->
 
-                    <a class="rbt-btn icon-hover icon-hover-left btn-md bg-primary-opacity" href="#">
-                        <span class="btn-icon"><i class="feather-arrow-left"></i></span>
-                        <span class="btn-text">Previous</span>
-                    </a>
+<!--                    <a class="rbt-btn icon-hover icon-hover-left btn-md bg-primary-opacity" href="#">-->
+<!--                        <span class="btn-icon"><i class="feather-arrow-left"></i></span>-->
+<!--                        <span class="btn-text">Previous</span>-->
+<!--                    </a>-->
 
-                    <a class="rbt-btn icon-hover btn-md" href="#">
-                        <span class="btn-text">Next</span>
-                        <span class="btn-icon"><i class="feather-arrow-right"></i></span>
-                    </a>
+<!--                    <a class="rbt-btn icon-hover btn-md" href="#">-->
+<!--                        <span class="btn-text">Next</span>-->
+<!--                        <span class="btn-icon"><i class="feather-arrow-right"></i></span>-->
+<!--                    </a>-->
 
-                </div>
-            </div>
+<!--                </div>-->
+<!--            </div>-->
 
         </div>
 
 
+
+
     </div>
 </div>
+
+
 
 
 <div class="rbt-progress-parent">
@@ -275,6 +329,7 @@
         <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98"/>
     </svg>
 </div>
+
 
 
 <!-- JS
@@ -309,6 +364,7 @@
 <script src="../static/js/vendor/plyr.js" th:src="@{/js/vendor/plyr.js}"></script>
 <!-- Main JS -->
 <script src="../static/js/main.js" th:src="@{/js/main.js}"></script>
+
 </body>
 
 </html>

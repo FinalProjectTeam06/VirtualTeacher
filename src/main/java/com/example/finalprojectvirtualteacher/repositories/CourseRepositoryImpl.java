@@ -139,6 +139,19 @@ public class CourseRepositoryImpl implements CourseRepository {
         }
     }
 
+    @Override
+    public List<Course> getAllByUserGraduated(int userId) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Course> query = session.createNativeQuery(
+                    "select c.* from courses c " +
+                            "join enrolled_courses ec on c.course_id = ec.course_id " +
+                            "where ec.user_id = :id " +
+                            "and ec.graduation_status=1", Course.class);
+            query.setParameter("id", userId);
+            return query.list();
+        }
+    }
+
 
 
     public String generateOrderBy(FilterOptions filterOptions) {
@@ -210,6 +223,15 @@ public class CourseRepositoryImpl implements CourseRepository {
             Query<Lecture> query = session.createQuery(
                     ("from Lecture l where l.teacher.id = :id"), Lecture.class);
             query.setParameter("id", id);
+            return query.list();
+        }
+    }
+
+    @Override
+    public List<Rate> getAllUserRates(int userId) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Rate> query = session.createQuery( "from Rate r where r.user.id = :userId", Rate.class);
+            query.setParameter("userId", userId);
             return query.list();
         }
     }

@@ -173,7 +173,7 @@ public class UserServiceImpl implements UserService {
     public void sendActivationEmail(User user){
         String email = user.getEmail();
         int code = getActivationCode(user);
-        emailService.sendMessage(email, "Account activation", String.valueOf(code));
+//        emailService.sendMessage(email, "Account activation", String.valueOf(code));
         emailService.sendUserCreationVerificationCode(user, code);
         System.out.println(code);
     }

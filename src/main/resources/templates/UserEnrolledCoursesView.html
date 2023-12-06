@@ -187,7 +187,7 @@
 <!--                                                        </a>-->
 <!--                                                    </div>-->
                                                     <div class="rbt-card-body">
-                                                        <h4 class="rbt-card-title"><a th:text="${#strings.length(enrollment.getCourse().getTitle()) > 25 ? #strings.substring(enrollment.getCourse().getTitle(), 0, 25) + '...' : enrollment.getCourse().getTitle()}">React Front To Back</a>
+                                                        <h4 class="rbt-card-title"><a th:href="@{/courses/{courseId}(courseId=${enrollment.getCourse().getId()})}" th:text="${#strings.length(enrollment.getCourse().getTitle()) > 25 ? #strings.substring(enrollment.getCourse().getTitle(), 0, 25) + '...' : enrollment.getCourse().getTitle()}">React Front To Back</a>
                                                         </h4>
                                                             <div class="rbt-review">
                                                                 <div class="rating">
@@ -210,6 +210,7 @@
                                                         <div class="rbt-card-bottom" th:if="${enrollment.isGraduated()==false}">
                                                             <a class="rbt-btn btn-sm bg-primary-opacity w-100 text-center">Not Graduated</a>
                                                         </div>
+
                                                     </div>
                                                 </div>
                                             </div>

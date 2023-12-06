@@ -56,11 +56,12 @@ public class UserMvcController {
             return false;
         }
     }
+
     @ModelAttribute("isAdmin")
     public boolean populateIsAdmin(HttpSession session) {
-        try{
+        try {
             User user = authenticationHelper.tryGetCurrentUser(session);
-            return (user.getRole().getId()==3);
+            return (user.getRole().getId() == 3);
         } catch (AuthorizationException e) {
             return false;
         }
@@ -160,32 +161,58 @@ public class UserMvcController {
         try {
             User user = authenticationHelper.tryGetCurrentUser(session);
             List<User> users = userService.getAll();
-            model.addAttribute("users",users);
-            model.addAttribute("loggedIn",user);
+            model.addAttribute("users", users);
+            model.addAttribute("loggedIn", user);
             return "Users";
-        } catch (AuthorizationException e){
+        } catch (AuthorizationException e) {
             return "redirect:/auth/login";
         }
     }
+
     @PostMapping("/{userId}")
-    public String deleteUser(@PathVariable int userId,HttpSession session){
-        try{
-            User user= authenticationHelper.tryGetCurrentUser(session);
-            userService.deleteUser(userId,user);
-        } catch (AuthorizationException e){
+    public String deleteUser(@PathVariable int userId, HttpSession session) {
+        try {
+            User user = authenticationHelper.tryGetCurrentUser(session);
+            userService.deleteUser(userId, user);
+        } catch (AuthorizationException e) {
             return "redirect:/auth/login";
         }
         return "redirect:/all";
     }
+
     @GetMapping("/allCourses")
-    public String showAllCourses(HttpSession session,Model model) {
-        try{
+    public String showAllCourses(HttpSession session, Model model) {
+        try {
             User user = authenticationHelper.tryGetCurrentUser(session);
             List<Course> courses = courseService.getAll();
-            model.addAttribute("user",user);
-            model.addAttribute("courses",courses);
-            model.addAttribute("loggedIn",user);
+            model.addAttribute("user", user);
+            model.addAttribute("courses", courses);
+            model.addAttribute("loggedIn", user);
             return "AllCourses";
+        } catch (AuthorizationException e) {
+            return "redirect:/auth/login";
+        }
+    }
+
+    @GetMapping("/reviews")
+    public String showAllReviews(HttpSession session, Model model) {
+        try {
+            User user = authenticationHelper.tryGetCurrentUser(session);
+            model.addAttribute("userRates", courseService.getAllUserRates(user.getId()));
+            model.addAttribute("loggedIn", user);
+            return "ReviewsView";
+        } catch (AuthorizationException e) {
+            return "redirect:/auth/login";
+        }
+    }
+
+    @GetMapping("/rate")
+    public String showReviewPage(HttpSession session, Model model) {
+        try {
+            User user = authenticationHelper.tryGetCurrentUser(session);
+            model.addAttribute("userRates", courseService.getAllUserRates(user.getId()));
+            model.addAttribute("loggedIn", user);
+            return "ReviewsView";
         } catch (AuthorizationException e) {
             return "redirect:/auth/login";
         }
