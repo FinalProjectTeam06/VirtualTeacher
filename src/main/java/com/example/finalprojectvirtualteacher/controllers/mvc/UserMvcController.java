@@ -88,7 +88,7 @@ public class UserMvcController {
                 model.addAttribute("activeCourses", courseService.getAllByUserNotCompleted(user.getId()));
                 model.addAttribute("completedCourses", courseService.getAllByUserCompleted(user.getId()));
                 model.addAttribute("allCourses", courseService.getAll());
-                model.addAttribute("allStudents", userService.getAllStudents());
+                model.addAttribute("allStudents", userService.getAll());
                 return "InstructorDashboard";
             }
         } catch (AuthorizationException e) {

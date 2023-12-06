@@ -69,7 +69,11 @@ public class AuthenticationMvcController {
             return "LoginView";
         }
         try {
-            authenticationHelper.verifyAuthentication(loginDto.getEmail(), loginDto.getPassword());
+            User user= authenticationHelper.verifyAuthentication(loginDto.getEmail(), loginDto.getPassword());
+            if (!user.isActivated()){
+                userService.sendActivationEmail(user);
+                return "redirect:/verification/"+ loginDto.getEmail();
+            }
             httpSession.setAttribute("currentUser", loginDto.getEmail());
             return "redirect:/users";
         } catch (AuthorizationException e) {
@@ -104,9 +108,12 @@ public class AuthenticationMvcController {
         try {
             User user = userMapper.fromRegisterMvcDto(registerMvcDto);
             userService.create(user);
+            if (!user.isActivated()){
+                return "redirect:/verification/"+ user.getEmail();
+            }
             return "redirect:/auth/login";
         } catch (EntityDuplicateException e) {
-            bindingResult.rejectValue("username", "username_error", e.getMessage());
+            bindingResult.rejectValue("email", "email_error", e.getMessage());
             return "RegisterView";
         }
     }
