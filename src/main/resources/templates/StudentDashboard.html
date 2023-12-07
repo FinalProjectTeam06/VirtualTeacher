@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -44,7 +45,7 @@
                 <div class="header-left rbt-header-content">
                     <div class="header-info">
                         <div class="logo mb-3 mt-3">
-                            <a href="index.html">
+                            <a href="index.html" th:href="@{/users}">
                                 <img src="../static/images/logo/logo.png" th:src="@{/images/logo/logo.png}"
                                      alt="Education Logo Images">
                             </a>
@@ -183,24 +184,17 @@
                                         </div>
                                         <nav class="mainmenu-nav">
                                             <ul class="dashboard-mainmenu rbt-default-sidebar-list">
-                                                <li><a href="student-dashboard.html" th:href="@{/users}"><i class="feather-home"></i><span>Dashboard</span></a>
-                                                </li>
-                                                <li><a href="student-profile.html" th:href="@{/users/profile}"><i class="feather-user"></i><span>My Profile</span></a>
-                                                </li>
+                                                <li><a href="student-dashboard.html" th:href="@{/users}"><i class="feather-home"></i><span>Dashboard</span></a></li>
+                                                <li><a href="student-profile.html" th:href="@{/users/profile}"><i class="feather-user"></i><span>My Profile</span></a></li>
                                                 <li><a href="student-enrolled-courses.html" th:href="@{/courses/enrolled}"><i
-                                                        class="feather-book-open"></i><span>Enrolled Courses</span></a>
-                                                </li>
+                                                        class="feather-book-open"></i><span>Enrolled Courses</span></a></li>
                                                 <li><a href="student-enrolled-courses.html" th:href="@{/courses/assignments/user/{userId}(userId=${loggedIn.getId()})}"><i
-                                                        class="feather-book-open"></i><span>My Assignments</span></a>
-                                                </li>
-                                                <li>
-                                                    <a href="UserNotes.html"
-                                                       th:href="@{/users/myNotes}"><i class="feather-list"></i>
-                                                        <span>My Notes</span></a></li>
+                                                        class="feather-book-open"></i><span>My Assignments</span></a></li>
+                                                <li><a href="student-enrolled-courses.html" th:href="@{/users/reviews}"><i class="feather-star"></i><span>My Reviews</span></a></li>
+
+
                                             </ul>
                                         </nav>
-
-
 
                                         <div class="section-title mt--40 mb--20">
                                             <h6 class="rbt-title-style-2">User</h6>
@@ -210,7 +204,7 @@
                                             <ul class="dashboard-mainmenu rbt-default-sidebar-list">
                                                 <li><a href="ProfileSettings.html" th:href="@{/users/update}"><i
                                                         class="feather-settings"></i><span>Settings</span></a></li>
-                                                <li><a href="HomeView.html" th:href="@{/auth/logout}"><i
+                                                <li><a href="index.html" th:href="@{/auth/logout}"><i
                                                         class="feather-log-out"></i><span>Logout</span></a></li>
                                             </ul>
                                         </nav>

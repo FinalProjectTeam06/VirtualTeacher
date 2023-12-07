@@ -59,6 +59,11 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    public List<Course> getAllByUserGraduated(int userId) {
+        return courseRepository.getAllByUserGraduated(userId);
+    }
+
+    @Override
     public List<Course> getAllPublishedCoursesFromTeacher(User user){
         checkModifyPermission(user);
         return courseRepository.getAllPublishedCoursesFromTeacher(user);
@@ -108,6 +113,10 @@ public class CourseServiceImpl implements CourseService {
         Course course=getById(courseId);
         course.setPublished(true);
         return courseRepository.update(course);
+    }
+
+    public List<Rate> getAllUserRates(int userId){
+        return courseRepository.getAllUserRates(userId);
     }
 
     @Override

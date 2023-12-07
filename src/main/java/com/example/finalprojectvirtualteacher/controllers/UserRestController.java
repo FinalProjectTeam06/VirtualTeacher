@@ -7,11 +7,14 @@ import com.example.finalprojectvirtualteacher.models.User;
 import com.example.finalprojectvirtualteacher.models.UserFilterOptions;
 import com.example.finalprojectvirtualteacher.models.dto.UserDto;
 import com.example.finalprojectvirtualteacher.models.dto.UserDtoUpdate;
+import com.example.finalprojectvirtualteacher.services.contacts.EmailService;
 import com.example.finalprojectvirtualteacher.services.contacts.UserService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -25,12 +28,14 @@ public class UserRestController {
     private final UserService userService;
     private final AuthenticationHelper authenticationHelper;
     private final UserMapper userMapper;
+    private final EmailService emailService;
 
     @Autowired
-    public UserRestController(UserService userService, AuthenticationHelper authenticationHelper, UserMapper userMapper) {
+    public UserRestController(UserService userService, AuthenticationHelper authenticationHelper, UserMapper userMapper, EmailService emailService) {
         this.userService = userService;
         this.authenticationHelper = authenticationHelper;
         this.userMapper = userMapper;
+        this.emailService = emailService;
     }
 
     @GetMapping
@@ -104,7 +109,6 @@ public class UserRestController {
     }
 
 
-
     @PostMapping("/activate/{code}")
     public String activateUser(@PathVariable int code) {
         try {
@@ -127,4 +131,43 @@ public class UserRestController {
         }
     }
 
+//    @PostMapping("/invite")
+//    public ResponseEntity<String> inviteFriend(@RequestHeader HttpHeaders httpHeaders,
+//                                               @RequestParam String friendEmail) {
+//        try {
+//            User inviter = authenticationHelper.tryGetUser(httpHeaders);
+//            User existingFriend = userService.getByEmail(friendEmail);
+//
+//            if (existingFriend != null) {
+//                userService.inviteFriend(inviter, friendEmail);
+//                return new ResponseEntity<>("Invitation sent successfully", HttpStatus.OK);
+//            } else {
+//                return new ResponseEntity<>("User with email " + friendEmail + " not found.", HttpStatus.NOT_FOUND);
+//            }
+//        } catch (EntityDuplicateException e) {
+//            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+//        } catch (Exception e) {
+//            return new ResponseEntity<>("Error sending invitation: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//
+//    }
+
+    @PostMapping("/invite")
+    public ResponseEntity<String> inviteFriend(@RequestHeader HttpHeaders httpHeaders,
+                                               @RequestParam String friendEmail) {
+
+        try {
+            User inviter= authenticationHelper.tryGetUser(httpHeaders);
+            User existingFriend = userService.getByEmail(friendEmail);
+            return new ResponseEntity<>("User with email " + friendEmail + " is already registered.", HttpStatus.NOT_FOUND);
+        } catch (EntityDuplicateException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+        } catch (EntityNotFoundException e) {
+            User inviter= authenticationHelper.tryGetUser(httpHeaders);
+            userService.inviteFriend(inviter, friendEmail);
+            return new ResponseEntity<>("Invitation sent successfully", HttpStatus.OK);
+        }catch (AuthorizationException e){
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
+        }
+    }
 }

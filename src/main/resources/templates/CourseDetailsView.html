@@ -142,7 +142,8 @@
                                                     </li>
 
                                                     <li>
-                                                        <a href="lesson.html" th:href="@{/courses/{courseId}/lecture/{lectureId}/assignment/show(courseId=${course.getId()}, lectureId=${lecture.getId()})}">
+                                                        <a href="lesson.html"
+                                                           th:href="@{/courses/{courseId}/lecture/{lectureId}/assignment/show(courseId=${course.getId()}, lectureId=${lecture.getId()})}">
                                                             <div class="course-content-left">
                                                                 <i class="feather-file-text"></i> <span
                                                                     class="text">Assignment</span>
@@ -150,16 +151,17 @@
                                                         </a>
                                                     </li>
                                                     <li>
-                                                        <a href="lesson-intro.html" th:href="@{/courses/{courseId}/lecture/{lectureId}/assignment(courseId=${course.getId()}, lectureId=${lecture.getId()})}">
+                                                        <a href="lesson-intro.html"
+                                                           th:href="@{/courses/{courseId}/lecture/{lectureId}/assignment(courseId=${course.getId()}, lectureId=${lecture.getId()})}">
                                                             <div class="course-content-left">
                                                                 <i class="feather-file-text"></i> <span class="text">Assignment Submit</span>
                                                             </div>
                                                             <div class="course-content-right">
-                                                                <span class="rbt-check"><i class="feather-check"></i></span>
+                                                                <span class="rbt-check"><i
+                                                                        class="feather-check"></i></span>
                                                             </div>
                                                         </a>
                                                     </li>
-
                                                 </ul>
                                             </div>
                                         </div>
@@ -169,46 +171,52 @@
                         </div>
                     </div>
 
-                        <div class="rbt-dashboard-content bg-color-white rbt-shadow-box">
-                            <div class="content">
-                                <div class="section-title">
-                                    <h4 class="rbt-title-style-3">Assignments</h4>
-                                    <div class="align-content-end">
-                                        <h4 th:text="'Average Grade For Course: ' + ${averageGrade}"></h4>
-                                    </div>
-                                </div>
-
-                                <hr class="mt--30">
-
-                                <div class="rbt-dashboard-table table-responsive mobile-table-750 mt--30">
-                                    <table class="rbt-table table table-borderless">
-                                        <thead>
-                                        <tr>
-                                            <th>Lecture Title</th>
-                                            <th>Grade</th>
-                                            <th></th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr th:each="assignment : ${assignments}">
-                                            <th>
-                                                <span class="h6 mb--5" th:text="${assignment.getLecture().getTitle()}">Write a short essay on yourself using the 5</span>
-                                                <p class="b3">Course: <a href="#" th:text="${assignment.getLecture().getCourse().getTitle()}" th:href="@{/courses/{courseId}(courseId=${assignment.getLecture().getCourse().getId()})}">Fundamentals 101</a></p>
-                                            </th>
-                                            <td>
-                                                <p class="b3" th:text="${assignment.getGrade().getName()}">80</p>
-                                            </td>
-                                            <td>
-                                                <div class="rbt-button-group justify-content-end" th:if="${assignment.getGrade().getId()==1}">
-                                                    <a class="rbt-btn btn-xs bg-primary-opacity radius-round" href="#" th:href="@{/courses/{courseId}/lecture/{lectureId}/assignment(courseId=${course.getId()}, lectureId=${assignment.getLecture().getId()})}" title="Edit"><i class="feather-edit pl--0"></i> Edit</a>
-                                                </div>
-                                            </td>
-                                        </tr>
-
-                                        </tbody>
-                                    </table>
+                    <div class="rbt-dashboard-content bg-color-white rbt-shadow-box">
+                        <div class="content">
+                            <div class="section-title">
+                                <h4 class="rbt-title-style-3">Assignments</h4>
+                                <div class="align-content-end">
+                                    <h4 th:text="'Average Grade For Course: ' + ${averageGrade}"></h4>
                                 </div>
                             </div>
+
+                            <hr class="mt--30">
+
+                            <div class="rbt-dashboard-table table-responsive mobile-table-750 mt--30">
+                                <table class="rbt-table table table-borderless">
+                                    <thead>
+                                    <tr>
+                                        <th>Lecture Title</th>
+                                        <th>Grade</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="assignment : ${assignments}">
+                                        <th>
+                                            <span class="h6 mb--5" th:text="${assignment.getLecture().getTitle()}">Write a short essay on yourself using the 5</span>
+                                            <p class="b3">Course: <a href="#"
+                                                                     th:text="${assignment.getLecture().getCourse().getTitle()}"
+                                                                     th:href="@{/courses/{courseId}(courseId=${assignment.getLecture().getCourse().getId()})}">Fundamentals
+                                                101</a></p>
+                                        </th>
+                                        <td>
+                                            <p class="b3" th:text="${assignment.getGrade().getName()}">80</p>
+                                        </td>
+                                        <td>
+                                            <div class="rbt-button-group justify-content-end"
+                                                 th:if="${assignment.getGrade().getId()==1}">
+                                                <a class="rbt-btn btn-xs bg-primary-opacity radius-round" href="#"
+                                                   th:href="@{/courses/{courseId}/lecture/{lectureId}/assignment(courseId=${course.getId()}, lectureId=${assignment.getLecture().getId()})}"
+                                                   title="Edit"><i class="feather-edit pl--0"></i> Edit</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                         <!-- End Enrole Course  -->
                     </div>
 
@@ -290,9 +298,99 @@
                                         <span class="sub-title">Course Rating</span>
                                     </div>
                                 </div>
+
                             </div>
+
                         </div>
                     </div>
+
+
+                    <div class="about-author-list rbt-shadow-box featured-wrapper mt--30 has-show-more" th:if="${isGraduated==true}">
+                        <div class="section-title">
+                            <h4 class="rbt-title-style-3">Add Review</h4>
+                        </div>
+                        <div class="has-show-more-inner-content rbt-featured-review-list-wrapper">
+                            <form th:action="@{/courses/{courseId}/rate(courseId=${course.getId()})}" th:object="${rateDto}" method="post">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="row rbt-sidebar-list-wrapper rating-list-check">
+                                            <label for="cat-radio-1">Choose Rate Value</label>
+                                            <ul th:field="*{rateValue}">
+                                                <li class="rbt-check-group">
+                                                    <input id="cat-radio-1" th:field="*{rateValue}" th:value="${5}" type="radio" name="rbt-radio">
+                                                    <label for="cat-radio-1">
+                                                    <span class="rating">
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                    </span>
+                                                    </label>
+                                                </li>
+                                                <li class="rbt-check-group">
+                                                    <input id="cat-radio-2" type="radio"  th:field="*{rateValue}" th:value="${4}" name="rbt-radio">
+                                                    <label for="cat-radio-2">
+                                                    <span class="rating">
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="off fas fa-star"></i>
+                                                    </span>
+                                                    </label>
+                                                </li>
+                                                <li class="rbt-check-group">
+                                                    <input id="cat-radio-3" type="radio" th:field="*{rateValue}" th:value="${3}" name="rbt-radio">
+                                                    <label for="cat-radio-3">
+                                                    <span class="rating">
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="off fas fa-star"></i>
+                                                        <i class="off fas fa-star"></i>
+                                                    </span>
+                                                    </label>
+                                                </li>
+                                                <li class="rbt-check-group">
+                                                    <input id="cat-radio-4" type="radio" th:field="*{rateValue}" th:value="${2}" name="rbt-radio">
+                                                    <label for="cat-radio-4">
+                                                    <span class="rating">
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="off fas fa-star"></i>
+                                                        <i class="off fas fa-star"></i>
+                                                        <i class="off fas fa-star"></i>
+                                                    </span>
+                                                    </label>
+                                                </li>
+                                                <li class="rbt-check-group">
+                                                    <input id="cat-radio-5" type="radio" th:field="*{rateValue}" th:value="${1}" name="rbt-radio">
+                                                    <label for="cat-radio-5">
+                                                    <span class="rating">
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="off fas fa-star"></i>
+                                                        <i class="off fas fa-star"></i>
+                                                        <i class="off fas fa-star"></i>
+                                                        <i class="off fas fa-star"></i>
+                                                    </span>
+                                                    </label>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="course-field mb--15">
+                                            <label for="aboutCourse">Add Description(75 symbols)</label>
+                                            <textarea id="aboutCourse" rows="6" maxlength="75" th:field="*{comment}"></textarea>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="rbt-btn btn-gradient col-12" href="#">Rate Course</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
                     <!-- End Edu Review List  -->
 
                     <div class="about-author-list rbt-shadow-box featured-wrapper mt--30 has-show-more">
@@ -308,7 +406,7 @@
                                                  th:src="${rate.getUser().getProfilePictureUrl()}">
                                         </a>
                                     </div>
-                                    <div class="media-body">
+                                    <div class="media-body ms-5">
                                         <div class="author-info">
                                             <h5 class="title">
                                                 <a class="hover-flip-item-wrapper"
@@ -348,36 +446,6 @@
     </div>
 </div>
 
-<!-- Start Course Action Bottom  -->
-<div class="rbt-course-action-bottom">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-6 col-md-6">
-                <div class="section-title text-center text-md-start">
-                    <h5 class="title mb--0">The Complete Histudy 2023: From Zero to Expert!</h5>
-                </div>
-            </div>
-            <div class="col-lg-6 col-md-6 mt_sm--15">
-                <div class="course-action-bottom-right rbt-single-group">
-                    <div class="rbt-single-list rbt-price large-size justify-content-center">
-                        <span class="current-price color-primary">$750.00</span>
-                        <span class="off-price">$1500.00</span>
-                    </div>
-                    <div class="rbt-single-list action-btn">
-                        <a class="rbt-btn btn-gradient hover-icon-reverse btn-md" href="#">
-                                <span class="icon-reverse-wrapper">
-                                <span class="btn-text">Purchase Now</span>
-                                <span class="btn-icon"><i class="feather-arrow-right"></i></span>
-                                <span class="btn-icon"><i class="feather-arrow-right"></i></span>
-                                </span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- End Course Action Bottom  -->
 <div class="rbt-separator-mid">
     <div class="container">
         <hr class="rbt-separator m-0">

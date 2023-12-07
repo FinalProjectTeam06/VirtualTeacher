@@ -29,5 +29,6 @@ public interface UserService {
     void activateAccount(int code);
     void resendActivationCode(String username);
     void sendActivationEmail(User user);
+    void inviteFriend(User inviter, String friendEmail);
 
 }
