@@ -186,6 +186,7 @@ public class CourseMvcController {
                     filterOptionsDto.getSortBy(),
                     filterOptionsDto.getSortBy());
             List<Course> teacherCourses = courseService.getAll(filterOptions);
+            model.addAttribute("isGraduated", courseService.getAllByUserGraduated(user.getId()).contains(course));
             model.addAttribute("assignments", assignmentService.getByUserSubmittedToCourse(user.getId(), courseId));
             model.addAttribute("averageGrade", assignmentService.getGradeForCourse(user.getId(), courseId));
             model.addAttribute("teacherCourses", teacherCourses);
@@ -194,13 +195,24 @@ public class CourseMvcController {
             model.addAttribute("lectures", course.getLectures());
             model.addAttribute("lectureDto", new LectureDto());
             model.addAttribute("rates", course.getRates());
+            model.addAttribute("rateDto", new RateDto());
             return "CourseDetailsView";
         } catch (AuthorizationException e) {
             return "redirect:/auth/login";
         }
     }
 
-
+    @PostMapping("/{courseId}/rate")
+    public String rateCourse(@Valid @ModelAttribute("rateDto") RateDto rateDto, HttpSession httpSession, Model model, @PathVariable int courseId) {
+        try {
+            User user = authenticationHelper.tryGetCurrentUser(httpSession);
+            courseService.rateCourse(courseId, user, rateDto);
+            model.addAttribute("loggedIn", user);
+            return "redirect:/courses/" + courseId;
+        } catch (AuthorizationException e) {
+            return "redirect:/auth/login";
+        }
+    }
 
     @GetMapping("/{courseId}/lecture/{lectureId}")
     public String showLectureView(HttpSession httpSession, Model model, @PathVariable int courseId, @PathVariable int lectureId) {
@@ -213,6 +225,30 @@ public class CourseMvcController {
             model.addAttribute("course", course);
             model.addAttribute("lecture", lecture);
             model.addAttribute("note",new NoteDto());
+            model.addAttribute("isSearch", false);
+            return "LectureView";
+        } catch (AuthorizationException e) {
+            return "redirect:/auth/login";
+        }
+    }
+
+    @PostMapping("/{courseId}/lecture/{lectureId}")
+    public String showSearchView(HttpSession httpSession,
+                                 Model model,
+                                 @PathVariable int courseId,
+                                 @PathVariable int lectureId,
+                                 @RequestParam String search) {
+        try {
+            User user = authenticationHelper.tryGetCurrentUser(httpSession);
+            Course course = courseService.getById(courseId);
+            Lecture lecture = lectureService.getById(lectureId);
+            List<WikiPage> searchResults = wikiPageService.searchWikiPages(search);
+            model.addAttribute("videoUrl", lecture.getVideoUrl());
+            model.addAttribute("course", course);
+            model.addAttribute("lecture", lecture);
+            model.addAttribute("isSearch", true);
+            model.addAttribute("results", searchResults);
+
             return "LectureView";
         } catch (AuthorizationException e) {
             return "redirect:/auth/login";

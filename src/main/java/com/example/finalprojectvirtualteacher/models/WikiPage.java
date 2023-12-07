@@ -1,8 +1,13 @@
 package com.example.finalprojectvirtualteacher.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class WikiPage {
+    @JsonProperty("title")
     private String title;
+    @JsonProperty("contentSnippet")
     private String contentSnippet;
+    @JsonProperty("fullUrl")
     private String fullUrl;
 
     public WikiPage() {

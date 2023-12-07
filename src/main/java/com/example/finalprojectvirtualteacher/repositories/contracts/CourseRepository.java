@@ -11,6 +11,7 @@ public interface CourseRepository{
     Course getById(int id);
     List<Course> getAllByUserCompleted(int userId);
     List<Course> getAllByUserNotCompleted(int userId);
+    List<Course> getAllByUserGraduated(int userId);
 
     Rate getRating(int courseId, int userId);
 
@@ -22,6 +23,8 @@ public interface CourseRepository{
     void delete(Course course);
 
     List<Lecture> getAllByTeacherId(int id);
+    List<Rate> getAllUserRates(int userId);
+
 
     Course rateCourse(Rate rate);
     Course updateRating(Rate rate);
@@ -31,5 +34,6 @@ public interface CourseRepository{
     List<Course> getAllNotPublishedCoursesFromTeacher(User user);
 
     List<Course> getAllActiveCoursesNotEnrolled(User user);
+
 
 }

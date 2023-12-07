@@ -188,7 +188,7 @@ public class Helpers {
         note.setLecture(createMockLecture());
         note.setText("MockTest");
         note.setNoteId(1);
-        note.setUser(createMockUser());
+        note.setUserId(createMockUser().getId());
         return note;
     }
 

@@ -1,6 +1,7 @@
 package com.example.finalprojectvirtualteacher.services.contacts;
 
 import com.example.finalprojectvirtualteacher.models.FilterOptions;
+import com.example.finalprojectvirtualteacher.models.Rate;
 import com.example.finalprojectvirtualteacher.models.dto.CourseDto;
 import com.example.finalprojectvirtualteacher.models.Course;
 import com.example.finalprojectvirtualteacher.models.User;
@@ -19,6 +20,8 @@ public interface CourseService {
     int getAllEnrollments();
     List<Course> getAllByUserCompleted(int userId);
     List<Course> getAllByUserNotCompleted(int userId);
+    List<Course> getAllByUserGraduated(int userId);
+
     List<Course> getAllPublishedCoursesFromTeacher(User user);
     List<Course> getAllNotPublishedCoursesFromTeacher(User user);
 
@@ -28,7 +31,7 @@ public interface CourseService {
 
     void delete(int courseId, User user);
     Course publishCourse(int courseId, User user);
-
+    List<Rate> getAllUserRates(int userId);
     Course rateCourse(int courseId, User user, RateDto rateDto);
     Double getCourseRating(Course course);
 

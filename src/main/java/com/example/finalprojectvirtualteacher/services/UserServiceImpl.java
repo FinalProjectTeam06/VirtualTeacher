@@ -24,6 +24,7 @@ import java.util.Random;
 public class UserServiceImpl implements UserService {
 
     public static final String PERMISSION_ERROR = "You don't have permission.";
+    private final String REGISTRATION_LINK_TEMPLATE = "http://localhost:8080/auth/login?inviteCode=%s";
 
     private final UserRepository userRepository;
     private final CourseService courseService;
@@ -85,6 +86,7 @@ public class UserServiceImpl implements UserService {
             throw new EntityDuplicateException("User", "username", user.getEmail());
         }
 
+
         User createdUser = userRepository.create(user);
         sendActivationEmail(createdUser);
 
@@ -114,11 +116,7 @@ public class UserServiceImpl implements UserService {
         User userToDelete = getById(id);
         userRepository.deleteUser(userToDelete);
     }
-//    @Override
-//    public void delete(int id,User user){
-//        User delete = getById(10);
-//
-//    }
+
 
     @Override
     public User enrollCourse(User user, int courseId) {
@@ -173,7 +171,7 @@ public class UserServiceImpl implements UserService {
     public void sendActivationEmail(User user){
         String email = user.getEmail();
         int code = getActivationCode(user);
-        emailService.sendMessage(email, "Account activation", String.valueOf(code));
+//        emailService.sendMessage(email, "Account activation", String.valueOf(code));
         emailService.sendUserCreationVerificationCode(user, code);
         System.out.println(code);
     }
@@ -193,6 +191,16 @@ public class UserServiceImpl implements UserService {
         out.setTime(out.getTime() + ((60 * minutes) * 1000));
         return out;
     }
+    @Override
+    public void inviteFriend(User inviter, String friendEmail) {
+
+        String invitationLink = "http://localhost:8080/auth/register";
+        String invitationMessage = String.format("Hello! You have been invited by %s %s to join our site. Click the following link to register: %s",
+                inviter.getFirstName(),inviter.getLastName(), invitationLink);
+
+        emailService.sendMessage(friendEmail, "Invitation to Join", invitationMessage);
+    }
+
 
     private void checkPermission(User user, int userId) {
         if (!user.getRole().getName().equals("admin") && user.getId() != userId) {
