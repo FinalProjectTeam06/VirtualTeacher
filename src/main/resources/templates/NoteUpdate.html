@@ -62,17 +62,18 @@
         </div>
         <div class="modal-body">
             <p class="login">
-            <!--/*@thymesVar id="#httpServletRequest" type="java"*/-->
-            <form action="#" th:action="@{__${#httpServletRequest.requestURI}__}" th:object="${note}" method="post">
+            <form action="#" th:action="@{/courses/{courseId}/lectures/{lectureId}/notes/{noteId}/update
+            (courseId=${note.getLecture().getCourse().getId()}, lectureId=${note.getLecture().getId()}, noteId=${note.getNoteId()})}"
+                  class="row" th:object="${noteDto}" method="post">
                 <div class="col-12">
                     <label for="updateNote">Note</label>
                     <input type="text" class="form-control mb-3" id="updateNote" name="updateNote" placeholder="Note" th:field="*{note}">
-                    <label class="error" th:errors="*{note}"></label>
+                    <label class="error" th:errors="${noteDto}"></label>
                 </div>
                 <br>
                 <div class="col-12">
                     <button type="submit" class="rbt-btn btn-gradient hover-icon-reverse">Save</button>
-                    <a class="rbt-btn btn-gradient hover-icon-reverse" th:href="@{/}">Close</a>
+                    <a class="rbt-btn btn-gradient hover-icon-reverse" th:href="@{/users/myNotes}">Close</a>
                 </div>
             </form>
 

@@ -84,10 +84,12 @@ public class NoteMvcController {
                                    Model model,
                                    HttpSession session) {
         try {
-            authenticationHelper.tryGetCurrentUser(session);
+            User user = authenticationHelper.tryGetCurrentUser(session);
             Note note = noteService.getById(noteId);
             NoteDto noteDto = noteMapper.objToDto(note);
-            model.addAttribute("note",noteDto);
+            model.addAttribute("note",note);
+            model.addAttribute("noteDto",noteDto);
+            model.addAttribute("loggedIn",user);
             return "NoteUpdate";
         } catch (AuthorizationException e) {
             return "redirect:/auth/login";
@@ -105,6 +107,7 @@ public class NoteMvcController {
 
         try {
             User user =authenticationHelper.tryGetCurrentUser(session);
+            model.addAttribute("noteToUpdate",noteDto);
             Note originalNote = noteService.getById(noteId);
             Note note = noteMapper.dtoToObjForUpdate(originalNote,noteDto);
             noteService.update(note,user);

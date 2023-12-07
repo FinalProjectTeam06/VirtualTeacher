@@ -1,3 +1,6 @@
+
+
+
 create table grades
 (
     grade_id   int auto_increment
