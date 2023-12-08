@@ -1,6 +1,7 @@
 package com.example.finalprojectvirtualteacher.controllers.mvc;
 
 import com.example.finalprojectvirtualteacher.exceptions.AuthorizationException;
+import com.example.finalprojectvirtualteacher.exceptions.EntityDuplicateException;
 import com.example.finalprojectvirtualteacher.helpers.AuthenticationHelper;
 import com.example.finalprojectvirtualteacher.helpers.mappers.ImageHelper;
 import com.example.finalprojectvirtualteacher.helpers.mappers.UserMapper;
@@ -9,6 +10,8 @@ import com.example.finalprojectvirtualteacher.models.User;
 import com.example.finalprojectvirtualteacher.models.dto.UserDtoUpdate;
 import com.example.finalprojectvirtualteacher.services.contacts.*;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -120,6 +123,8 @@ public class UserMvcController {
         }
         return "ProfileSettings";
     }
+
+
 
     @PostMapping("/update")
     public String updateProfile(@ModelAttribute("updateDto") UserDtoUpdate userDtoUpdate,
@@ -239,4 +244,16 @@ public class UserMvcController {
             return "redirect:/auth/login";
         }
     }
+
+    @PostMapping("/invite")
+    public String inviteFriend(@RequestParam("email") String friendEmail, HttpSession session) {
+        try {
+            User inviter = authenticationHelper.tryGetCurrentUser(session);
+            userService.inviteFriend(inviter, friendEmail);
+            return "InviteFriendView";
+        } catch (AuthorizationException e) {
+            return "redirect:/auth/login";
+        }
+    }
+
 }
