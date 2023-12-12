@@ -608,9 +608,8 @@
                             <div class="fix-6-12">
                               <h1 class="huge ae-1 margin-bottom-2">Invite friend</h1>
                               <p class="hero ae-2 margin-bottom-3"><span class="opacity-8">It's always better with a friend</span></p>
-
-                              <form action="#" autocomplete="off" class="slides-form margin-bottom-3">
-                                <input type="email" class="ae-3" name="email" placeholder="E-mail address"/>
+                              <form th:action="@{/users/invite}" method="post" autocomplete="off" class="slides-form margin-bottom-3">
+                                <input type="email" class="ae-3" th:name="email"  placeholder="E-mail address"/>
                                 <button type="submit" class="rbt-btn btn-md btn-gradient hover-icon-reverse w-100" name="submit">Invite</button>
                               </form>
                             </div>

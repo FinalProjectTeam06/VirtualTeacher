@@ -9,7 +9,6 @@ import com.example.finalprojectvirtualteacher.models.User;
 import com.example.finalprojectvirtualteacher.models.dto.UserDtoUpdate;
 import com.example.finalprojectvirtualteacher.services.contacts.*;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -31,7 +30,6 @@ public class UserMvcController {
     private final AssignmentService assignmentService;
     private final NoteService noteService;
 
-    @Autowired
     public UserMvcController(AuthenticationHelper authenticationHelper, UserMapper userMapper, UserService userService, ImageHelper imageHelper, CourseService courseService, EnrollmentService enrollmentService, AssignmentService assignmentService, NoteService noteService) {
         this.authenticationHelper = authenticationHelper;
         this.userMapper = userMapper;
@@ -122,6 +120,8 @@ public class UserMvcController {
         }
         return "ProfileSettings";
     }
+
+
 
     @PostMapping("/update")
     public String updateProfile(@ModelAttribute("updateDto") UserDtoUpdate userDtoUpdate,
@@ -241,4 +241,16 @@ public class UserMvcController {
             return "redirect:/auth/login";
         }
     }
+
+    @PostMapping("/invite")
+    public String inviteFriend(@RequestParam("email") String friendEmail, HttpSession session) {
+        try {
+            User inviter = authenticationHelper.tryGetCurrentUser(session);
+            userService.inviteFriend(inviter, friendEmail);
+            return "InviteFriendView";
+        } catch (AuthorizationException e) {
+            return "redirect:/auth/login";
+        }
+    }
+
 }
