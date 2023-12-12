@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class EmailServiceImpl implements EmailService {
 
-    public static final String ERROR_MAIL = "some.email@mail.com";
 
     private final JavaMailSender mailSender;
 

@@ -22,10 +22,7 @@ public class LectureServiceImpl implements LectureService {
 
 
     public static final String MODIFY_THE_LECTURE = "Only creator or admin can modify the lecture.";
-    public static final String USER_IS_NOT_ENROLLED = "User is not enrolled in this course";
-    public static final String FILE_UPLOAD_ERROR = "File can't be uploaded.";
     private final LectureRepository lectureRepository;
-
     private final LectureMapper mapper;
     private final AssignmentsHelper assignmentsHelper;
 
@@ -45,9 +42,6 @@ public class LectureServiceImpl implements LectureService {
 
     @Override
     public Lecture getById(int id) {
-        if (lectureRepository.getById(id) == null) {
-            throw new EntityNotFoundException("Lecture", "id", id);
-        }
         return lectureRepository.getById(id);
     }
 
@@ -94,7 +88,7 @@ public class LectureServiceImpl implements LectureService {
         }
     }
 
-    private void checkCreatePermission(Lecture lecture, User user) {
+    public void checkCreatePermission(Lecture lecture, User user) {
         if (user.getId() != lecture.getCourse().getCreator().getId()
                 || user.getRole().getId() != 3) {
             throw new AuthorizationException(MODIFY_THE_LECTURE);

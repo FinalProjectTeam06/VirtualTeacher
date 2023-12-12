@@ -158,6 +158,13 @@ class UserServiceImplTests {
     }
 
     @Test
+    void create_Should_Throw_EntityNotFoundException(){
+        User user = createMockUser();
+        when(userRepository.getByEmail("email"));
+    }
+
+
+    @Test
     public void deleteUser_Should_ThrowAuthorizationException_When_UserIsAdmin(){
         User user = createMockAdmin();
         int idToAdmin = user.getId();
