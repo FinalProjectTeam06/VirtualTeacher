@@ -36,4 +36,7 @@ public interface CourseRepository{
     List<Course> getAllActiveCoursesNotEnrolled(User user);
 
 
+    void deleteAllCoursesFromUser(int userId);
+    void deleteAllRatesFromUser(int userId);
+
 }

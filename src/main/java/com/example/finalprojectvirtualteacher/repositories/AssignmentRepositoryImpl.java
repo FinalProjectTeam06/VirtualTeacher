@@ -8,6 +8,7 @@ import com.example.finalprojectvirtualteacher.models.Lecture;
 import com.example.finalprojectvirtualteacher.repositories.contracts.AssignmentRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.MutationQuery;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
@@ -123,5 +124,24 @@ public class AssignmentRepositoryImpl implements AssignmentRepository {
             session.getTransaction().commit();
         }
         return assignment;
+    }
+
+    @Override
+    public void deleteAssignmentsFromUserAndLecture(int userId) {
+//        try (Session session = sessionFactory.openSession()) {
+////            session.beginTransaction();
+////            MutationQuery query = session.createMutationQuery("DELETE from Assignment a where a.user.id =: userId and a.lecture.teacher.id =: userId");
+////            query.setParameter("userId", userId);
+////            query.executeUpdate();
+////            session.getTransaction().commit();
+////        }
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            Query<?> query = session.createQuery(
+                    "delete from Assignment where user.id= :userId or lecture.teacher.id= :userId", Assignment.class);
+            query.setParameter("userId", userId);
+            query.executeUpdate();
+            session.getTransaction().commit();
+        }
     }
 }

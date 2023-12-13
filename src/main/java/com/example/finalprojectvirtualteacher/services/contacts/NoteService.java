@@ -17,4 +17,6 @@ public interface NoteService {
     Note delete(User authUser, int id);
 
     List<Note> getByUserId(int userId);
+
+    void deleteAllNotesByUser(int userId);
 }

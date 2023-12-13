@@ -160,9 +160,15 @@ public class CourseServiceImpl implements CourseService {
         return sum / rates.size();
     }
 
+    @Override
+    public void deleteAllCoursesFromUser(int userId) {
+        courseRepository.deleteAllCoursesFromUser(userId);
+    }
 
-
-
+    @Override
+    public void deleteAllRatesFromUser(int userId) {
+        courseRepository.deleteAllCoursesFromUser(userId);
+    }
 
     private void checkModifyPermission(User user) {
         if (!user.getRole().getName().equals("admin") && !user.getRole().getName().equals("teacher")) {

@@ -7,6 +7,7 @@ import com.example.finalprojectvirtualteacher.models.Note;
 import com.example.finalprojectvirtualteacher.repositories.contracts.LectureRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.MutationQuery;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -117,7 +118,16 @@ public class LectureRepositoryImpl implements LectureRepository {
         }
     }
 
-
+    @Override
+    public void deleteAllLecturesByUser(int userId) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            MutationQuery query = session.createMutationQuery("DELETE from Lecture l where l.teacher.id =: userId");
+            query.setParameter("userId", userId);
+            query.executeUpdate();
+            session.getTransaction().commit();
+        }
+    }
 
     @Override
     public Lecture submitAssignment(Assignment assignment) {

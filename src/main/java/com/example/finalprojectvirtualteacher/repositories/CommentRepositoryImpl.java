@@ -1,10 +1,12 @@
 package com.example.finalprojectvirtualteacher.repositories;
 
 import com.example.finalprojectvirtualteacher.exceptions.EntityNotFoundException;
+import com.example.finalprojectvirtualteacher.models.Assignment;
 import com.example.finalprojectvirtualteacher.models.Comment;
 import com.example.finalprojectvirtualteacher.repositories.contracts.CommentRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.MutationQuery;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -88,6 +90,17 @@ public class CommentRepositoryImpl implements CommentRepository {
         }
     }
 
+    @Override
+    public void deleteAllCommentsFromUserAndLecture(int userId) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            Query<?> query = session.createNativeQuery(
+                    "delete from comments where user_id= :userId", Comment.class);
+            query.setParameter("userId", userId);
+            query.executeUpdate();
+            session.getTransaction().commit();
+        }
+    }
 }
 
 

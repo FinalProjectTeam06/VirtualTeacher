@@ -5,10 +5,7 @@ import com.example.finalprojectvirtualteacher.models.Course;
 import com.example.finalprojectvirtualteacher.models.User;
 import com.example.finalprojectvirtualteacher.services.contacts.PdfService;
 import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.AcroFields;
-import com.itextpdf.text.pdf.PdfReader;
-import com.itextpdf.text.pdf.PdfStamper;
-import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.*;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
@@ -35,12 +32,13 @@ public class PdfServiceImpl implements PdfService {
             AcroFields formFields = pdfStamper.getAcroFields();
             formFields.setField("courseTitle", course.getTitle());
             formFields.setField("studentName", String.format("%s %s", user.getFirstName(), user.getLastName()));
-            formFields.setField("courseGrade", String.format("Grade: %.2f/6.00", grade));
+            formFields.setField("courseGrade", String.format("  Grade: %.2f/6.00", grade));
             formFields.setField("date", LocalDate.now().toString());
+
+            pdfStamper.setFormFlattening(true);
 
             pdfStamper.close();
             pdfReader.close();
-
             byte[] pdfBytes = outputStream.toByteArray();
 
             if(httpServletResponse != null) {

@@ -18,4 +18,6 @@ public interface CommentRepository {
     List<Comment> getByCourseId(int courseId);
 
     long getCourseCommentsCount();
+
+    void deleteAllCommentsFromUserAndLecture(int userId);
 }

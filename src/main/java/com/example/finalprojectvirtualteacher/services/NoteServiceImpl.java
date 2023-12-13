@@ -48,4 +48,8 @@ private final NoteRepository noteRepository;
     return noteRepository.getByUserId(userId);
     }
 
+    @Override
+    public void deleteAllNotesByUser(int userId) {
+        noteRepository.deleteAllNotesByUser(userId);
+    }
 }
