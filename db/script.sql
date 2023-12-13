@@ -1,5 +1,8 @@
+drop database  if exists virtual_teacher;
 
+create database virtual_teacher;
 
+use virtual_teacher;
 
 create table grades
 (
@@ -112,16 +115,6 @@ create table comments
         foreign key (lecture_id) references lectures (lecture_id),
     constraint comments_users_user_id_fk
         foreign key (user_id) references users (user_id)
-);
-
-create table course_lectures
-(
-    course_id  int not null,
-    lecture_id int not null,
-    constraint course_lectures_courses_course_id_fk
-        foreign key (course_id) references courses (course_id),
-    constraint course_lectures_lectures_lecture_id_fk
-        foreign key (lecture_id) references lectures (lecture_id)
 );
 
 create table notes
