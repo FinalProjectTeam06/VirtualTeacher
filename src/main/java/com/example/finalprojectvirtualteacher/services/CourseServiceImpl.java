@@ -170,7 +170,7 @@ public class CourseServiceImpl implements CourseService {
         courseRepository.deleteAllCoursesFromUser(userId);
     }
 
-    private void checkModifyPermission(User user) {
+    public void checkModifyPermission(User user) {
         if (!user.getRole().getName().equals("admin") && !user.getRole().getName().equals("teacher")) {
             throw new AuthorizationException(PERMISSION_ERROR);
         }
