@@ -210,5 +210,10 @@ public class Helpers {
         assignment.setUser(createMockUser());
     return assignment;
     }
+    public static RecaptchaResponse getRecaptchaResponse() {
+        RecaptchaResponse recaptchaResponse = new RecaptchaResponse();
+        recaptchaResponse.setSuccess(true);
+        return recaptchaResponse;
+    }
 
 }
