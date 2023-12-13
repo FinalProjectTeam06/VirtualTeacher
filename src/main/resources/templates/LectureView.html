@@ -141,8 +141,7 @@
                                             <a href="lesson.html"
                                                th:href="@{/courses/{courseId}/lecture/{lectureId}(courseId=${course.getId()}, lectureId=${lecture.getId()})}">
                                                 <div class="course-content-left">
-                                                    <i class="feather-play-circle"></i> <span class="text">Course
-                                            Intro</span>
+                                                    <i class="feather-play-circle"></i> <span class="text">Lecture Video</span>
                                                 </div>
                                                 <div class="course-content-right">
                                                     <span class="rbt-check"><i class="feather-check"></i></span>
@@ -178,7 +177,7 @@
                                         <div id="notes-container" class="notes-container">
                                             <form style="display:inline-block" action="#"
                                                   th:action="@{/course/{courseId}/lecture/{lectureId}/notes/new
-                                                  (courseId=${course.getId()}, lectureId=${lecture.getId()})}" th:object="${note}"   method="post">
+                                                  (courseId=${course.getId()}, lectureId=${lecture.getId()})}" th:object="${noteDto}"   method="post">
                                                 <div class="text-area">
                                                     <textarea id="new-note-content" class="new-note-content" th:field="*{note}" placeholder="Write your new note here..."></textarea>
                                                     <button type="submit" class="rbt-btn rbt-switch-btn no-padding">Add Note</button>

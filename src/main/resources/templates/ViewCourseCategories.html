@@ -129,13 +129,13 @@
 
                     <!-- Start Widget Area  -->
                     <form th:action="@{/courses/topic/{topicId}(topicId=${topicId})}" th:object="${filterOptionsDto}" method="get">
-                    <div class="rbt-single-widget rbt-widget-rating mt-3">
-                        <div class="inner">
-                            <h4 class="rbt-widget-title">Ratings</h4>
-                            <ul class="rbt-sidebar-list-wrapper rating-list-check">
-                                <li class="rbt-check-group">
-                                    <input id="cat-radio-1" type="radio" th:field="*{rating}" th:value="5" name="rbt-radio">
-                                    <label for="cat-radio-1">
+                        <div class="rbt-single-widget rbt-widget-rating mt-3">
+                            <div class="inner">
+                                <h4 class="rbt-widget-title">Ratings</h4>
+                                <ul class="rbt-sidebar-list-wrapper rating-list-check">
+                                    <li class="rbt-check-group">
+                                        <input id="cat-radio-1" type="radio" th:field="*{rating}" th:value="5" name="rbt-radio">
+                                        <label for="cat-radio-1">
                                             <span class="rating">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
@@ -143,12 +143,12 @@
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                         </span>
-                                        <span class="rbt-lable count">5</span>
-                                    </label>
-                                </li>
-                                <li class="rbt-check-group">
-                                    <input id="cat-radio-2" type="radio" th:field="*{rating}" th:value="4" name="rbt-radio">
-                                    <label for="cat-radio-2">
+                                            <span class="rbt-lable count">5</span>
+                                        </label>
+                                    </li>
+                                    <li class="rbt-check-group">
+                                        <input id="cat-radio-2" type="radio" th:field="*{rating}" th:value="4" name="rbt-radio">
+                                        <label for="cat-radio-2">
                                             <span class="rating">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
@@ -156,12 +156,12 @@
                             <i class="fas fa-star"></i>
                             <i class="off fas fa-star"></i>
                         </span>
-                                        <span class="rbt-lable count">4</span>
-                                    </label>
-                                </li>
-                                <li class="rbt-check-group">
-                                    <input id="cat-radio-3" type="radio" th:field="*{rating}" th:value="3" name="rbt-radio">
-                                    <label for="cat-radio-3">
+                                            <span class="rbt-lable count">4</span>
+                                        </label>
+                                    </li>
+                                    <li class="rbt-check-group">
+                                        <input id="cat-radio-3" type="radio" th:field="*{rating}" th:value="3" name="rbt-radio">
+                                        <label for="cat-radio-3">
                                             <span class="rating">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
@@ -169,12 +169,12 @@
                             <i class="off fas fa-star"></i>
                             <i class="off fas fa-star"></i>
                         </span>
-                                        <span class="rbt-lable count">3</span>
-                                    </label>
-                                </li>
-                                <li class="rbt-check-group">
-                                    <input id="cat-radio-4" type="radio" th:field="*{rating}" th:value="2" name="rbt-radio">
-                                    <label for="cat-radio-4">
+                                            <span class="rbt-lable count">3</span>
+                                        </label>
+                                    </li>
+                                    <li class="rbt-check-group">
+                                        <input id="cat-radio-4" type="radio" th:field="*{rating}" th:value="2" name="rbt-radio">
+                                        <label for="cat-radio-4">
                                             <span class="rating">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
@@ -182,13 +182,13 @@
                             <i class="off fas fa-star"></i>
                             <i class="off fas fa-star"></i>
                         </span>
-                                        <span class="rbt-lable count">2</span>
-                                    </label>
-                                </li>
+                                            <span class="rbt-lable count">2</span>
+                                        </label>
+                                    </li>
 
-                                <li class="rbt-check-group">
-                                    <input id="cat-radio-5" type="radio" th:field="*{rating}" th:value="1" name="rbt-radio">
-                                    <label for="cat-radio-5">
+                                    <li class="rbt-check-group">
+                                        <input id="cat-radio-5" type="radio" th:field="*{rating}" th:value="1" name="rbt-radio">
+                                        <label for="cat-radio-5">
                                             <span class="rating">
                             <i class="fas fa-star"></i>
                             <i class="off fas fa-star"></i>
@@ -196,53 +196,54 @@
                             <i class="off fas fa-star"></i>
                             <i class="off fas fa-star"></i>
                         </span>
-                                        <span class="rbt-lable count">1</span>
-                                    </label>
-                                </li>
-                            </ul>
+                                            <span class="rbt-lable count">1</span>
+                                        </label>
+                                    </li>
+                                </ul>
+
+                            </div>
                         </div>
-                    </div>
-                    <!-- End Widget Area  -->
+                        <!-- End Widget Area  -->
 
-                    <!-- Start Widget Area  -->
+                        <!-- Start Widget Area  -->
 
 
-                    <div class="rbt-single-widget rbt-widget-instructor">
-                        <div class="inner">
-                            <h4 class="rbt-widget-title">Instructors</h4>
-                            <ul class="rbt-sidebar-list-wrapper instructor-list-check">
-<!--                                <li class="rbt-check-group">-->
-<!--                                    <input id="ins-list-1" type="checkbox" name="ins-list-1">-->
-<!--                                    <label for="ins-list-1">Slaughter</label>-->
-<!--                                </li>-->
-                                <li th:each="teacher : ${teachers}" class="rbt-check-group" >
-                                    <input th:id="'ins-list-' + ${teacher.id}"  type="checkbox" th:name="'ins-list-' + ${teacher.id}" th:field="*{teacherId}" th:value="${teacher.id}">
-                                    <label th:for="'ins-list-' + ${teacher.id}" th:text="${teacher.getFirstName()} + ' ' + ${teacher.getLastName()}">Slaughter <span class="rbt-lable count">15</span></label>
-                                </li>
-                            </ul>
+                        <div class="rbt-single-widget rbt-widget-instructor">
+                            <div class="inner">
+                                <h4 class="rbt-widget-title">Instructors</h4>
+                                <ul class="rbt-sidebar-list-wrapper instructor-list-check">
+                                    <!--                                <li class="rbt-check-group">-->
+                                    <!--                                    <input id="ins-list-1" type="checkbox" name="ins-list-1">-->
+                                    <!--                                    <label for="ins-list-1">Slaughter</label>-->
+                                    <!--                                </li>-->
+                                    <li th:each="teacher : ${teachers}" class="rbt-check-group" >
+                                        <input th:id="'ins-list-' + ${teacher.id}"  type="radio" th:name="'ins-list-' + ${teacher.id}" th:field="*{teacherId}" th:value="${teacher.id}">
+                                        <label th:for="'ins-list-' + ${teacher.id}" th:text="${teacher.getFirstName()} + ' ' + ${teacher.getLastName()}">Slaughter <span class="rbt-lable count">15</span></label>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
-                    </div>
-                    <!-- End Widget Area  -->
+                        <!-- End Widget Area  -->
 
-                    <!-- Start Widget Area  -->
-                    <div class="rbt-single-widget rbt-widget-prices">
-                        <div class="inner">
-                            <h4 class="rbt-widget-title">SortBy</h4>
-                            <ul class="rbt-sidebar-list-wrapper prices-list-check">
-                                <li class="rbt-check-group">
-                                    <input id="prices-list-1" th:field="*{sortBy}" th:value="title" type="checkbox" name="prices-list-1">
-                                    <label for="prices-list-1">Title</label>
-                                </li>
-                                <li class="rbt-check-group">
-                                    <input id="prices-list-2" th:field="*{sortBy}" th:value="rating" type="checkbox" name="prices-list-2">
-                                    <label for="prices-list-2">Rating</label>
-                                </li>
-                            </ul>
+                        <!-- Start Widget Area  -->
+                        <div class="rbt-single-widget rbt-widget-prices">
+                            <div class="inner">
+                                <h4 class="rbt-widget-title">SortBy</h4>
+                                <ul class="rbt-sidebar-list-wrapper prices-list-check">
+                                    <li class="rbt-check-group">
+                                        <input id="prices-list-1" th:field="*{sortBy}" th:value="title" type="radio" name="prices-list-1">
+                                        <label for="prices-list-1">Title</label>
+                                    </li>
+                                    <li class="rbt-check-group">
+                                        <input id="prices-list-2" th:field="*{sortBy}" th:value="rating" type="radio" name="prices-list-2">
+                                        <label for="prices-list-2">Rating</label>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
-                    </div>
-                    <!-- End Widget Area  -->
+                        <!-- End Widget Area  -->
 
-                    <button type="submit" class="rbt-btn btn-gradient btn-sm mt-3">Filter</button>
+                        <button type="submit" class="rbt-btn btn-gradient btn-sm mt-3">Filter</button>
                     </form>
                 </aside>
             </div>
@@ -251,33 +252,20 @@
                     <!-- Start Single Card  -->
                     <div class="course-grid-3" th:each="course :${courses}">
                         <div class="rbt-card variation-01 rbt-hover">
-                            <div class="rbt-card-img">
-                                <a href="course-details.html">
-                                    <img src="../static/images/course/course-online-01.jpg" alt="Card image">
-
-                                </a>
-                            </div>
                             <div class="rbt-card-body">
                                 <div class="rbt-card-top">
-                                    <div class="rbt-review">
-                                        <div class="rating">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                        </div>
-                                        <span class="rating-count"> (15 Reviews)</span>
-                                    </div>
-                                    <div class="rbt-bookmark-btn">
-                                        <a class="rbt-round-btn" title="Bookmark" href="#"><i
-                                                class="feather-bookmark"></i></a>
-                                    </div>
+                                    <h4 class="rbt-card-title"><a href="CourseDetailsView.html" th:href="@{/courses/{courseId}(courseId=${course.getId()})}" th:text="${course.getTitle()}">React
+                                        Front To Back</a>
+                                    </h4>
                                 </div>
-
-                                <h4 class="rbt-card-title"><a href="course-details.html" th:text="${course.getTitle()}">React
-                                    Front To Back</a>
-                                </h4>
+                                <div class="rbt-review">
+                                    <div class="rating">
+                                        <th:block th:each="star : ${#numbers.sequence(1, course.getRating())}">
+                                            <a href="#"><i class="fa fa-star"></i></a>
+                                        </th:block>
+                                    </div>
+                                    <span class="rating-count" th:text="${course.getRates().size()} + ' Reviews'"> (15 Reviews)</span>
+                                </div>
 
                                 <ul class="rbt-meta">
                                     <li><i class="feather-book"></i> <li th:text="${course.getLectures().size()} + ' Lessons'"> 12 Lessons</li>
@@ -297,7 +285,7 @@
                                     </div>
                                 </div>
                                 <div class="rbt-card-bottom">
-                                    <a class="rbt-btn-link" href="course-details.html">Learn
+                                    <a class="rbt-btn-link" href="CourseDetailsView.html" th:href="@{/courses/{courseId}(courseId=${course.getId()})}">Learn
                                         More<i class="feather-arrow-right"></i></a>
                                 </div>
                             </div>

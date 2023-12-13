@@ -42,6 +42,7 @@ public class RecaptchaServiceImpl implements RecaptchaService {
                 POST, null, RecaptchaResponse.class);
         return exchange.getBody();
     }
+
     @Override
     public boolean verify(String response) {
         RecaptchaResponse recaptchaResponse = getResponse(response);

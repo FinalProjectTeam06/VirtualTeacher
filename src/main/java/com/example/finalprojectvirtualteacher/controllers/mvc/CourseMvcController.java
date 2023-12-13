@@ -1,7 +1,6 @@
 package com.example.finalprojectvirtualteacher.controllers.mvc;
 
 import com.example.finalprojectvirtualteacher.exceptions.AuthorizationException;
-import com.example.finalprojectvirtualteacher.exceptions.EntityNotFoundException;
 import com.example.finalprojectvirtualteacher.helpers.AssignmentsHelper;
 import com.example.finalprojectvirtualteacher.helpers.AuthenticationHelper;
 import com.example.finalprojectvirtualteacher.models.*;
@@ -9,8 +8,6 @@ import com.example.finalprojectvirtualteacher.models.dto.*;
 import com.example.finalprojectvirtualteacher.services.contacts.*;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
-import org.apache.http.protocol.HTTP;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -58,11 +55,12 @@ public class CourseMvcController {
             return false;
         }
     }
+
     @ModelAttribute("isAdmin")
     public boolean populateIsAdmin(HttpSession session) {
-        try{
+        try {
             User user = authenticationHelper.tryGetCurrentUser(session);
-            return (user.getRole().getId()==3);
+            return (user.getRole().getId() == 3);
         } catch (AuthorizationException e) {
             return false;
         }
@@ -224,7 +222,7 @@ public class CourseMvcController {
             model.addAttribute("videoUrl", lecture.getVideoUrl());
             model.addAttribute("course", course);
             model.addAttribute("lecture", lecture);
-            model.addAttribute("note",new NoteDto());
+            model.addAttribute("noteDto", new NoteDto());
             model.addAttribute("isSearch", false);
             return "LectureView";
         } catch (AuthorizationException e) {
@@ -246,9 +244,9 @@ public class CourseMvcController {
             model.addAttribute("videoUrl", lecture.getVideoUrl());
             model.addAttribute("course", course);
             model.addAttribute("lecture", lecture);
+            model.addAttribute("noteDto", new NoteDto());
             model.addAttribute("isSearch", true);
             model.addAttribute("results", searchResults);
-
             return "LectureView";
         } catch (AuthorizationException e) {
             return "redirect:/auth/login";
@@ -264,6 +262,7 @@ public class CourseMvcController {
 
             model.addAttribute("course", course);
             model.addAttribute("lecture", lecture);
+            model.addAttribute("noteDto", new NoteDto());
             return "LectureAssignmentSubmit";
         } catch (AuthorizationException e) {
             return "redirect:/auth/login";
@@ -279,6 +278,7 @@ public class CourseMvcController {
             model.addAttribute("assignmentUrl", lecture.getAssignmentUrl());
             model.addAttribute("course", course);
             model.addAttribute("lecture", lecture);
+            model.addAttribute("noteDto", new NoteDto());
             return "AssignmentDemoConditionView";
         } catch (AuthorizationException e) {
             return "redirect:/auth/login";
@@ -365,16 +365,17 @@ public class CourseMvcController {
             return "redirect:/auth/login";
         }
     }
+
     @PostMapping("/{courseId}/delete")
-    public String deleteCourse(HttpSession session,@PathVariable int courseId) {
-        try{
-            User user =authenticationHelper.tryGetCurrentUser(session);
-            courseService.delete(courseId,user);
-        } catch (AuthorizationException e){
+    public String deleteCourse(HttpSession session, @PathVariable int courseId) {
+        try {
+            User user = authenticationHelper.tryGetCurrentUser(session);
+            courseService.delete(courseId, user);
+        } catch (AuthorizationException e) {
             return "redirect:/auth/login";
         }
         return "redirect:/users/allCourses";
-        }
-
     }
+
+}
 

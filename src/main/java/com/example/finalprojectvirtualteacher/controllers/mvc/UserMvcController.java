@@ -6,10 +6,13 @@ import com.example.finalprojectvirtualteacher.helpers.AuthenticationHelper;
 import com.example.finalprojectvirtualteacher.helpers.mappers.ImageHelper;
 import com.example.finalprojectvirtualteacher.helpers.mappers.UserMapper;
 import com.example.finalprojectvirtualteacher.models.Course;
+import com.example.finalprojectvirtualteacher.models.FilterOptions;
 import com.example.finalprojectvirtualteacher.models.User;
+import com.example.finalprojectvirtualteacher.models.dto.FilterOptionsDto;
 import com.example.finalprojectvirtualteacher.models.dto.UserDtoUpdate;
 import com.example.finalprojectvirtualteacher.services.contacts.*;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.boot.Banner;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -79,7 +82,7 @@ public class UserMvcController {
     }
 
     @GetMapping
-    public String showUserPage(HttpSession httpSession, Model model) {
+    public String showUserPage(HttpSession httpSession, Model model, FilterOptionsDto filterOptionsDto) {
         try {
             User user = authenticationHelper.tryGetCurrentUser(httpSession);
             if (user.getRole().getId() == 1) {
@@ -88,10 +91,18 @@ public class UserMvcController {
                 model.addAttribute("completedCourses", courseService.getAllByUserCompleted(user.getId()));
                 return "StudentDashboard";
             } else {
+                FilterOptions filterOptions=new FilterOptions(
+                        filterOptionsDto.getTitle(),
+                        filterOptionsDto.getTopicId(),
+                        user.getId(),
+                        filterOptionsDto.getRating(),
+                        filterOptionsDto.getSortBy(),
+                        filterOptionsDto.getSortOrder());
                 model.addAttribute("loggedIn", user);
                 model.addAttribute("activeCourses", courseService.getAllByUserNotCompleted(user.getId()));
                 model.addAttribute("completedCourses", courseService.getAllByUserCompleted(user.getId()));
                 model.addAttribute("allCourses", courseService.getAll());
+                model.addAttribute("allCoursesByTeacher", courseService.getAll(filterOptions));
                 model.addAttribute("allStudents", userService.getAll());
                 return "InstructorDashboard";
             }
@@ -192,7 +203,7 @@ public class UserMvcController {
         } catch (AuthorizationException e) {
             return "redirect:/auth/login";
         }
-        return "redirect:/all";
+        return "redirect:/users/all";
     }
 
     @GetMapping("/allCourses")
@@ -245,12 +256,23 @@ public class UserMvcController {
         }
     }
 
+    @GetMapping("/invite")
+    public String inviteFriendView(HttpSession session, Model model) {
+        try {
+            User inviter = authenticationHelper.tryGetCurrentUser(session);
+            model.addAttribute("loggedIn", inviter);
+            return "InviteFriendView";
+        } catch (AuthorizationException e) {
+            return "redirect:/auth/login";
+        }
+    }
+
     @PostMapping("/invite")
     public String inviteFriend(@RequestParam("email") String friendEmail, HttpSession session) {
         try {
             User inviter = authenticationHelper.tryGetCurrentUser(session);
             userService.inviteFriend(inviter, friendEmail);
-            return "InviteFriendView";
+            return "redirect:/users/invite";
         } catch (AuthorizationException e) {
             return "redirect:/auth/login";
         }

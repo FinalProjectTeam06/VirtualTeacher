@@ -114,7 +114,8 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(int id, User user) {
         checkPermission(user, id);
         User userToDelete = getById(id);
-        userRepository.deleteUser(userToDelete);
+        userToDelete.setId(999);
+        userRepository.updateUser(userToDelete);
     }
 
 

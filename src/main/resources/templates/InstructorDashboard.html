@@ -187,10 +187,13 @@
                                             <ul class="dashboard-mainmenu rbt-default-sidebar-list">
                                                 <li><a href="InstructorDashboard.html" th:href="@{/users}"><i class="feather-home"></i><span>Dashboard</span></a></li>
                                                 <li><a href="ProfileInformation.html" th:href="@{/users/profile}"><i class="feather-user"></i><span>My Profile</span></a></li>
-                                                <li><a href="UserEnrolledCoursesView.html" th:href="@{/courses/enrolled}"><i class="feather-book-open"></i><span>Enrolled Courses</span></a></li>
-                                                <li><a href="InstructorAssignmentsToCheck.html" th:href="@{/courses/assignments/user/{userId}(userId=${loggedIn.getId()})}"><i class="feather-list"></i><span>My Assignments</span></a></li>
+                                                <li><a href="UserEnrolledCoursesView.html" th:href="@{/courses/enrolled}"><i class="feather-clipboard"></i><span>Enrolled Courses</span></a></li>
+                                                <li><a href="InstructorAssignmentsToCheck.html" th:href="@{/courses/assignments/user/{userId}(userId=${loggedIn.getId()})}"><i class="feather-book-open"></i><span>My Assignments</span></a></li>
                                                 <li><a href="UserNotes.html" th:href="@{/users/myNotes}"><i class="feather-list"></i><span>My Notes</span></a></li>
                                                 <li><a href="ReviewsView.html" th:href="@{/users/reviews}"><i class="feather-star"></i><span>My Reviews</span></a></li>
+                                                <li><a href="student-enrolled-courses.html" th:href="@{/users/invite}"><i class="feather-user-plus"></i><span>Invite Friend</span></a></li>
+
+
                                             </ul>
                                         </nav>
 
@@ -362,55 +365,14 @@
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                <tr>
-                                                    <th><a href="#">Accounting</a></th>
-                                                    <td>50</td>
+                                                <tr th:each="course : ${allCoursesByTeacher}">
+                                                    <th><a href="#" th:text="${course.getTitle()}" th:href="@{/courses/{courseId}(courseId=${course.getId()})}">Accounting</a></th>
+                                                    <td th:text="${course.getStudents().size()}">50</td>
                                                     <td>
                                                         <div class="rating">
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th><a href="#">Marketing</a></th>
-                                                    <td>40</td>
-                                                    <td>
-                                                        <div class="rating">
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th><a href="#">Web Design</a></th>
-                                                    <td>75</td>
-                                                    <td>
-                                                        <div class="rating">
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th><a href="#">Graphic</a></th>
-                                                    <td>20</td>
-                                                    <td>
-                                                        <div class="rating">
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="off fas fa-star"></i>
-                                                            <i class="off fas fa-star"></i>
-                                                            <i class="off fas fa-star"></i>
+                                                            <th:block th:each="star : ${#numbers.sequence(1, course.getRating())}">
+                                                                <i class="fa fa-star"></i>
+                                                            </th:block>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -419,7 +381,7 @@
                                         </div>
 
                                         <div class="load-more-btn text-center">
-                                            <a class="rbt-btn-link" href="#">Browse All Course<i class="feather-arrow-right"></i></a>
+                                            <a class="rbt-btn-link" href="#" th:href="@{/courses/user/{userId}(userId=${loggedIn.getId()})}">Browse All Course<i class="feather-arrow-right"></i></a>
                                         </div>
                                     </div>
                                 </div>

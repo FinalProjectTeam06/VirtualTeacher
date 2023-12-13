@@ -205,7 +205,7 @@
 
 
                                                         <div class="rbt-card-bottom" th:if="${enrollment.isGraduated()==true}">
-                                                            <a class="rbt-btn btn-sm bg-primary-opacity w-100 text-center" href="#">Download Certificate</a>
+                                                            <a class="rbt-btn btn-sm bg-primary-opacity w-100 text-center" href="#" th:href="@{/pdf/download/{courseId}(courseId=${enrollment.getCourse().getId()})}">Download Certificate</a>
                                                         </div>
                                                         <div class="rbt-card-bottom" th:if="${enrollment.isGraduated()==false}">
                                                             <a class="rbt-btn btn-sm bg-primary-opacity w-100 text-center">Not Graduated</a>

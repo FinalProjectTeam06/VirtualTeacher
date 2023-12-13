@@ -1,9 +1,7 @@
 package com.example.finalprojectvirtualteacher.repositories;
 
 import com.example.finalprojectvirtualteacher.exceptions.EntityNotFoundException;
-import com.example.finalprojectvirtualteacher.models.Course;
-import com.example.finalprojectvirtualteacher.models.User;
-import com.example.finalprojectvirtualteacher.models.UserFilterOptions;
+import com.example.finalprojectvirtualteacher.models.*;
 import com.example.finalprojectvirtualteacher.repositories.contracts.UserRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -109,7 +107,6 @@ public class UserRepositoryImpl implements UserRepository {
         }
     }
 
-
     @Override
     public List<User> getAll(UserFilterOptions userFilterOptions) {
         try (
@@ -168,14 +165,14 @@ public class UserRepositoryImpl implements UserRepository {
         }
     }
 
-    private void deleteCoursesFromUser(int userId) {
-        try (Session session = sessionFactory.openSession()) {
-            session.beginTransaction();
-            Query<?> query = session.createNativeQuery(
-                    "delete from virtual_teacher.enrolled_courses where user_id= :userId", User.class);
-            query.setParameter("userId", userId);
-            query.executeUpdate();
-            session.getTransaction().commit();
-        }
-    }
+//    private void deleteCoursesFromUser(int userId) {
+//        try (Session session = sessionFactory.openSession()) {
+//            session.beginTransaction();
+//            Query<?> query = session.createNativeQuery(
+//                    "delete from virtual_teacher.enrolled_courses where user_id= :userId", User.class);
+//            query.setParameter("userId", userId);
+//            query.executeUpdate();
+//            session.getTransaction().commit();
+//        }
+//    }
 }

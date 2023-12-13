@@ -142,9 +142,9 @@ public class CourseServiceImpl implements CourseService {
             rate.setComment(rateDto.getComment());
         }
         rate.setRateValue(rateDto.getRateValue());
+        courseRepository.updateRating(rate);
         course.setRating(getCourseRating(course));
-        courseRepository.update(course);
-        return courseRepository.updateRating(rate);
+        return courseRepository.update(course);
     }
 
     @Override

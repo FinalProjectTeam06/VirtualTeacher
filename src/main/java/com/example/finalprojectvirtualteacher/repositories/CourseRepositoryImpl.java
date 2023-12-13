@@ -93,8 +93,9 @@ public class CourseRepositoryImpl implements CourseRepository {
                 params.put("teacherId", value);
             });
             filterOptions.getRating().ifPresent(value -> {
-                    filters.add("rating >= :rating");
+                    filters.add("rating >= :rating AND rating <= :maxValue");
                     params.put("rating", value);
+                    params.put("maxValue", value+0.99);
 
             });
             StringBuilder queryString = new StringBuilder("FROM Course");
