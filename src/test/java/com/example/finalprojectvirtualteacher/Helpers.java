@@ -5,6 +5,7 @@ import com.example.finalprojectvirtualteacher.models.dto.CourseDto;
 import com.example.finalprojectvirtualteacher.models.dto.LectureDto;
 import com.example.finalprojectvirtualteacher.models.dto.RateDto;
 import com.example.finalprojectvirtualteacher.models.dto.UserDtoUpdate;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
@@ -190,6 +191,22 @@ public class Helpers {
         note.setNoteId(1);
         note.setUserId(createMockUser().getId());
         return note;
+    }
+    public static Grade createMockGrade(){
+        Grade grade = new Grade();
+        grade.setId(1);
+        grade.setName("mockGrade");
+        return grade;
+    }
+
+    public static Assignment createMockAssignment() {
+        Assignment assignment = new Assignment();
+        assignment.setId(1);
+        assignment.setAssignmentUrl("assignment url");
+        assignment.setLecture(createMockLecture());
+        assignment.setGrade(createMockGrade());
+        assignment.setUser(createMockUser());
+    return assignment;
     }
 
 }

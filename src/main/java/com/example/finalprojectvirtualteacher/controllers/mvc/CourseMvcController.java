@@ -8,6 +8,9 @@ import com.example.finalprojectvirtualteacher.models.dto.*;
 import com.example.finalprojectvirtualteacher.services.contacts.*;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import org.apache.http.protocol.HTTP;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +32,7 @@ public class CourseMvcController {
     private final EnrollmentService enrollmentService;
     private final WikiPageService wikiPageService;
 
+    @Autowired
     public CourseMvcController(CourseService courseService, UserService userService, TopicService topicService, AuthenticationHelper authenticationHelper, LectureService lectureService, AssignmentsHelper assignmentsHelper, AssignmentService assignmentService, EnrollmentService enrollmentService, WikiPageService wikiPageService) {
         this.courseService = courseService;
         this.userService = userService;
@@ -55,10 +59,9 @@ public class CourseMvcController {
             return false;
         }
     }
-
     @ModelAttribute("isAdmin")
     public boolean populateIsAdmin(HttpSession session) {
-        try {
+        try{
             User user = authenticationHelper.tryGetCurrentUser(session);
             return (user.getRole().getId() == 3);
         } catch (AuthorizationException e) {
@@ -247,6 +250,7 @@ public class CourseMvcController {
             model.addAttribute("noteDto", new NoteDto());
             model.addAttribute("isSearch", true);
             model.addAttribute("results", searchResults);
+
             return "LectureView";
         } catch (AuthorizationException e) {
             return "redirect:/auth/login";

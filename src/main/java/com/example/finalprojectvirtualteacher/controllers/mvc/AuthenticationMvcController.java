@@ -12,6 +12,7 @@ import com.example.finalprojectvirtualteacher.services.contacts.RecaptchaService
 import com.example.finalprojectvirtualteacher.services.contacts.UserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -33,7 +34,7 @@ public class AuthenticationMvcController {
     private final RecaptchaService recaptchaService;
 
 
-
+@Autowired
     public AuthenticationMvcController(AuthenticationHelper authenticationHelper, UserMapper userMapper, UserService userService, RecaptchaService captchaService, RecaptchaService recaptchaService) {
         this.authenticationHelper = authenticationHelper;
         this.userMapper = userMapper;

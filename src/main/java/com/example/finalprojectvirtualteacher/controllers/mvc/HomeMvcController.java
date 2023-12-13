@@ -8,6 +8,7 @@ import com.example.finalprojectvirtualteacher.services.contacts.LectureService;
 import com.example.finalprojectvirtualteacher.services.contacts.TopicService;
 import com.example.finalprojectvirtualteacher.services.contacts.UserService;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +24,7 @@ public class HomeMvcController {
     private final LectureService lectureService;
     private final AuthenticationHelper authenticationHelper;
 
+    @Autowired
     public HomeMvcController(TopicService topicService, UserService userService, CourseService courseService, LectureService lectureService, AuthenticationHelper authenticationHelper) {
         this.topicService = topicService;
         this.userService = userService;

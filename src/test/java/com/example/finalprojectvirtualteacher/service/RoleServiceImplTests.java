@@ -13,6 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 
+import static com.example.finalprojectvirtualteacher.Helpers.createMockRole;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
@@ -47,7 +48,7 @@ class RoleServiceImplTests {
     void getById_ShouldReturnRole_WhenIdExists() {
         // Arrange
         int roleId = 1;
-        Role mockRole = Helpers.createMockRole(roleId, "MockRole");
+        Role mockRole = createMockRole(roleId, "MockRole");
         when(roleRepositoryMock.getById(roleId)).thenReturn(mockRole);
 
         // Act

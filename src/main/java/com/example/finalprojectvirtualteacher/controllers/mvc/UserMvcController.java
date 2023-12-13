@@ -1,7 +1,6 @@
 package com.example.finalprojectvirtualteacher.controllers.mvc;
 
 import com.example.finalprojectvirtualteacher.exceptions.AuthorizationException;
-import com.example.finalprojectvirtualteacher.exceptions.EntityDuplicateException;
 import com.example.finalprojectvirtualteacher.helpers.AuthenticationHelper;
 import com.example.finalprojectvirtualteacher.helpers.mappers.ImageHelper;
 import com.example.finalprojectvirtualteacher.helpers.mappers.UserMapper;
