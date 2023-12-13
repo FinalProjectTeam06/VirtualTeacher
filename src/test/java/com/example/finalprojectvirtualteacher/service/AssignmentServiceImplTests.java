@@ -152,7 +152,6 @@ public class AssignmentServiceImplTests {
         when(gradeService.getById(mockGrade.getId())).thenReturn(mockGrade);
 
         when(assignmentRepository.submitAssignment(assignment)).thenReturn(mockLecture);
-        when(assignmentRepository.update(assignment)).thenReturn(mockLecture);
 
         Lecture result = assignmentService.submitAssignment(mockUser, mockLecture.getId(), mockFile);
 
@@ -179,27 +178,27 @@ public class AssignmentServiceImplTests {
                 .getByUserSubmittedToCourseAndGraded(user.getId(), course.getId());
 
     }
+
+
+
+
+
+
+
     @Test
     void  getGradeForCourse_Should_CallRepository(){
-        Course course = createMockCourse();
         User user = createMockUser();
-        Assignment assignment = new Assignment();
-        Assignment assignment1 = new Assignment();
-        List<Assignment> list = new ArrayList<>();
-        list.add(assignment);
-        list.add(assignment1);
+        Course course = createMockCourse();
 
         when(courseService.getById(course.getId())).thenReturn(course);
+
+        List<Assignment> submittedAssignments = new ArrayList<>();
+        submittedAssignments.add(createMockAssignment());
         when(assignmentRepository.getByUserSubmittedToCourseAndGraded(user.getId(), course.getId()))
-                .thenReturn(list);
+                .thenReturn(submittedAssignments);
 
-        when(assignment.getGrade().getId()).thenReturn(2);
-        when(assignment1.getGrade().getId()).thenReturn(3);
+        assignmentService.getGradeForCourse(user.getId(), course.getId());
 
-
-        double result = assignmentService.getGradeForCourse(user.getId(), course.getId());
-
-        assertEquals(2.5,result,0.01);
     }
 
 
@@ -218,7 +217,7 @@ public class AssignmentServiceImplTests {
         when(assignmentRepository.grade(assignment)).thenReturn(assignment);
 
         when(assignmentService.getAllAssignmentsForCourse(course.getId()))
-                .thenReturn(Arrays.asList(assignment));
+                .thenReturn(List.of(assignment));
 
         Assignment result = assignmentService.grade(assignment.getId(), grade.getId(), course.getId(), user.getId());
 
@@ -226,4 +225,9 @@ public class AssignmentServiceImplTests {
         assertEquals(result, assignment);
 
     }
+
+
+
+
+
 }

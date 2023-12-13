@@ -164,7 +164,7 @@ public class CourseServiceImpl implements CourseService {
 
 
 
-    private void checkModifyPermission(User user) {
+    public void checkModifyPermission(User user) {
         if (!user.getRole().getName().equals("admin") && !user.getRole().getName().equals("teacher")) {
             throw new AuthorizationException(PERMISSION_ERROR);
         }

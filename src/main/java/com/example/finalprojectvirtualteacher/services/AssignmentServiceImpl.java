@@ -108,6 +108,7 @@ public class AssignmentServiceImpl implements AssignmentService {
         return resultCountGrades / assignmentsToSubmit;
     }
 
+    //todo - kude se izpolzva?
     @Override
     public Assignment grade(int assignmentId, int gradeId, int courseId, int studentId) {
         Assignment assignment = getById(assignmentId);

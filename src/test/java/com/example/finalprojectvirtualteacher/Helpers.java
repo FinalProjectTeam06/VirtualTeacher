@@ -47,7 +47,7 @@ public class Helpers {
 
     private static Role createMockAdminRole() {
         Role adminRole = new Role();
-        adminRole.setId(1);
+        adminRole.setId(3);
         adminRole.setName("admin");
         return adminRole;
     }
@@ -101,11 +101,13 @@ public class Helpers {
 
     public static Lecture createMockLecture() {
         Lecture lecture = new Lecture();
+        Course course = createMockCourse();
+        course.setCreator(createMockUser());
         lecture.setId(1);
         lecture.setTitle("MockLectureTitle");
         lecture.setDescription("MockLectureDescription");
         lecture.setTeacher(createMockTeacher());
-        lecture.setCourse(createMockCourse());
+        lecture.setCourse(course);
         return lecture;
     }
     public static LectureDto createLectureDto(){

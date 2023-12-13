@@ -14,6 +14,9 @@ only after approval from an administrator.
 * Karina Ivanova - GitHub [https://github.com/KarinaIvanova01]
 * Preslav Marinov - GitHub [https://github.com/Pmarinov344]
 
+![home page.png](src%2Fmain%2Fresources%2Fstatic%2Fimages%2Fhome%20page.png)
+
+
 
 ## Areas
 * **[Public part](#public-part)** - accessible without authentication.
@@ -73,9 +76,9 @@ Each course can be rated from 1 to 5 from the students.
 
 ## Notes
 * MediaWiki Action API
-* Unit test code coverage of the business logic
-* Swagger documentation -
+* Unit test code coverage of the business logic :
+* Swagger documentation - http://localhost:8080/swagger-ui/index.html#/
 * To set up and run the project locally : 
-1. create a database and fill the table;
+1. create a database and fill the tables from script
 2. run the application
 3. go to localhost:8080

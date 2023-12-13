@@ -11,6 +11,7 @@ import com.example.finalprojectvirtualteacher.models.dto.CourseDto;
 import com.example.finalprojectvirtualteacher.models.dto.RateDto;
 import com.example.finalprojectvirtualteacher.repositories.contracts.CourseRepository;
 import com.example.finalprojectvirtualteacher.services.CourseServiceImpl;
+import org.checkerframework.checker.units.qual.C;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -47,7 +48,18 @@ public class CourseServiceImplTests {
         Mockito.verify(courseRepository, Mockito.times(1))
                 .getAll(filterOptions);
     }
+    @Test
+    void getAllActiveCourse_NotEnrolled_Should_CallRepository(){
+        User user = createMockUser();
+        List<Course> list = new ArrayList<>();
+        list.add(createMockCourse());
 
+        when(courseRepository.getAllActiveCoursesNotEnrolled(user)).thenReturn(list);
+
+        courseService.getAllActiveCoursesNotEnrolled(user);
+
+        verify(courseRepository,times(1)).getAllActiveCoursesNotEnrolled(user);
+    }
     @Test
     void getAll_Should_CallRepository() {
         Course course = createMockCourse();
@@ -109,6 +121,7 @@ public class CourseServiceImplTests {
     }
 
 
+
     @Test
     void GetAllEnrollments_WithNoCourses() {
         List<Course> courseList = new ArrayList<>();
@@ -142,6 +155,76 @@ public class CourseServiceImplTests {
 
         assertEquals(expectedCount, enrollmentCount);
     }
+
+    @Test
+    void getAllByUserGraduated_Should_CallRepository(){
+        User user = createMockUser();
+        List<Course> list = new ArrayList<>();
+        list.add(createMockCourse());
+
+        when(courseRepository.getAllByUserGraduated(user.getId())).thenReturn(list);
+
+        courseService.getAllByUserGraduated(user.getId());
+        verify(courseRepository,times(1)).getAllByUserGraduated(user.getId());
+    }
+
+    @Test
+    void getAll_Non_PublishedCoursesFromTeacher_CallRepository(){
+        User user = createMockTeacher();
+        List<Course> list =new ArrayList<>();
+        list.add(createMockCourse());
+        list.add(createMockCourse());
+
+
+        courseService.getAllNotPublishedCoursesFromTeacher(user);
+    }
+
+    @Test
+    void getAll_PublishedCourser_Should_Call_Repository(){
+        User user = createMockAdmin();
+        List<Course> list = new ArrayList<>();
+        list.add(createMockCourse());
+
+        when(courseRepository.getAllPublishedCoursesFromTeacher(user)).thenReturn(list);
+
+        List<Course> resultCourses = courseService.getAllPublishedCoursesFromTeacher(user);
+
+        // Assert
+        assertEquals(list, resultCourses);
+        verify(courseRepository, times(1)).getAllPublishedCoursesFromTeacher(user);
+    }
+//todo
+
+//    @Test
+//    void publishCourse_Should_callRepository(){
+//        Course course = createMockCourse();
+//        User user = createMockAdmin();
+//        course.setCreator(user);
+//
+//        when(courseRepository.update(course)).thenReturn(course);
+//
+////       Course result = courseService.publishCourse(course.getId(),user);
+//
+////        assertEquals(course,result);
+//        verify(courseRepository,times(1)).update(course);
+//    }
+
+    @Test
+    void getAllUserRates_Should_callRepository(){
+        User user = createMockUser();
+        List<Rate> list = new ArrayList<>();
+        list.add(createMockRate());
+
+        when(courseRepository.getAllUserRates(user.getId())).thenReturn(list);
+
+        courseService.getAllUserRates(user.getId());
+
+        verify(courseRepository,times(1)).getAllUserRates(user.getId());
+
+
+    }
+
+
 
     @Test
     void create_Should_CallRepository() {

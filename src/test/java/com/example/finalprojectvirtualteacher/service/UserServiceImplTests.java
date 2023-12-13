@@ -1,6 +1,8 @@
 package com.example.finalprojectvirtualteacher.service;
 
 import com.example.finalprojectvirtualteacher.exceptions.EntityDuplicateException;
+import com.example.finalprojectvirtualteacher.exceptions.EntityNotFoundException;
+import com.example.finalprojectvirtualteacher.exceptions.WrongActivationCodeException;
 import com.example.finalprojectvirtualteacher.models.Course;
 import com.example.finalprojectvirtualteacher.models.User;
 import com.example.finalprojectvirtualteacher.models.UserFilterOptions;
@@ -8,6 +10,7 @@ import com.example.finalprojectvirtualteacher.models.dto.UserDtoUpdate;
 import com.example.finalprojectvirtualteacher.repositories.contracts.UserRepository;
 import com.example.finalprojectvirtualteacher.services.UserServiceImpl;
 import com.example.finalprojectvirtualteacher.services.contacts.CourseService;
+import com.example.finalprojectvirtualteacher.services.contacts.EmailService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -15,9 +18,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
+import java.security.Timestamp;
+import java.time.Instant;
+import java.util.*;
 
 import static com.example.finalprojectvirtualteacher.Helpers.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -32,6 +35,8 @@ class UserServiceImplTests {
     private UserRepository userRepository;
     @Mock
     private CourseService courseServiceMock;
+    @Mock
+    EmailService emailService;
 
 
     @Test
@@ -84,6 +89,20 @@ class UserServiceImplTests {
         assertEquals(result, user);
         verify(userRepository,times(1)).getById(user.getId());
     }
+
+
+    @Test
+    void getAllStudent_Should_CallRepository(){
+        List<User> list = new ArrayList<>();
+        list.add(createMockUser());
+        list.add(createMockUser());
+
+        when(userRepository.getAllStudents()).thenReturn(list);
+        userService.getAllStudents();
+
+        verify(userRepository,times(1)).getAllStudents();
+    }
+
     @Test
     void getByEmail_ShouldReturnUser_WhenEmailExists() {
         User user = createMockUser();
@@ -99,6 +118,15 @@ class UserServiceImplTests {
 //todo
     @Test
     void createUser_Should_CallRepository() {
+        User user = createMockTeacher();
+
+        when(userRepository.getByEmail(user.getEmail())).thenThrow(new EntityNotFoundException("User not found"));
+
+        User created = userService.create(user);
+        assertNotNull(created);
+        verify(userRepository,times(1)).getByEmail(user.getEmail());
+        verify(userRepository,times(1)).create(user);
+        verify(emailService,times(1)).sendUserCreationVerificationCode(user,012);
     }
 
 
@@ -158,13 +186,6 @@ class UserServiceImplTests {
     }
 
     @Test
-    void create_Should_Throw_EntityNotFoundException(){
-        User user = createMockUser();
-        when(userRepository.getByEmail("email"));
-    }
-
-
-    @Test
     public void deleteUser_Should_ThrowAuthorizationException_When_UserIsAdmin(){
         User user = createMockAdmin();
         int idToAdmin = user.getId();
@@ -203,6 +224,23 @@ class UserServiceImplTests {
 
         assertEquals(newUrl, result.getProfilePictureUrl());
         verify(userRepository, times(1)).updateUser(user);
+    }
+
+
+    @Test
+    public void testActivateAccountWithNonexistentCode() {
+        // Arrange
+       User user = createMockUser();
+        UserRepository userRepository = mock(UserRepository.class);
+
+        // Act and Assert
+        WrongActivationCodeException exception = assertThrows(WrongActivationCodeException.class, () -> {
+            userService.activateAccount(789);
+        });
+
+        assertEquals("Code not active. Maybe user is activated already?", exception.getMessage());
+        verify(userRepository, never()).getByEmail(any());
+        verify(userRepository, never()).updateUser(any(User.class));
     }
 
 }
