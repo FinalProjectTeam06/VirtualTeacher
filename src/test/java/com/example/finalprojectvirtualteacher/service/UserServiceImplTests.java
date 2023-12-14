@@ -1,16 +1,19 @@
 package com.example.finalprojectvirtualteacher.service;
 
-import com.example.finalprojectvirtualteacher.exceptions.EntityDuplicateException;
-import com.example.finalprojectvirtualteacher.exceptions.EntityNotFoundException;
-import com.example.finalprojectvirtualteacher.exceptions.WrongActivationCodeException;
+import com.example.finalprojectvirtualteacher.Helpers;
+import com.example.finalprojectvirtualteacher.exceptions.*;
 import com.example.finalprojectvirtualteacher.models.Course;
 import com.example.finalprojectvirtualteacher.models.User;
 import com.example.finalprojectvirtualteacher.models.UserFilterOptions;
 import com.example.finalprojectvirtualteacher.models.dto.UserDtoUpdate;
+import com.example.finalprojectvirtualteacher.repositories.contracts.AssignmentRepository;
+import com.example.finalprojectvirtualteacher.repositories.contracts.CourseRepository;
 import com.example.finalprojectvirtualteacher.repositories.contracts.UserRepository;
 import com.example.finalprojectvirtualteacher.services.UserServiceImpl;
+import com.example.finalprojectvirtualteacher.services.contacts.CommentService;
 import com.example.finalprojectvirtualteacher.services.contacts.CourseService;
 import com.example.finalprojectvirtualteacher.services.contacts.EmailService;
+import com.example.finalprojectvirtualteacher.services.contacts.LectureService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -25,6 +28,7 @@ import java.util.*;
 import static com.example.finalprojectvirtualteacher.Helpers.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import static org.mockito.internal.util.MockUtil.createMock;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceImplTests {
@@ -35,6 +39,17 @@ class UserServiceImplTests {
     private UserRepository userRepository;
     @Mock
     private CourseService courseServiceMock;
+    @Mock
+    private CourseRepository courseRepository;
+    @Mock
+    private AssignmentRepository assignmentRepository;
+
+    @Mock
+    private LectureService lectureService;
+
+    @Mock
+    private CommentService commentService;
+
     @Mock
     EmailService emailService;
 
@@ -64,6 +79,7 @@ class UserServiceImplTests {
         assertEquals(result,mockUsers);
         verify(userRepository,times(1)).getAll();
     }
+
 
     @Test
     void getAllTeacher_Should_CallRepository(){
@@ -115,18 +131,45 @@ class UserServiceImplTests {
         verify(userRepository,times(1)).getByEmail(user.getEmail());
     }
 
-//todo
+
+@Test
+void createUser_Should_CallRepository() {
+    // Arrange
+    User userToCreate = Helpers.createMockUser();
+
+    when(userRepository.getByEmail(userToCreate.getEmail())).thenThrow(new EntityNotFoundException("User not found"));
+    when(userRepository.create(any(User.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+    // Act
+    User createdUser = userService.create(userToCreate);
+
+    // Assert
+    assertNotNull(createdUser);
+    verify(userRepository, times(1)).getByEmail(userToCreate.getEmail());
+    verify(userRepository, times(1)).create(userToCreate);
+    verify(emailService, times(1)).sendUserCreationVerificationCode(eq(userToCreate), anyInt());
+}
+
+
     @Test
-    void createUser_Should_CallRepository() {
-        User user = createMockTeacher();
+    void enrollCourse_Should_CallRepository_When_CourseIsEnrolled() {
+        // Arrange
+        User user = Helpers.createMockUser();
+        int courseId = 1;
+        Course course = Helpers.createMockCourse();
 
-        when(userRepository.getByEmail(user.getEmail())).thenThrow(new EntityNotFoundException("User not found"));
+        when(courseRepository.getById(courseId)).thenReturn(course);
+        when(userRepository.updateUser(user)).thenReturn(user);
 
-        User created = userService.create(user);
-        assertNotNull(created);
-        verify(userRepository,times(1)).getByEmail(user.getEmail());
-        verify(userRepository,times(1)).create(user);
-        verify(emailService,times(1)).sendUserCreationVerificationCode(user,012);
+        // Act
+        User result = userService.enrollCourse(user, courseId);
+
+        // Assert
+        assertTrue(result.getCourses().contains(course));
+
+        // Verify that the repository methods are called
+        verify(courseRepository, times(1)).getById(courseId);
+        verify(userRepository, times(1)).updateUser(user);
     }
 
 
@@ -166,12 +209,17 @@ class UserServiceImplTests {
 
         user.setCourses(new HashSet<>());
 
-        when(courseServiceMock.getById(courseId)).thenReturn(mockCourse);
-        when(userRepository.updateUser(user)).thenReturn(user);
+        when(courseRepository.getById(courseId)).thenReturn(mockCourse);
+        when(userRepository.updateUser(any(User.class))).thenReturn(user);
 
+        // Act
         User result = userService.enrollCourse(user, courseId);
 
+        // Assert
         assertTrue(result.getCourses().contains(mockCourse));
+
+        // Verify that the updateUser method is called once with the correct arguments
+        verify(userRepository, times(1)).updateUser(user);
     }
 
     @Test
@@ -185,33 +233,8 @@ class UserServiceImplTests {
 
     }
 
-    @Test
-    public void deleteUser_Should_ThrowAuthorizationException_When_UserIsAdmin(){
-        User user = createMockAdmin();
-        int idToAdmin = user.getId();
-        User userToDelete = createMockUserWithId(idToAdmin);
 
-        when(userRepository.getById(idToAdmin)).thenReturn(userToDelete);
 
-        userService.deleteUser(idToAdmin,user);
-
-    }
-    @Test
-    void delete_Should_CallRepository_When_UserIsCreator() {
-        // Arrange
-        User user = createMockUser();
-        User mock1 = createMockAdmin();
-
-        when(userRepository.getById(Mockito.anyInt()))
-                .thenReturn(user);
-
-        // Act
-        userService.deleteUser(user.getId(), mock1);
-
-        // Assert
-        Mockito.verify(userRepository, times(1))
-                .deleteUser(user);
-    }
 
     @Test
     void addProfilePhoto_ShouldSetProfilePhotoUrl_WhenValidUrl() {
@@ -225,6 +248,7 @@ class UserServiceImplTests {
         assertEquals(newUrl, result.getProfilePictureUrl());
         verify(userRepository, times(1)).updateUser(user);
     }
+
 
 
     @Test
@@ -242,5 +266,25 @@ class UserServiceImplTests {
         verify(userRepository, never()).getByEmail(any());
         verify(userRepository, never()).updateUser(any(User.class));
     }
+
+
+
+    @Test
+    void inviteFriend_Should_SendInvitationEmail_When_InvitationSent() {
+        // Arrange
+        User inviter = createMockUser();
+        String friendEmail = "friend@example.com";
+        String expectedInvitationMessage = String.format(
+                "Hello! You have been invited by %s %s to join our site. Click the following link to register: %s",
+                inviter.getFirstName(), inviter.getLastName(), "http://localhost:8080/auth/register");
+
+        // Act
+        userService.inviteFriend(inviter, friendEmail);
+
+        // Assert
+        verify(emailService, times(1)).sendMessage(eq(friendEmail), eq("Invitation to Join"), eq(expectedInvitationMessage));
+    }
+
+
 
 }

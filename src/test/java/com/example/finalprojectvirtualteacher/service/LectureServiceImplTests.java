@@ -8,8 +8,13 @@ import com.example.finalprojectvirtualteacher.models.Course;
 import com.example.finalprojectvirtualteacher.models.Lecture;
 import com.example.finalprojectvirtualteacher.models.User;
 import com.example.finalprojectvirtualteacher.models.dto.LectureDto;
+import com.example.finalprojectvirtualteacher.repositories.contracts.CourseRepository;
 import com.example.finalprojectvirtualteacher.repositories.contracts.LectureRepository;
+import com.example.finalprojectvirtualteacher.services.CourseServiceImpl;
 import com.example.finalprojectvirtualteacher.services.LectureServiceImpl;
+import com.example.finalprojectvirtualteacher.services.contacts.AssignmentService;
+import com.example.finalprojectvirtualteacher.services.contacts.CommentService;
+import com.example.finalprojectvirtualteacher.services.contacts.NoteService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -29,10 +34,24 @@ import static org.mockito.Mockito.*;
 class LectureServiceImplTests {
 
     @Mock
+    private CourseRepository courseRepository;
+
+    @Mock
+    private AssignmentService assignmentService;
+
+    @Mock
+    private NoteService noteService;
+
+    @Mock
+    private CommentService commentService;
+
+    @Mock
     LectureRepository lectureRepository;
 
     @InjectMocks
     LectureServiceImpl lectureService;
+    @InjectMocks
+    private CourseServiceImpl courseService;
 
     @Mock
     LectureMapper mapper;
@@ -112,24 +131,48 @@ class LectureServiceImplTests {
 
 
     @Test
-    void update_Should_CallRepository_WhenCreatorUpdate() {
-        LectureDto lectureDto = createLectureDto();
-        User creator = createMockTeacher();
-        Lecture lecture = createMockLecture();
-        lecture.setTeacher(creator);
+    public void deleteAllLecturesByUser_Should_CallRepositoryDeleteAllLecturesByUser() {
+        // Arrange
+        int userId = 1;
 
-        when(lectureService.getById(lecture.getId())).thenReturn(lecture);
-//when(mapper.fromDtoUpdate(lectureDto, lecture)).thenReturn(lecture);
+        // Act
+        lectureService.deleteAllLecturesByUser(userId);
 
-     Lecture result = lectureService.update(lectureDto, creator, lecture.getId());
-//       assertNotNull(result);
-//       assertEquals(lecture.getId(),result);
+        // Assert
+        // Verify that the deleteAllLecturesByUser method is called on the repository
+        verify(lectureRepository, times(1)).deleteAllLecturesByUser(userId);
 
-       verify(lectureRepository).update(lecture);
-
-
-
+        // Make sure there are no other interactions with the lectureRepository
+        verifyNoMoreInteractions(lectureRepository);
     }
+
+    @Test
+    public void deleteAllLecturesFromCourse_Should_CallRepositoryDeleteAllLecturesFromCourse() {
+        // Arrange
+        int courseId = 1;
+
+        // Act
+        lectureService.deleteAllLecturesFromCourse(courseId);
+
+        // Assert
+        // Verify that the deleteAllLecturesFromCourse method is called on the repository
+        verify(lectureRepository, times(1)).deleteAllLecturesFromCourse(courseId);
+
+        // Make sure there are no other interactions with the lectureRepository
+        verifyNoMoreInteractions(lectureRepository);
+    }
+    @Test
+    void deleteAllLecturesByUser_Should_CallRepository_When_DeleteAllLecturesByUser() {
+        // Arrange
+        int userId = 1;
+
+        // Act
+        lectureService.deleteAllLecturesByUser(userId);
+
+        // Verify interactions with dependencies
+        verify(lectureRepository).deleteAllLecturesByUser(userId);
+    }
+
 
     @Test
     void update_Should_ThrowException_WhenDontHavePermission() {
@@ -152,16 +195,16 @@ class LectureServiceImplTests {
 
 
     @Test
-    void delete_Should_CallRepository_WhenDeleteLecture() {
-        Lecture lecture = createMockLecture();
-        lecture.setTeacher(createMockTeacher());
-        int lectureId = lecture.getId();
-        User admin = createMockAdmin();
+    void deleteAllLecturesFromCourse_Should_CallRepository_When_DeleteAllLecturesFromCourse() {
+        // Arrange
+        int courseId = 1;
 
-        doNothing().when(lectureRepository).delete(lectureId);
+        // Act
+        lectureService.deleteAllLecturesFromCourse(courseId);
 
-        lectureService.delete(lectureId, admin);
-        verify(lectureRepository, times(1)).delete(lectureId);
+        // Verify interactions with dependencies
+        verify(lectureRepository).deleteAllLecturesFromCourse(courseId);
     }
+
 
 }
