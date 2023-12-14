@@ -6,6 +6,7 @@ import com.example.finalprojectvirtualteacher.exceptions.FileUploadException;
 import com.example.finalprojectvirtualteacher.helpers.AssignmentsHelper;
 import com.example.finalprojectvirtualteacher.models.*;
 import com.example.finalprojectvirtualteacher.repositories.contracts.AssignmentRepository;
+import com.example.finalprojectvirtualteacher.repositories.contracts.CourseRepository;
 import com.example.finalprojectvirtualteacher.services.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,11 +14,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static com.example.finalprojectvirtualteacher.Helpers.*;
@@ -35,6 +38,8 @@ public class AssignmentServiceImplTests {
 
     @Mock
     UserServiceImpl userService;
+    @Mock
+    CourseRepository courseRepository;
     @Mock
     LectureServiceImpl lectureService;
     @Mock
@@ -133,6 +138,15 @@ public class AssignmentServiceImplTests {
     }
 
     @Test
+    void deleteAllAssignmentsSubmissionsFromCourse() {
+        // Call the service method
+        assignmentService.deleteAllAssignmentsSubmissionsFromCourse(1);
+
+        // Verify that assignmentRepository method was called
+        verify(assignmentRepository, times(1)).deleteAllAssignmentsSubmissionsFromCourse(anyInt());
+    }
+
+    @Test
     public void SubmitAssignment_Should_CallRepository() throws IOException, FileUploadException {
 
         User mockUser = createMockUser();
@@ -159,6 +173,7 @@ public class AssignmentServiceImplTests {
 
     }
 
+
     @Test
     void getByUserSubmittedToCourse_Should_CallRepository() {
         User user = createMockUser();
@@ -176,28 +191,6 @@ public class AssignmentServiceImplTests {
 
         verify(assignmentRepository, times(1))
                 .getByUserSubmittedToCourseAndGraded(user.getId(), course.getId());
-
-    }
-
-
-
-
-
-
-
-    @Test
-    void  getGradeForCourse_Should_CallRepository(){
-        User user = createMockUser();
-        Course course = createMockCourse();
-
-        when(courseService.getById(course.getId())).thenReturn(course);
-
-        List<Assignment> submittedAssignments = new ArrayList<>();
-        submittedAssignments.add(createMockAssignment());
-        when(assignmentRepository.getByUserSubmittedToCourseAndGraded(user.getId(), course.getId()))
-                .thenReturn(submittedAssignments);
-
-        assignmentService.getGradeForCourse(user.getId(), course.getId());
 
     }
 
@@ -226,8 +219,42 @@ public class AssignmentServiceImplTests {
 
     }
 
+    @Test
+    void deleteAllAssignmentsSubmissionsFromCourse_Should_CallRepository() {
+        int courseId = 1;
 
+        assignmentService.deleteAllAssignmentsSubmissionsFromCourse(courseId);
 
+        verify(assignmentRepository, times(1)).deleteAllAssignmentsSubmissionsFromCourse(courseId);
+    }
 
+    @Test
+    void grade_Should_Throw_EntityNotFoundException_When_Assignment_Not_Found() {
+        int assignmentId = 1;
+        int gradeId = 2;
+        int courseId = 3;
+        int studentId = 4;
+
+        when(assignmentService.getById(assignmentId))
+                .thenThrow(new EntityNotFoundException("Assignment not found"));
+
+        assertThrows(EntityNotFoundException.class,
+                () -> assignmentService.grade(assignmentId, gradeId, courseId, studentId));
+    }
+
+    @Test
+    void getByUserSubmittedToCourse() {
+        // Mock the behavior of the assignmentRepository
+        when(assignmentRepository.getByUserSubmittedToCourseAndGraded(anyInt(), anyInt())).thenReturn(new ArrayList<>());
+
+        // Call the service method
+        List<Assignment> assignments = assignmentService.getByUserSubmittedToCourse(1, 1);
+
+        // Assertions
+        assertNotNull(assignments);
+
+        // Verify that the repository method was called
+        verify(assignmentRepository, times(1)).getByUserSubmittedToCourseAndGraded(anyInt(), anyInt());
+    }
 
 }

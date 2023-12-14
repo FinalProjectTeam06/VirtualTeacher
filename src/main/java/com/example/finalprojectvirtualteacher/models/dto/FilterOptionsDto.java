@@ -1,6 +1,5 @@
 package com.example.finalprojectvirtualteacher.models.dto;
 
-import java.util.Optional;
 
 public class FilterOptionsDto {
     private String title;
@@ -34,9 +33,6 @@ public class FilterOptionsDto {
         return topicId;
     }
 
-    public void setTopicId(Integer topicId) {
-        this.topicId = topicId;
-    }
 
     public Integer getTeacherId() {
         return teacherId;
@@ -58,15 +54,9 @@ public class FilterOptionsDto {
         return sortBy;
     }
 
-    public void setSortBy(String sortBy) {
-        this.sortBy = sortBy;
-    }
 
     public String getSortOrder() {
         return sortOrder;
     }
 
-    public void setSortOrder(String sortOrder) {
-        this.sortOrder = sortOrder;
-    }
 }

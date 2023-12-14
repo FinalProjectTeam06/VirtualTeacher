@@ -1,7 +1,6 @@
 package com.example.finalprojectvirtualteacher.repositories;
 
 import com.example.finalprojectvirtualteacher.exceptions.EntityNotFoundException;
-import com.example.finalprojectvirtualteacher.models.Course;
 import com.example.finalprojectvirtualteacher.models.Topic;
 import com.example.finalprojectvirtualteacher.repositories.contracts.TopicRepository;
 import org.hibernate.Session;

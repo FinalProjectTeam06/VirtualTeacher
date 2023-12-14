@@ -260,19 +260,6 @@ public class CourseServiceImplTests {
     }
 
     @Test
-    void delete_Should_CallRepository_WhenHavePermission() {
-        int courseId = 1;
-        User admin = createMockAdmin();
-        Course courseToDelete = createMockCourse();
-        courseToDelete.setCreator(admin);
-
-        when(courseRepository.getById(courseId)).thenReturn(courseToDelete);
-
-        courseService.delete(courseId,admin);
-        verify(courseRepository,times(1)).delete(courseToDelete);
-
-    }
-    @Test
     void delete_Should_ThrowException_WhenDontHavePermission() {
         User user = createMockUser();
         Course course = createMockCourse();

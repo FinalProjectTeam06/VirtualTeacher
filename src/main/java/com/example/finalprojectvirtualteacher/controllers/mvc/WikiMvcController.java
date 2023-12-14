@@ -36,7 +36,6 @@ public List<WikiPage> showSearchPage(@RequestParam("searchValue") String searchV
         model.addAttribute("result", result);
         return result;
     } catch (AuthorizationException e) {
-        // Handle exception
         return Collections.emptyList();
     }
 }

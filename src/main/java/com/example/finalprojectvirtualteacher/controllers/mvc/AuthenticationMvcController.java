@@ -24,10 +24,6 @@ public class AuthenticationMvcController {
 
     public static final String G_RECAPTCHA_RESPONSE = "g-recaptcha-response";
 
-    public static final String REGISTER_COMPANY = "/register/company";
-    private static final String CREATE_EMPLOYEE_DTO = "createUserDto";
-
-
     private final AuthenticationHelper authenticationHelper;
     private final UserMapper userMapper;
     private final UserService userService;
@@ -35,7 +31,7 @@ public class AuthenticationMvcController {
 
 
 @Autowired
-    public AuthenticationMvcController(AuthenticationHelper authenticationHelper, UserMapper userMapper, UserService userService, RecaptchaService captchaService, RecaptchaService recaptchaService) {
+    public AuthenticationMvcController(AuthenticationHelper authenticationHelper, UserMapper userMapper, UserService userService, RecaptchaService recaptchaService) {
         this.authenticationHelper = authenticationHelper;
         this.userMapper = userMapper;
         this.userService = userService;
@@ -57,8 +53,7 @@ public class AuthenticationMvcController {
     public String handleLogin(@Valid @ModelAttribute("login") LoginDto loginDto,
                               BindingResult bindingResult,
                               @RequestParam(value = G_RECAPTCHA_RESPONSE,required = false) String recaptchaResponse,
-                              HttpSession httpSession,
-                              Model model
+                              HttpSession httpSession
                               ) {
         if (bindingResult.hasErrors()) {
             return "LoginView";

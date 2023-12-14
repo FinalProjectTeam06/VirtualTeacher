@@ -137,7 +137,7 @@ create table rates
     user_id    int         not null,
     course_id  int         not null,
     rate_value int         null,
-    comment    varchar(75) not null,
+    comment    varchar(10000) not null,
     constraint rates_courses_course_id_fk
         foreign key (course_id) references courses (course_id),
     constraint rates_users_user_id_fk

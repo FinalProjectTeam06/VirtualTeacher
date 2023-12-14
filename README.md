@@ -62,6 +62,15 @@ A user can enter the email of people, not yet registered for the application, an
 sends to that email a registration link.
 * #### Course rating ####
 Each course can be rated from 1 to 5 from the students.
+* #### reCAPTCHA ####
+reCAPTCHA is a security feature that helps verify whether a user is human and not a computer program (bot).
+* #### Graduation Certificate ####
+After finishing a course, the user can download and/or receive an email with the certificate in PDF format. 
+* #### Enrollment confirmation ####
+The user can receive an email confirmation after enrolling in a course with all essential information regarding the course.
+
+
+
 
 ## Technologies
 * REST API
@@ -71,14 +80,20 @@ Each course can be rated from 1 to 5 from the students.
 * Javascript
 * DataBase and SQL
 * Hibernate
-* Mockito 
-![schema.png](src%2Fmain%2Fresources%2Fstatic%2Fimages%2Freadme%2Fschema.png)
+* Mockito
+
+
+![Screenshot 2023-12-13 230719.png](src%2Fmain%2Fresources%2Fstatic%2Fimages%2FScreenshot%202023-12-13%20230719.png)
+
+## Principles
+* DRY, KISS, YAGNI, SOLID
 
 ## Notes
 * MediaWiki Action API
-* Unit test code coverage of the business logic :
+* Unit test code coverage 80% of the business logic 
 * Swagger documentation - http://localhost:8080/swagger-ui/index.html#/
 * To set up and run the project locally : 
 1. create a database and fill the tables from script
 2. run the application
 3. go to localhost:8080
+

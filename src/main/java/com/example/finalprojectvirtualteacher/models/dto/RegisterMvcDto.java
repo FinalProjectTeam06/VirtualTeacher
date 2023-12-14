@@ -65,10 +65,6 @@ public class RegisterMvcDto {
         return passwordConfirm;
     }
 
-    public void setPasswordConfirm(String passwordConfirm) {
-        this.passwordConfirm = passwordConfirm;
-    }
-
     public boolean isTeacher() {
         return isTeacher;
     }

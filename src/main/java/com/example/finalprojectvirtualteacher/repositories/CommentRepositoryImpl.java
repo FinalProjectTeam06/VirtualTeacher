@@ -42,8 +42,6 @@ public class CommentRepositoryImpl implements CommentRepository {
             return comment;
         }
     }
-
-
     @Override
     public Comment create(Comment comment) {
         try (Session session = sessionFactory.openSession()) {
@@ -53,7 +51,6 @@ public class CommentRepositoryImpl implements CommentRepository {
         }
         return comment;
     }
-
     @Override
     public Comment update(Comment comment) {
         try (Session session = sessionFactory.openSession()) {
@@ -81,13 +78,6 @@ public class CommentRepositoryImpl implements CommentRepository {
                     ("from Comment c where c.lecture =:lectureId", Comment.class);
             query.setParameter("lectureId", lectureId);
             return query.list();
-        }
-    }
-    @Override
-    public long getCourseCommentsCount() {
-        try (Session session = sessionFactory.openSession()) {
-            Query count = session.createQuery("SELECT count (u) from Comment u");
-            return (long) count.getSingleResult();
         }
     }
 

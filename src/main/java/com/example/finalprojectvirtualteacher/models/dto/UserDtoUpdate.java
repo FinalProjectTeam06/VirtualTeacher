@@ -57,12 +57,4 @@ public class UserDtoUpdate {
         this.passwordConfirm = passwordConfirm;
     }
 
-    public String getProfilePhoto() {
-        return profilePhoto;
-    }
-
-    public void setProfilePhoto(String profilePhoto) {
-        this.profilePhoto = profilePhoto;
-    }
-
 }

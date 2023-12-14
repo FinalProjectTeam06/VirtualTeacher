@@ -134,8 +134,7 @@ public class UserMvcController {
 
     @PostMapping("/update")
     public String updateProfile(@ModelAttribute("updateDto") UserDtoUpdate userDtoUpdate,
-                                Model model, HttpSession httpSession,
-                                BindingResult bindingResult) {
+                                Model model, HttpSession httpSession) {
         try {
             User user = authenticationHelper.tryGetCurrentUser(httpSession);
             model.addAttribute("userToUpdate", user);

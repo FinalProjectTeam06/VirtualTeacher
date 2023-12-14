@@ -20,10 +20,6 @@ public class LoginDto  {
         return recaptchaResponse;
     }
 
-    public void setRecaptchaResponse(String recaptchaResponse) {
-        this.recaptchaResponse = recaptchaResponse;
-    }
-
     public String getEmail() {
         return email;
     }

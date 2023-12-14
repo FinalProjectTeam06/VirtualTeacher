@@ -1,51 +1,53 @@
 package com.example.finalprojectvirtualteacher.service;
 
+import com.example.finalprojectvirtualteacher.exceptions.FileUploadException;
 import com.example.finalprojectvirtualteacher.models.Course;
 import com.example.finalprojectvirtualteacher.models.User;
 import com.example.finalprojectvirtualteacher.services.PdfServiceImpl;
 import jakarta.servlet.http.HttpServletResponse;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.io.Resource;
+import org.springframework.mock.web.MockHttpServletResponse;
 
 import java.io.IOException;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class PdfServiceImplsTest {
 
+    @InjectMocks
+    private PdfServiceImpl pdfService;
+
+    @Mock
+    private MockHttpServletResponse httpServletResponse;
+
+    @Mock
+    private Course course;
+
+    @Mock
+    private User user;
+
+
+
     @Test
-     void testDownloadCertificate() {
-        // Arrange
-        PdfServiceImpl pdfService = new PdfServiceImpl(); // Replace with the actual class name
-        HttpServletResponse mockResponse = mock(HttpServletResponse.class);
-        Course mockCourse = new Course(); // Replace with the actual Course class
-        mockCourse.setTitle("Sample Course");
-        User mockUser = new User(); // Replace with the actual User class
-        mockUser.setFirstName("John");
-        mockUser.setLastName("Doe");
-        double mockGrade = 4.5; // Replace with the actual grade
+    void testDownloadCertificateWithException() throws IOException {
+        // Set up test data
+        when(course.getTitle()).thenReturn("Test Course");
+        when(user.getFirstName()).thenReturn("John");
+        when(user.getLastName()).thenReturn("Doe");
 
-        // Act
-        Resource resultResource = pdfService.downloadCertificate
-                (mockResponse, mockCourse, mockUser, mockGrade);
+        // Mock the behavior to throw an exception
+        when(httpServletResponse.getOutputStream()).thenThrow(new IOException("Mocked IOException"));
 
-        // Assert
-        assertNotNull(resultResource);
-        if (mockResponse != null) {
-            try {
-                verify(mockResponse.getOutputStream(), times(1))
-                        .write(any(byte[].class));
-            } catch (IOException e) {
-                e.printStackTrace(); // Handle or log the exception based on your needs
-            }
-        }
-        // Additional assertions based on the expected content of the certificate
-        // You might want to check specific fields in the PDF, depending on your implementation
+        // Assertions
+        assertThrows(FileUploadException.class, () -> pdfService.downloadCertificate(httpServletResponse, course, user, 4.5));
     }
 }
-
-

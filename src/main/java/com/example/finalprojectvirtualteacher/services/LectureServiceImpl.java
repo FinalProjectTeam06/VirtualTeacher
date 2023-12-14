@@ -99,7 +99,7 @@ public class LectureServiceImpl implements LectureService {
 
     public void checkCreatePermission(Lecture lecture, User user) {
         if (user.getId() != lecture.getCourse().getCreator().getId()
-                || user.getRole().getId() != 3) {
+                && user.getRole().getId() != 3) {
             throw new AuthorizationException(MODIFY_THE_LECTURE);
 
         }

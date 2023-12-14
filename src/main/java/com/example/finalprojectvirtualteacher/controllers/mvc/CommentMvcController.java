@@ -2,7 +2,6 @@ package com.example.finalprojectvirtualteacher.controllers.mvc;
 
 import com.example.finalprojectvirtualteacher.exceptions.AuthorizationException;
 import com.example.finalprojectvirtualteacher.helpers.AuthenticationHelper;
-import com.example.finalprojectvirtualteacher.models.User;
 import com.example.finalprojectvirtualteacher.services.contacts.CommentService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
@@ -25,7 +24,7 @@ public class CommentMvcController {
     @GetMapping("/course/{courseId}")
     public String showCourseComments(HttpSession httpSession, Model model, @PathVariable int courseId) {
         try {
-            User user = authenticationHelper.tryGetCurrentUser(httpSession);
+            authenticationHelper.tryGetCurrentUser(httpSession);
             model.addAttribute("comments", commentService.getByCourseId(courseId));
             return "UserEnrolledCoursesView";
         } catch (AuthorizationException e) {
