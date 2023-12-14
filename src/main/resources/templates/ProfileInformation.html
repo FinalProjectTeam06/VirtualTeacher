@@ -574,115 +574,41 @@
                         <!-- Start Instructor Profile  -->
                         <div class="rbt-dashboard-content bg-color-white rbt-shadow-box">
                             <div class="content">
-
                                 <div class="section-title">
-                                    <h4 class="rbt-title-style-3">Settings</h4>
+                                    <h4 class="rbt-title-style-3">My Profile</h4>
                                 </div>
-
-                                <div class="advance-tab-button mb--30">
-                                    <ul class="nav nav-tabs tab-button-style-2 justify-content-start" id="settinsTab-4"
-                                        role="tablist">
-                                        <li role="presentation">
-                                            <a href="#" class="tab-button active" id="profile-tab" data-bs-toggle="tab"
-                                               data-bs-target="#profile" role="tab" aria-controls="profile"
-                                               aria-selected="true">
-                                                <span class="title">Profile</span>
-                                            </a>
-                                        </li>
-                                        <li role="presentation">
-                                            <a href="#" class="tab-button" id="password-tab" data-bs-toggle="tab"
-                                               data-bs-target="#password" role="tab" aria-controls="password"
-                                               aria-selected="false">
-                                                <span class="title">Password</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-
-                                <div class="tab-content">
-                                    <div class="tab-pane fade active show" id="profile" role="tabpanel"
-                                         aria-labelledby="profile-tab">
-                                        <div class="rbt-dashboard-content-wrapper">
-                                            <div class="tutor-bg-photo bg_image bg_image--22 height-245"></div>
-                                            <!-- Start Tutor Information  -->
-                                            <div class="rbt-tutor-information">
-                                                <div class="rbt-tutor-information-left">
-                                                    <div class="thumbnail rbt-avatars size-lg position-relative">
-                                                        <img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fstock.adobe.com%2Fsearch%3Fk%3Dman&psig=AOvVaw0QW6KWHjeyVWYZrSv4Kezf&ust=1701028625711000&source=images&cd=vfe&ved=0CBEQjRxqFwoTCIjkw8n334IDFQAAAAAdAAAAABAE"
-                                                             th:src="${loggedIn.getProfilePictureUrl()}" alt="Instructor">
-                                                        <div class="rbt-edit-photo-inner">
-                                                            <button class="rbt-edit-photo" title="Upload Photo"
-                                                                    type="button" data-bs-toggle="modal"
-                                                                    data-bs-target="#exampleModal">
-                                                                <i class="feather-camera"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- End Tutor Information  -->
-                                        </div>
-                                        <!-- Start Profile Row  -->
-                                        <form action="#" class="rbt-profile-row rbt-default-form row row--15"
-                                              th:action="@{/users/update}"
-                                              th:object="${updateDto}" method="post">
-                                            <div class="col-lg-6 col-md-6 col-sm-6 col-12">
-                                                <div class="rbt-form-group">
-                                                    <label for="firstname">First Name</label>
-                                                    <input id="firstname" type="text" th:field="*{firstName}"
-                                                           value="John">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6 col-md-6 col-sm-6 col-12">
-                                                <div class="rbt-form-group">
-                                                    <label for="lastname">Last Name</label>
-                                                    <input id="lastname" type="text" th:field="*{lastName}" value="Due">
-                                                </div>
-                                            </div>
-
-                                            <div class="col-12 mt--20">
-                                                <div class="rbt-form-group">
-                                                    <button type="submit" class="rbt-btn btn-gradient">Update Info
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                        <!-- End Profile Row  -->
+                                <!-- Start Profile Row  -->
+                                <div class="rbt-profile-row row row--15 mt--15">
+                                    <div class="col-lg-4 col-md-4">
+                                        <div class="rbt-profile-content b2">First Name</div>
                                     </div>
-
-                                    <div class="tab-pane fade" id="password" role="tabpanel"
-                                         aria-labelledby="password-tab">
-                                        <!-- Start Profile Row  -->
-                                        <form action="#" class="rbt-profile-row rbt-default-form row row--15"
-                                              th:action="@{/users/update}"
-                                              th:object="${updateDto}" method="post">
-                                            <div class="col-12">
-                                                <div class="rbt-form-group">
-                                                    <label for="newpassword">New Password</label>
-                                                    <input id="newpassword" type="password" th:field="*{password}"
-                                                           placeholder="New Password">
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="rbt-form-group">
-                                                    <label for="retypenewpassword">Re-type New Password</label>
-                                                    <input id="retypenewpassword" type="password"
-                                                           th:field="*{passwordConfirm}"
-                                                           placeholder="Re-type New Password">
-                                                </div>
-                                            </div>
-                                            <div class="col-12 mt--10">
-                                                <div class="rbt-form-group">
-                                                    <button type="submit" class="rbt-btn btn-gradient">Update Password
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                        <!-- End Profile Row  -->
+                                    <div class="col-lg-8 col-md-8">
+                                        <div class="rbt-profile-content b2" th:text="${loggedIn.getFirstName()}">Emily</div>
                                     </div>
                                 </div>
+                                <!-- End Profile Row  -->
 
+                                <!-- Start Profile Row  -->
+                                <div class="rbt-profile-row row row--15 mt--15">
+                                    <div class="col-lg-4 col-md-4">
+                                        <div class="rbt-profile-content b2">Last Name</div>
+                                    </div>
+                                    <div class="col-lg-8 col-md-8">
+                                        <div class="rbt-profile-content b2" th:text="${loggedIn.getLastName()}">Hannah</div>
+                                    </div>
+                                </div>
+                                <!-- End Profile Row  -->
 
+                                <!-- Start Profile Row  -->
+                                <div class="rbt-profile-row row row--15 mt--15">
+                                    <div class="col-lg-4 col-md-4">
+                                        <div class="rbt-profile-content b2">Email</div>
+                                    </div>
+                                    <div class="col-lg-8 col-md-8">
+                                        <div class="rbt-profile-content b2" th:text="${loggedIn.getEmail()}">example@gmail.com</div>
+                                    </div>
+                                </div>
+                                <!-- End Profile Row  -->
                             </div>
                         </div>
                         <!-- End Instructor Profile  -->
