@@ -16,4 +16,9 @@ public interface NoteRepository {
     Note deleteNote(int id);
 
     List<Note> getByUserId(int userId);
+
+    void deleteAllNotesByUser(int userId);
+
+    void deleteAllNotesByCourse(int courseId);
+
 }

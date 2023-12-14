@@ -24,4 +24,8 @@ public interface LectureRepository {
     Lecture update(Lecture updatedLecture);
 
     Lecture submitAssignment(Assignment assignment);
+
+    void deleteAllLecturesByUser(int userId);
+
+    void deleteAllLecturesFromCourse(int courseId);
 }

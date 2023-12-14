@@ -25,8 +25,7 @@ public interface UserRepository {
     void setCourseEnrollmentStatusToFinished(int userId, int courseId);
     void setEnrollmentCourseStatusToGraduated(int userId, int courseId);
 
-
     List<User> getAllStudents();
-
+    void deleteAllRatesByUser(int userId);
 
 }

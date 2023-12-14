@@ -3,6 +3,7 @@ package com.example.finalprojectvirtualteacher.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -33,12 +34,20 @@ public class User {
     @Column(name = "profile_picture_url")
     private String profilePictureUrl;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "enrolled_courses",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "course_id"))
     @JsonIgnore
     private Set<Course> courses;
+
+    @OneToMany(mappedBy = "creator", fetch = FetchType.EAGER)
+    @JsonIgnore
+    private List<Comment> comments;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @JsonIgnore
+    private List<Rate> rates;
 
     @Column(name = "is_activated")
     private boolean isActivated;
@@ -119,6 +128,22 @@ public class User {
 
     public void setActivated(boolean activated) {
         isActivated = activated;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public List<Rate> getRates() {
+        return rates;
+    }
+
+    public void setRates(List<Rate> rates) {
+        this.rates = rates;
     }
 
     @Override

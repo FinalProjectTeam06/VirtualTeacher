@@ -35,4 +35,8 @@ public interface CourseService {
     Course rateCourse(int courseId, User user, RateDto rateDto);
     Double getCourseRating(Course course);
 
+    void deleteAllCoursesFromUser(int userId);
+
+    void deleteAllRatesFromUser(int userId);
+
 }

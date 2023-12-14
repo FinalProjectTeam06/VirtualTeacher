@@ -199,10 +199,10 @@ public class UserMvcController {
         try {
             User user = authenticationHelper.tryGetCurrentUser(session);
             userService.deleteUser(userId, user);
+            return "redirect:/users/all";
         } catch (AuthorizationException e) {
             return "redirect:/auth/login";
         }
-        return "redirect:/users/all";
     }
 
     @GetMapping("/allCourses")
@@ -218,7 +218,8 @@ public class UserMvcController {
             return "redirect:/auth/login";
         }
     }
-//todo - da napravq stranica za belejkite na potrebitelq
+
+
     @GetMapping("/myNotes")
     public String showUserNotes(Model model, HttpSession session) {
         try{

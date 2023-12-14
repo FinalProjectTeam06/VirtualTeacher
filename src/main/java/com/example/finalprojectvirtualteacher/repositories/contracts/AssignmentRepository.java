@@ -22,4 +22,10 @@ public interface AssignmentRepository {
     Lecture update(Assignment assignment);
 
     List<Assignment> getAllAssignmentsForCourse(int courseId);
+
+    void deleteAssignmentsFromUserAndLecture(int userId);
+
+    void deleteAllAssignmentsSubmissionsFromCourse(int courseId);
 }
+
+

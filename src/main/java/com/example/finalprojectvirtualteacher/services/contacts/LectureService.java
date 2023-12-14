@@ -24,4 +24,6 @@ public interface LectureService {
 
     void delete (int id,User user);
 
+    void deleteAllLecturesByUser(int userId);
+    void deleteAllLecturesFromCourse(int courseId);
 }

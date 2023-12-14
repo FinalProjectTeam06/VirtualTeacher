@@ -5,6 +5,7 @@ import com.example.finalprojectvirtualteacher.models.*;
 import com.example.finalprojectvirtualteacher.repositories.contracts.UserRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.MutationQuery;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -108,6 +109,18 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    public void deleteAllRatesByUser(int userId) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            MutationQuery query3 = session.createMutationQuery(
+                    "delete from Rate r where r.user.id= :userId or r.course.creator.id= :userId");
+            query3.setParameter("userId", userId);
+            query3.executeUpdate();
+            session.getTransaction().commit();
+        }
+    }
+
+    @Override
     public List<User> getAll(UserFilterOptions userFilterOptions) {
         try (
                 Session session = sessionFactory.openSession()) {
@@ -164,15 +177,4 @@ public class UserRepositoryImpl implements UserRepository {
             session.getTransaction().commit();
         }
     }
-
-//    private void deleteCoursesFromUser(int userId) {
-//        try (Session session = sessionFactory.openSession()) {
-//            session.beginTransaction();
-//            Query<?> query = session.createNativeQuery(
-//                    "delete from virtual_teacher.enrolled_courses where user_id= :userId", User.class);
-//            query.setParameter("userId", userId);
-//            query.executeUpdate();
-//            session.getTransaction().commit();
-//        }
-//    }
 }

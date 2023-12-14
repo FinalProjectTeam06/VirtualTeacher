@@ -1,10 +1,13 @@
 package com.example.finalprojectvirtualteacher.repositories;
 
 import com.example.finalprojectvirtualteacher.exceptions.EntityNotFoundException;
+import com.example.finalprojectvirtualteacher.models.Lecture;
 import com.example.finalprojectvirtualteacher.models.Note;
 import com.example.finalprojectvirtualteacher.repositories.contracts.NoteRepository;
+import org.aspectj.weaver.ast.Not;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.MutationQuery;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -83,7 +86,27 @@ public class NoteRepositoryImpl implements NoteRepository {
         }
     }
 
+    @Override
+    public void deleteAllNotesByUser(int userId) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            MutationQuery query2 = session.createMutationQuery(
+                    "delete from Note n where n.userId= :userId or n.lecture.teacher.id= :userId");
+            query2.setParameter("userId", userId);
+            query2.executeUpdate();
+            session.getTransaction().commit();
+        }
+    }
 
-
-
+    @Override
+    public void deleteAllNotesByCourse(int courseId) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            MutationQuery query = session.createMutationQuery(
+                    "delete from Note n where n.lecture.course.id= :courseId");
+            query.setParameter("courseId", courseId);
+            query.executeUpdate();
+            session.getTransaction().commit();
+        }
+    }
 }
