@@ -153,17 +153,17 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="rbt-tutor-information-right">
-                            <div class="tutor-btn">
-                                <a class="rbt-btn btn-md hover-icon-reverse" href="BecomeATeacher.html">
-                                        <span class="icon-reverse-wrapper">
-                                        <span class="btn-text">Become an Instructor</span>
-                                        <span class="btn-icon"><i class="feather-arrow-right"></i></span>
-                                        <span class="btn-icon"><i class="feather-arrow-right"></i></span>
-                                        </span>
-                                </a>
-                            </div>
-                        </div>
+<!--                        <div class="rbt-tutor-information-right">-->
+<!--                            <div class="tutor-btn">-->
+<!--                                <a class="rbt-btn btn-md hover-icon-reverse" href="BecomeATeacher.html">-->
+<!--                                        <span class="icon-reverse-wrapper">-->
+<!--                                        <span class="btn-text">Become an Instructor</span>-->
+<!--                                        <span class="btn-icon"><i class="feather-arrow-right"></i></span>-->
+<!--                                        <span class="btn-icon"><i class="feather-arrow-right"></i></span>-->
+<!--                                        </span>-->
+<!--                                </a>-->
+<!--                            </div>-->
+<!--                        </div>-->
                     </div>
                     <!-- End Tutor Information  -->
                 </div>
@@ -238,7 +238,7 @@
                                                 </div>
                                                 <div class="content">
                                                     <h3 class="counter without-icon color-primary"><span
-                                                            class="odometer" data-count="30">00</span>
+                                                            class="odometer" th:data-count="${loggedIn.getCourses().size()}">00</span>
                                                     </h3>
                                                     <span class="rbt-title-style-2 d-block">Enrolled Courses</span>
                                                 </div>
@@ -256,7 +256,7 @@
                                                 </div>
                                                 <div class="content">
                                                     <h3 class="counter without-icon color-secondary"><span
-                                                            class="odometer" data-count="10">00</span>
+                                                            class="odometer" th:data-count="${activeCourses}">00</span>
                                                     </h3>
                                                     <span class="rbt-title-style-2 d-block">ACTIVE COURSES</span>
                                                 </div>
@@ -274,8 +274,7 @@
                                                     <i class="feather-award"></i>
                                                 </div>
                                                 <div class="content">
-                                                    <h3 class="counter without-icon color-violet"><span class="odometer"
-                                                                                                        data-count="7">00</span>
+                                                    <h3 class="counter without-icon color-violet"><span class="odometer" th:data-count="${completedCourses}">00</span>
                                                     </h3>
                                                     <span class="rbt-title-style-2 d-block">Completed Courses</span>
                                                 </div>

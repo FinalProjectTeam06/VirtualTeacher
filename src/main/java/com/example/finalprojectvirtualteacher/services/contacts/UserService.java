@@ -33,4 +33,5 @@ public interface UserService {
     void sendActivationEmail(User user);
     void inviteFriend(User inviter, String friendEmail);
 
+    void makeAdmin(User admin, int userId);
 }

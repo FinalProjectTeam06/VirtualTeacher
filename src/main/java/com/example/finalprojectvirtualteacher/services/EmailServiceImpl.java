@@ -34,6 +34,16 @@ public class EmailServiceImpl implements EmailService {
         mailSender.send(message);
     }
 
+    @Async
+    public void sendEnrollmentConfirmationMessage(String to, String subject, String text) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("amin.histudy@gmail.com");
+        message.setTo(to);
+        message.setSubject(subject);
+        message.setText(text);
+        mailSender.send(message);
+    }
+
     @Override
     public void sendUserCreationVerificationCode(User user, int code) {
         String msg = userCreationTemplate(code, user);

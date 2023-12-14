@@ -131,7 +131,7 @@
                                             <div class="accordion-body card-body pr--0">
                                                 <ul class="rbt-course-main-content liststyle">
                                                     <li>
-                                                        <a href="lesson.html"
+                                                        <a href="lesson.html" th:classappend="${loggedIn.getCourses().contains(course)==false} ? 'disabled'"
                                                            th:href="@{/courses/{courseId}/lecture/{lectureId}(courseId=${course.getId()}, lectureId=${lecture.getId()})}">
                                                             <div class="course-content-left">
                                                                 <i class="feather-play-circle"></i> <span
@@ -142,7 +142,7 @@
                                                     </li>
 
                                                     <li>
-                                                        <a href="lesson.html"
+                                                        <a href="lesson.html" th:classappend="${loggedIn.getCourses().contains(course)==false} ? 'disabled'"
                                                            th:href="@{/courses/{courseId}/lecture/{lectureId}/assignment/show(courseId=${course.getId()}, lectureId=${lecture.getId()})}">
                                                             <div class="course-content-left">
                                                                 <i class="feather-file-text"></i> <span
@@ -151,7 +151,7 @@
                                                         </a>
                                                     </li>
                                                     <li>
-                                                        <a href="lesson-intro.html"
+                                                        <a href="lesson-intro.html" th:classappend="${loggedIn.getCourses().contains(course)==false} ? 'disabled'"
                                                            th:href="@{/courses/{courseId}/lecture/{lectureId}/assignment(courseId=${course.getId()}, lectureId=${lecture.getId()})}">
                                                             <div class="course-content-left">
                                                                 <i class="feather-file-text"></i> <span class="text">Assignment Submit</span>

@@ -11,9 +11,6 @@ import com.example.finalprojectvirtualteacher.models.dto.FilterOptionsDto;
 import com.example.finalprojectvirtualteacher.models.dto.UserDtoUpdate;
 import com.example.finalprojectvirtualteacher.services.contacts.*;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.boot.Banner;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -32,17 +29,16 @@ public class UserMvcController {
     private final ImageHelper imageHelper;
     private final CourseService courseService;
     private final EnrollmentService enrollmentService;
-    private final AssignmentService assignmentService;
     private final NoteService noteService;
 
-    public UserMvcController(AuthenticationHelper authenticationHelper, UserMapper userMapper, UserService userService, ImageHelper imageHelper, CourseService courseService, EnrollmentService enrollmentService, AssignmentService assignmentService, NoteService noteService) {
+
+    public UserMvcController(AuthenticationHelper authenticationHelper, UserMapper userMapper, UserService userService, ImageHelper imageHelper, CourseService courseService, EnrollmentService enrollmentService, NoteService noteService) {
         this.authenticationHelper = authenticationHelper;
         this.userMapper = userMapper;
         this.userService = userService;
         this.imageHelper = imageHelper;
         this.courseService = courseService;
         this.enrollmentService = enrollmentService;
-        this.assignmentService = assignmentService;
         this.noteService = noteService;
     }
 
@@ -86,7 +82,7 @@ public class UserMvcController {
             User user = authenticationHelper.tryGetCurrentUser(httpSession);
             if (user.getRole().getId() == 1) {
                 model.addAttribute("loggedIn", user);
-                model.addAttribute("activeCourses", courseService.getAllByUserNotCompleted(user.getId()));
+                model.addAttribute("activeCourses", courseService.getAllActiveCoursesNotEnrolled(user));
                 model.addAttribute("completedCourses", courseService.getAllByUserCompleted(user.getId()));
                 return "StudentDashboard";
             } else {
@@ -98,7 +94,7 @@ public class UserMvcController {
                         filterOptionsDto.getSortBy(),
                         filterOptionsDto.getSortOrder());
                 model.addAttribute("loggedIn", user);
-                model.addAttribute("activeCourses", courseService.getAllByUserNotCompleted(user.getId()));
+                model.addAttribute("activeCourses", courseService.getAllActiveCoursesNotEnrolled(user));
                 model.addAttribute("completedCourses", courseService.getAllByUserCompleted(user.getId()));
                 model.addAttribute("allCourses", courseService.getAll());
                 model.addAttribute("allCoursesByTeacher", courseService.getAll(filterOptions));
@@ -162,7 +158,7 @@ public class UserMvcController {
         } catch (AuthorizationException e) {
             return "redirect:/auth/login";
         } catch (IOException e) {
-            return "Error404";
+            return "ErrorPage";
         }
     }
 
@@ -268,11 +264,22 @@ public class UserMvcController {
     }
 
     @PostMapping("/invite")
-    public String inviteFriend(@RequestParam("email") String friendEmail, HttpSession session) {
+    public String inviteFriend(@RequestParam("email") String friendEmail, HttpSession httpSession) {
         try {
-            User inviter = authenticationHelper.tryGetCurrentUser(session);
+            User inviter = authenticationHelper.tryGetCurrentUser(httpSession);
             userService.inviteFriend(inviter, friendEmail);
             return "redirect:/users/invite";
+        } catch (AuthorizationException e) {
+            return "redirect:/auth/login";
+        }
+    }
+
+    @PostMapping("/makeAdmin/{userId}")
+    public String makeAdmin(HttpSession httpSession, @PathVariable int userId) {
+        try {
+            User user=authenticationHelper.tryGetCurrentUser(httpSession);
+            userService.makeAdmin(user, userId);
+            return "redirect:/users/all";
         } catch (AuthorizationException e) {
             return "redirect:/auth/login";
         }

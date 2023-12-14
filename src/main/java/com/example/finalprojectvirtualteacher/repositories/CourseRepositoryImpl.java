@@ -249,7 +249,7 @@ public class CourseRepositoryImpl implements CourseRepository {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             MutationQuery query = session.createMutationQuery(
-                    "DELETE from Rate r where r.user.id =: userId and r.course.creator.id =: userId");
+                    "DELETE from Rate r where r.user.id =: userId or r.course.creator.id =: userId");
             query.setParameter("userId", userId);
             query.executeUpdate();
             session.getTransaction().commit();

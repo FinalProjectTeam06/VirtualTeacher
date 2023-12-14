@@ -76,7 +76,6 @@ public class LectureServiceImpl implements LectureService {
     public void delete(int id, User user) {
         checkPermission(id, user);
         lectureRepository.delete(id);
-
     }
 
     @Override

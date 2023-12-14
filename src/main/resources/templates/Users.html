@@ -114,11 +114,18 @@
                                             </td>
                                             <td>
                                                 <div class="rbt-button-group justify-content-end">
-                                                    <form  action="#"  th:action="@{/users/{userId} (userId=${user.getId()})}" method="post">
+                                                    <form th:if="${user.getRole().getId()!=3}" action="#"  th:action="@{/users/makeAdmin/{userId} (userId=${user.getId()})}" method="post">
+
+                                                        <button type="submit" class="rbt-btn btn-xs bg-primary-opacity delete"  href="#" title="Delete">
+                                                            <i class="feather-user-check"></i> Make Admin</button>
+                                                    </form>
+
+                                                    <form th:if="${user.getRole().getId()!=3}" th:action="@{/users/{userId} (userId=${user.getId()})}" method="post">
 
                                                     <button type="submit" class="rbt-btn btn-xs bg-primary-opacity delete"  href="#" title="Delete">
                                                         <i class="feather-edit pl--0" style="color: red" ></i> Delete</button>
                                                     </form>
+
                                                 </div>
 
                                             </td>
