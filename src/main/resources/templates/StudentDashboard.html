@@ -111,11 +111,11 @@
 
 
                     </ul>
-                    <div class="rbt-btn-wrapper d-none d-xl-block">
-                        <a class="rbt-btn rbt-marquee-btn marquee-auto btn-border-gradient radius-round btn-sm hover-transform-none" href="#">
-                            <span data-text="Enroll Now">Enroll Now</span>
-                        </a>
-                    </div>
+<!--                    <div class="rbt-btn-wrapper d-none d-xl-block">-->
+<!--                        <a class="rbt-btn rbt-marquee-btn marquee-auto btn-border-gradient radius-round btn-sm hover-transform-none" href="#">-->
+<!--                            <span data-text="Enroll Now">Enroll Now</span>-->
+<!--                        </a>-->
+<!--                    </div>-->
 
                 </div>
             </div>
@@ -237,8 +237,8 @@
                                                     <i class="feather-book-open"></i>
                                                 </div>
                                                 <div class="content">
-                                                    <h3 class="counter without-icon color-primary"><span
-                                                            class="odometer" data-count="30">00</span>
+                                                    <h3 class="counter without-icon color-primary"><span class="odometer" th:data-count="${loggedIn.getCourses().size()}">00</span>
+
                                                     </h3>
                                                     <span class="rbt-title-style-2 d-block">Enrolled Courses</span>
                                                 </div>
@@ -255,8 +255,7 @@
                                                     <i class="feather-monitor"></i>
                                                 </div>
                                                 <div class="content">
-                                                    <h3 class="counter without-icon color-secondary"><span
-                                                            class="odometer" data-count="10">00</span>
+                                                    <h3 class="counter without-icon color-secondary"><span class="odometer" th:data-count="${activeCourses.size()}" th:text="${activeCourses.size()}"></span>
                                                     </h3>
                                                     <span class="rbt-title-style-2 d-block">ACTIVE COURSES</span>
                                                 </div>
@@ -274,8 +273,7 @@
                                                     <i class="feather-award"></i>
                                                 </div>
                                                 <div class="content">
-                                                    <h3 class="counter without-icon color-violet"><span class="odometer"
-                                                                                                        data-count="7">00</span>
+                                                    <h3 class="counter without-icon color-violet"><span class="odometer" th:data-count="${completedCourses.size()}">00</span>
                                                     </h3>
                                                     <span class="rbt-title-style-2 d-block">Completed Courses</span>
                                                 </div>

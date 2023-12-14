@@ -1,14 +1,11 @@
-INSERT INTO virtual_teacher.topics (topic_id, name) VALUES (1, 'Web Design');
-INSERT INTO virtual_teacher.topics (topic_id, name) VALUES (2, 'Graphic Design');
-INSERT INTO virtual_teacher.topics (topic_id, name) VALUES (3, 'Personal Development');
-INSERT INTO virtual_teacher.topics (topic_id, name) VALUES (4, 'IT and Software');
-
-
 INSERT INTO virtual_teacher.roles (role_id, name) VALUES (1, 'Student');
 INSERT INTO virtual_teacher.roles (role_id, name) VALUES (2, 'Teacher');
 INSERT INTO virtual_teacher.roles (role_id, name) VALUES (3, 'Admin');
 
-
+INSERT INTO virtual_teacher.topics (topic_id, name) VALUES (1, 'Web Design');
+INSERT INTO virtual_teacher.topics (topic_id, name) VALUES (2, 'Graphic Design');
+INSERT INTO virtual_teacher.topics (topic_id, name) VALUES (3, 'Personal Development');
+INSERT INTO virtual_teacher.topics (topic_id, name) VALUES (4, 'IT and Software');
 
 INSERT INTO virtual_teacher.grades (grade_id, grade_name) VALUES (1, 'Not Graded');
 INSERT INTO virtual_teacher.grades (grade_id, grade_name) VALUES (2, 'Unsatisfactory');
@@ -28,6 +25,7 @@ INSERT INTO virtual_teacher.users (user_id, first_name, last_name, email, passwo
 INSERT INTO virtual_teacher.users (user_id, first_name, last_name, email, password, role_id, profile_picture_url, is_activated) VALUES (8, 'Preslav', 'Marinov', 'preslavmmarinov@abv.bg', 'Preslav@123', 3, 'https://cdn5.vectorstock.com/i/1000x1000/34/29/man-with-inscription-admin-icon-outline-style-vector-30713429.jpg', 1);
 INSERT INTO virtual_teacher.users (user_id, first_name, last_name, email, password, role_id, profile_picture_url, is_activated) VALUES (9, 'Karina', 'Ivanova', 'carrie.ivanova93@gmail.com', 'Karina@123', 3, 'http://res.cloudinary.com/dadyjdpd5/image/upload/v1702403121/profile-photos/yjeahznvoo4q0snsguss.jpg', 1);
 INSERT INTO virtual_teacher.users (user_id, first_name, last_name, email, password, role_id, profile_picture_url, is_activated) VALUES (11, 'Svetlana', 'Petrova', 'svetlana@example.com', 'Svetlana@123', 1, 'https://cdn.actualno.eu/actualno_2013/upload/news/2023/03/18/6415e78cec441f87bf2500e9ae761a7a977f8a21234de_1929864_920x708.webp', 1);
+INSERT INTO virtual_teacher.users (user_id, first_name, last_name, email, password, role_id, profile_picture_url, is_activated) VALUES (12, 'John', 'Marty', 'john.marty@example.com', 'John.marty@123', 2, 'https://import.cdn.thinkific.com/373219/E8BpLs6RVqzisDV9mgRJ_1600579073531.jpg', 1);
 
 
 
@@ -38,13 +36,13 @@ INSERT INTO virtual_teacher.courses (course_id, title, topic_id, description, cr
 INSERT INTO virtual_teacher.courses (course_id, title, topic_id, description, creator_id, is_published, start_date, minimum_grade, rating) VALUES (3, 'Best tools for Graphic Designers', 2, 'Best hardware and software for graphic designers, Comparison and review of graphic design tools, Tech stack for graphic designers, Best resources for graphic designers 2023', 5, 1, '2023-11-03 16:25:35', 4, 5);
 INSERT INTO virtual_teacher.courses (course_id, title, topic_id, description, creator_id, is_published, start_date, minimum_grade, rating) VALUES (4, 'Freelance Tips', 2, 'Many people all around the world have pay me for this kind of advice. Here you have it for free.
 .', 5, 1, '2023-11-13 16:26:35', 4, 4);
-INSERT INTO virtual_teacher.courses (course_id, title, topic_id, description, creator_id, is_published, start_date, minimum_grade, rating) VALUES (5, '', 2, '', 5, 0, '2023-11-17 16:27:03', 2, 5);
-INSERT INTO virtual_teacher.courses (course_id, title, topic_id, description, creator_id, is_published, start_date, minimum_grade, rating) VALUES (6, '', 3, '', 4, 1, '2023-11-03 16:27:59', 3, 5);
-INSERT INTO virtual_teacher.courses (course_id, title, topic_id, description, creator_id, is_published, start_date, minimum_grade, rating) VALUES (7, '', 3, '', 5, 0, '2023-11-02 16:28:02', 2, 5);
-INSERT INTO virtual_teacher.courses (course_id, title, topic_id, description, creator_id, is_published, start_date, minimum_grade, rating) VALUES (8, '', 3, '', 6, 1, '2023-11-11 16:28:05', 3, 5);
+INSERT INTO virtual_teacher.courses (course_id, title, topic_id, description, creator_id, is_published, start_date, minimum_grade, rating) VALUES (5, 'Personal Development', 3, 'Personal development or self-improvement consists of activities that develop a person\'s capabilities and potential, build human capital, facilitate employability, enhance quality of life, and facilitate the realization of dreams and aspirations.', 5, 0, '2023-11-17 16:27:03', 2, 0);
 INSERT INTO virtual_teacher.courses (course_id, title, topic_id, description, creator_id, is_published, start_date, minimum_grade, rating) VALUES (9, 'Best Websites on the Internet', 1, 'This is the inspiration you are looking for.
 
-Broaden your horizons of what\'s possible and check out for yourself what the top designers are making for clients in specific industries or with Webflow, the best tool for web design right now.', 4, 0, '2024-01-04 21:51:49', 4, 4);
+Broaden your horizons of what\'s possible and check out for yourself what the top designers are making for clients in specific industries or with Webflow, the best tool for web design right now.', 4, 0, '2024-01-04 21:51:49', 4, 0);
+INSERT INTO virtual_teacher.courses (course_id, title, topic_id, description, creator_id, is_published, start_date, minimum_grade, rating) VALUES (10, 'Java for Beginner', 4, 'The "Java Beginner" course is an ideal starting point for individuals eager to delve into the world of programming. Designed with simplicity and clarity in mind, this course empowers beginners to grasp the fundamentals of Java programming, a versatile and widely-used language.', 12, 1, '2023-10-17 00:00:00', 2, 0);
+INSERT INTO virtual_teacher.courses (course_id, title, topic_id, description, creator_id, is_published, start_date, minimum_grade, rating) VALUES (11, 'LeetCode Solutions', 4, 'Master the art of problem-solving with our \'LeetCode Solutions\' course! Dive into a curated collection of challenges from LeetCode, the go-to platform for honing coding skills and acing technical interviews. This course offers comprehensive, step-by-step solutions to a variety of coding problems, unraveling complex algorithms and data structures. ', 12, 0, '2023-12-01 00:00:00', 3, 0);
+
 
 
 
@@ -65,10 +63,13 @@ INSERT INTO virtual_teacher.lectures (lecture_id, title, description, video_url,
 
 Carousels are super popular in web design, but in order to show clients how they work, we need to animate them. So, in this video we’ll take on the challenge of animating this carousel together in just 5 minutes!', 'https://www.youtube.com/embed/4YFRYho3vuM?si=tPK4YsGNP7S-iqUD', 'https://blog.burbankids.com/biology-trivia-questions/', 4, 2);
 INSERT INTO virtual_teacher.lectures (lecture_id, title, description, video_url, assignment_url, teacher_id, course_id) VALUES (12, 'Apple Text Animation With Webflow Tutorial', 'Animations can make your website feel more polished and professional! In this video you’ll learn how to create this amazing animation JUST like the one Apple uses for their product pages. We’ll be using Jonas Arleth’s work who created the original cloneable we’ll be utilizing today.', 'https://www.youtube.com/embed/FW-T7L20BDU?si=k7TyxniUZgI4pUfg', 'https://blog.burbankids.com/biology-trivia-questions/', 4, 2);
+INSERT INTO virtual_teacher.lectures (lecture_id, title, description, video_url, assignment_url, teacher_id, course_id) VALUES (16, 'Java Constructors', 'In Java, constructors are used to create new objects. We\'ll talk about how you use constructors, how to create them, and all the different types of constructors in this beginner Java tutorial video.', 'https://www.youtube.com/embed/pgBk8HC7jbU?si=hKisrhrwz8_jEUL-', 'https://quizizz.com/admin/quiz/5c65816a6850410020576bc4/the-rise-and-fall-of-the-roman-empire', 12, 10);
+INSERT INTO virtual_teacher.lectures (lecture_id, title, description, video_url, assignment_url, teacher_id, course_id) VALUES (17, 'Final Classes, Methods, and Variables', 'What does "final" do in Java? Learn what the "final" keyword means in 3 different places in your Java programs. Java has final variables, final classes, and final methods, and "final" works differently in each of those places.
+So "final" in Java can be a bit confusing, but doesn\'t have to be! This video gives a complete understanding of "final" and how you can use it in your own Java programs.
+Learn exactly what final variables, final classes, and final methods mean in this beginner\'s Java lesson video.', 'https://www.youtube.com/embed/r9CMJZ4T__8?si=V3N0NCockjhUIB3f', 'https://quizizz.com/admin/quiz/5c65816a6850410020576bc4/the-rise-and-fall-of-the-roman-empire', 12, 10);
 
 
-
-INSERT INTO virtual_teacher.assignments_submissions (assignment_id, lecture_id, user_id, assignment_url, grade_id) VALUES (1, 1, 8, 'https://ik.imagekit.io/vd81nq14b/assignments/tempAssignment13582731983733153134_--C8kcksS.docx', 1);
+INSERT INTO virtual_teacher.assignments_submissions (assignment_id, lecture_id, user_id, assignment_url, grade_id) VALUES (1, 1, 8, 'https://ik.imagekit.io/vd81nq14b/assignments/tempAssignment13582731983733153134_--C8kcksS.docx', 5);
 INSERT INTO virtual_teacher.assignments_submissions (assignment_id, lecture_id, user_id, assignment_url, grade_id) VALUES (2, 1, 8, 'https://ik.imagekit.io/vd81nq14b/assignments/tempAssignment13582731983733153134_--C8kcksS.docx', 1);
 INSERT INTO virtual_teacher.assignments_submissions (assignment_id, lecture_id, user_id, assignment_url, grade_id) VALUES (3, 1, 8, 'https://ik.imagekit.io/vd81nq14b/assignments/tempAssignment13582731983733153134_--C8kcksS.docx', 1);
 INSERT INTO virtual_teacher.assignments_submissions (assignment_id, lecture_id, user_id, assignment_url, grade_id) VALUES (4, 1, 8, 'https://ik.imagekit.io/vd81nq14b/assignments/tempAssignment13582731983733153134_--C8kcksS.docx', 1);
@@ -85,19 +86,42 @@ INSERT INTO virtual_teacher.comments (comment_id, user_id, lecture_id, content) 
 INSERT INTO virtual_teacher.comments (comment_id, user_id, lecture_id, content) VALUES (6, 2, 6, 'good lecture');
 INSERT INTO virtual_teacher.comments (comment_id, user_id, lecture_id, content) VALUES (7, 3, 7, 'excellent lecture');
 
-INSERT INTO virtual_teacher.rates (rate_id, user_id, course_id, rate_value, comment) VALUES (1, 1, 1, 5, '"Good"');
-INSERT INTO virtual_teacher.rates (rate_id, user_id, course_id, rate_value, comment) VALUES (2, 2, 2, 4, '"Satisfactory"');
-INSERT INTO virtual_teacher.rates (rate_id, user_id, course_id, rate_value, comment) VALUES (3, 3, 3, 5, '"Good"');
-INSERT INTO virtual_teacher.rates (rate_id, user_id, course_id, rate_value, comment) VALUES (4, 1, 4, 2, '"Insufficient"');
-INSERT INTO virtual_teacher.rates (rate_id, user_id, course_id, rate_value, comment) VALUES (5, 2, 5, 4, '"Satisfactory"');
 
-INSERT INTO virtual_teacher.enrolled_courses (enrollment_id, user_id, course_id, isFinished, graduation_status) VALUES (1, 1, 1, 0, 0);
-INSERT INTO virtual_teacher.enrolled_courses (enrollment_id, user_id, course_id, isFinished, graduation_status) VALUES (2, 2, 2, 0, 0);
-INSERT INTO virtual_teacher.enrolled_courses (enrollment_id, user_id, course_id, isFinished, graduation_status) VALUES (3, 3, 2, 0, 0);
-INSERT INTO virtual_teacher.enrolled_courses (enrollment_id, user_id, course_id, isFinished, graduation_status) VALUES (4, 9, 1, 1, 1);
-INSERT INTO virtual_teacher.enrolled_courses (enrollment_id, user_id, course_id, isFinished, graduation_status) VALUES (5, 2, 2, 0, 0);
-INSERT INTO virtual_teacher.enrolled_courses (enrollment_id, user_id, course_id, isFinished, graduation_status) VALUES (6, 3, 2, 0, 0);
-INSERT INTO virtual_teacher.enrolled_courses (enrollment_id, user_id, course_id, isFinished, graduation_status) VALUES (7, 1, 2, 0, 0);
+
+INSERT INTO virtual_teacher.rates (rate_id, user_id, course_id, rate_value, comment) VALUES (2, 2, 2, 4, 'A satisfactory experience overall. This [product/service] gets the job done adequately without any major issues. While it may not be exceptional, it meets the basic requirements and serves its purpose. A reasonable choice for those seeking a straightforward and satisfactory solution.');
+INSERT INTO virtual_teacher.rates (rate_id, user_id, course_id, rate_value, comment) VALUES (3, 3, 3, 5, 'This course is truly commendable, earning a solid \'Good\' rating from me. It excels in meeting expectations, providing a reliable and effective solution. I appreciate the quality and performance it brings to the table. A good choice for those seeking a dependable option in this category!');
+INSERT INTO virtual_teacher.rates (rate_id, user_id, course_id, rate_value, comment) VALUES (4, 1, 4, 2, 'Unfortunately, my experience with this course was insufficient. It fell short of meeting expectations, lacking in certain key areas. There\'s room for improvement, and I hope future enhancements will address the shortcomings. Disappointing, but I believe there\'s potential for positive changes.');
+INSERT INTO virtual_teacher.rates (rate_id, user_id, course_id, rate_value, comment) VALUES (5, 2, 5, 4, 'A satisfactory experience overall. The course gets the job done and fulfills its purpose adequately. While it may not be groundbreaking, it certainly meets the basic requirements and provides a reasonable solution. Satisfied with the outcome.');
+INSERT INTO virtual_teacher.rates (rate_id, user_id, course_id, rate_value, comment) VALUES (6, 2, 9, 5, 'Five stars all the way! This product exceeded my expectations and delivered incredible value for the price. I\'m impressed with its quality and performance. Definitely a wise investment!');
+INSERT INTO virtual_teacher.rates (rate_id, user_id, course_id, rate_value, comment) VALUES (7, 1, 10, 4, 'A satisfactory experience overall. The course gets the job done adequately without any major hiccups. While it may not be exceptional, it fulfills its purpose and provides a reasonable solution. A reliable option for those seeking a decent and functional choice.');
+INSERT INTO virtual_teacher.rates (rate_id, user_id, course_id, rate_value, comment) VALUES (8, 3, 11, 5, 'Solidly good! This course meets expectations and offers a reliable performance. It\'s a dependable choice for those seeking a straightforward and effective option. Thumbs up for delivering on what it promises!"');
+
+INSERT INTO virtual_teacher.enrolled_courses (enrollment_id, user_id, course_id, isFinished, graduation_status) VALUES (1, 1, 11, 0, 0);
+INSERT INTO virtual_teacher.enrolled_courses (enrollment_id, user_id, course_id, isFinished, graduation_status) VALUES (2, 2, 2, 1, 4);
+INSERT INTO virtual_teacher.enrolled_courses (enrollment_id, user_id, course_id, isFinished, graduation_status) VALUES (3, 3, 4, 1, 5);
+INSERT INTO virtual_teacher.enrolled_courses (enrollment_id, user_id, course_id, isFinished, graduation_status) VALUES (4, 11, 1, 1, 1);
+INSERT INTO virtual_teacher.enrolled_courses (enrollment_id, user_id, course_id, isFinished, graduation_status) VALUES (5, 2, 3, 0, 0);
+INSERT INTO virtual_teacher.enrolled_courses (enrollment_id, user_id, course_id, isFinished, graduation_status) VALUES (6, 3, 5, 0, 0);
+INSERT INTO virtual_teacher.enrolled_courses (enrollment_id, user_id, course_id, isFinished, graduation_status) VALUES (7, 1, 1, 1, 5);
+INSERT INTO virtual_teacher.enrolled_courses (enrollment_id, user_id, course_id, isFinished, graduation_status) VALUES (8, 11, 11, 1, 5);
+
+
+
+
+INSERT INTO virtual_teacher.notes (note_id, user_id, lecture_id, text) VALUES (3, 1, 1, 'Introduction to Web Design:
+Definition: Web design involves creating the visual elements of a website, including layout, colors, graphics, and overall aesthetics.
+Purpose: The goal is to enhance user experience and effectively communicate information.');
+INSERT INTO virtual_teacher.notes (note_id, user_id, lecture_id, text) VALUES (4, 1, 1, 'Community Support: Yes');
+INSERT INTO virtual_teacher.notes (note_id, user_id, lecture_id, text) VALUES (5, 1, 2, 'Website Type: Business');
+INSERT INTO virtual_teacher.notes (note_id, user_id, lecture_id, text) VALUES (6, 2, 2, 'Budget: Moderate cost');
+INSERT INTO virtual_teacher.notes (note_id, user_id, lecture_id, text) VALUES (7, 2, 3, 'Customization Importance: Very important');
+INSERT INTO virtual_teacher.notes (note_id, user_id, lecture_id, text) VALUES (8, 2, 3, 'Hosting: Need hosting');
+INSERT INTO virtual_teacher.notes (note_id, user_id, lecture_id, text) VALUES (9, 3, 4, 'Interface Preference: Drag-and-drop');
+INSERT INTO virtual_teacher.notes (note_id, user_id, lecture_id, text) VALUES (10, 3, 5, '
+Coding Experience: Beginner');
+INSERT INTO virtual_teacher.notes (note_id, user_id, lecture_id, text) VALUES (11, 11, 6, 'UI/UX Design: Focus on creating a user-friendly and intuitive ');
+INSERT INTO virtual_teacher.notes (note_id, user_id, lecture_id, text) VALUES (12, 11, 7, 'Responsive Design: Ensure the website looks and functions well on various devices and screen sizes.');
+
 
 
 

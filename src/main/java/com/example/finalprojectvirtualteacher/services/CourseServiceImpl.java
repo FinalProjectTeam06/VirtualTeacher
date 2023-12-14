@@ -160,12 +160,8 @@ public class CourseServiceImpl implements CourseService {
         return sum / rates.size();
     }
 
-
-
-
-
     public void checkModifyPermission(User user) {
-        if (!user.getRole().getName().equals("admin") && !user.getRole().getName().equals("teacher")) {
+        if (user.getRole().getId()!=3 && user.getRole().getId()!=2) {
             throw new AuthorizationException(PERMISSION_ERROR);
         }
     }

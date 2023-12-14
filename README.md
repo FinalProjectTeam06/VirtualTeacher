@@ -71,8 +71,13 @@ Each course can be rated from 1 to 5 from the students.
 * Javascript
 * DataBase and SQL
 * Hibernate
-* Mockito 
-![schema.png](src%2Fmain%2Fresources%2Fstatic%2Fimages%2Freadme%2Fschema.png)
+* Mockito
+
+
+![Screenshot 2023-12-13 230719.png](src%2Fmain%2Fresources%2Fstatic%2Fimages%2FScreenshot%202023-12-13%20230719.png)
+
+## Principles
+* DRY, KISS, YAGNI, SOLID
 
 ## Notes
 * MediaWiki Action API
@@ -82,3 +87,4 @@ Each course can be rated from 1 to 5 from the students.
 1. create a database and fill the tables from script
 2. run the application
 3. go to localhost:8080
+

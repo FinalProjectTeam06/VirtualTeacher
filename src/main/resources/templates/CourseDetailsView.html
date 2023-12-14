@@ -77,7 +77,7 @@
                         <div class="rbt-author-info">
                             By <a href="profile.html"
                                   th:text="${course.getCreator().getFirstName()} + ' ' + ${course.getCreator().getLastName()}">Angela</a>
-                            In <a href="#">Development</a>
+                            In <a th:text="${course.getTopic().getName()}"></a>
                         </div>
                     </div>
                 </div>
