@@ -24,15 +24,6 @@ public class LectureDto {
     public LectureDto() {
 
     }
-
-    public LectureDto(String title, String description, String videoUrl, String assignment, int courseId) {
-        this.title = title;
-        this.description = description;
-        this.videoUrl = videoUrl;
-        this.assignmentUrl = assignment;
-        this.courseId = courseId;
-    }
-
     public String getTitle() {
         return title;
     }

@@ -2,9 +2,7 @@ package com.example.finalprojectvirtualteacher.controllers.mvc;
 
 
 import com.example.finalprojectvirtualteacher.exceptions.AuthorizationException;
-import com.example.finalprojectvirtualteacher.exceptions.EntityDuplicateException;
 import com.example.finalprojectvirtualteacher.exceptions.EntityNotFoundException;
-import org.springframework.boot.Banner;
 import org.springframework.ui.Model;
 import com.example.finalprojectvirtualteacher.helpers.AuthenticationHelper;
 import com.example.finalprojectvirtualteacher.helpers.mappers.NoteMapper;
@@ -101,7 +99,6 @@ public class NoteMvcController {
                               @PathVariable int lectureId,
                               @PathVariable int noteId,
                               @ModelAttribute("note") NoteDto noteDto,
-                              BindingResult bindingResult,
                               Model model,
                               HttpSession session) {
 
@@ -128,7 +125,7 @@ public class NoteMvcController {
             return "redirect:/users/myNotes";
         } catch (EntityNotFoundException e ) {
             model.addAttribute("error", e.getMessage());
-            return "NotFound";
+            return "Error404";
         } catch (AuthorizationException e) {
             return "redirect:/auth/login";
         }

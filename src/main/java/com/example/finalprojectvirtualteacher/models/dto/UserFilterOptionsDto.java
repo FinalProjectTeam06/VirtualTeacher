@@ -1,14 +1,10 @@
 package com.example.finalprojectvirtualteacher.models.dto;
 
-import java.util.Optional;
 
 public class UserFilterOptionsDto {
     private String firstName;
     private String email;
     private String lastName;
-
-    public UserFilterOptionsDto() {
-    }
 
     public String getFirstName() {
         return firstName;

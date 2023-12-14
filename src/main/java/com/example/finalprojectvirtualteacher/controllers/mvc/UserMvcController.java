@@ -11,9 +11,6 @@ import com.example.finalprojectvirtualteacher.models.dto.FilterOptionsDto;
 import com.example.finalprojectvirtualteacher.models.dto.UserDtoUpdate;
 import com.example.finalprojectvirtualteacher.services.contacts.*;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.boot.Banner;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -138,8 +135,7 @@ public class UserMvcController {
 
     @PostMapping("/update")
     public String updateProfile(@ModelAttribute("updateDto") UserDtoUpdate userDtoUpdate,
-                                Model model, HttpSession httpSession,
-                                BindingResult bindingResult) {
+                                Model model, HttpSession httpSession) {
         try {
             User user = authenticationHelper.tryGetCurrentUser(httpSession);
             model.addAttribute("userToUpdate", user);

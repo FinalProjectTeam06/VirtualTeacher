@@ -233,6 +233,25 @@ void createUser_Should_CallRepository() {
 
     }
 
+    @Test
+    void resendActivationCode_shouldThrowExceptionForActivatedUser() {
+        // Arrange
+        String userEmail = "test@example.com";
+        User activatedUser = new User();
+        activatedUser.setActivated(true);
+        when(userRepository.getByEmail(userEmail)).thenReturn(activatedUser);
+
+        // Act and Assert
+        assertThrows(ForbiddenOperationException.class, () -> userService.resendActivationCode(userEmail));
+
+        // Verify that userRepository.getByEmail is called
+        verify(userRepository).getByEmail(userEmail);
+
+        // Verify that emailService.sendActivationEmail is never called
+        verify(emailService, never()).sendMessage(userEmail,"confirm",userEmail);
+    }
+
+
 
 
 

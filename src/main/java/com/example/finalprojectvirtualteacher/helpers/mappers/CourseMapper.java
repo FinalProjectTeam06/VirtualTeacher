@@ -32,11 +32,5 @@ public class CourseMapper {
         course.setStartDate(courseDto.getStartDate());
         return course;
     }
-    public CourseDto toDtoUpdate(Course course) {
-        CourseDto courseDto=new CourseDto();
-        courseDto.setTitle(course.getTitle());
-        courseDto.setDescription(course.getDescription());
-        courseDto.setStartDate(course.getStartDate());
-        return courseDto;
-    }
+
 }

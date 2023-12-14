@@ -96,7 +96,7 @@ public class LectureRestController {
     @PostMapping("/{lectureId}/note")
     public Note createNote(@RequestHeader HttpHeaders httpHeaders, @RequestBody String text, @PathVariable int lectureId) {
         try {
-            User user = authenticationHelper.tryGetUser(httpHeaders);
+            authenticationHelper.tryGetUser(httpHeaders);
             return noteService.create(new Note(text));
         } catch (AuthorizationException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
@@ -111,7 +111,7 @@ public class LectureRestController {
                                     @PathVariable int lectureId) {
         try {
             User user=authenticationHelper.tryGetUser(httpHeaders);
-            Lecture lecture=lectureService.getById(lectureId);
+            lectureService.getById(lectureId);
             return assignmentService.submitAssignment(user, lectureId, file);
         }catch (AuthorizationException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());

@@ -1,6 +1,5 @@
 package com.example.finalprojectvirtualteacher.repositories;
 
-import com.example.finalprojectvirtualteacher.models.Course;
 import com.example.finalprojectvirtualteacher.models.Enrollment;
 import com.example.finalprojectvirtualteacher.repositories.contracts.EnrollmentRepository;
 import org.hibernate.Session;

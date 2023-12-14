@@ -99,24 +99,24 @@ public class LectureRepositoryImpl implements LectureRepository {
     public void delete(int id) {
         Lecture lecture = getById(id);
         try (Session session = sessionFactory.openSession()) {
-            deleteLecture(id);
+      //      deleteLecture(id);
             session.beginTransaction();
             session.remove(lecture);
             session.getTransaction().commit();
         }
     }
 
-    private void deleteLecture(int id) {
-        try (Session session = sessionFactory.openSession()) {
-            session.beginTransaction();
-            Query<?> query = session.createNativeQuery(
-                    "delete from virtual_teacher.course_lectures where lecture_id=:id", Lecture.class);
-            query.setParameter("id", id);
-            query.executeUpdate();
-            session.getTransaction().commit();
-
-        }
-    }
+//    private void deleteLecture(int id) {
+//        try (Session session = sessionFactory.openSession()) {
+//            session.beginTransaction();
+//            Query<?> query = session.createNativeQuery(
+//                    "delete from virtual_teacher.course_lectures where lecture_id=:id", Lecture.class);
+//            query.setParameter("id", id);
+//            query.executeUpdate();
+//            session.getTransaction().commit();
+//
+//        }
+//    }
 
     @Override
     public void deleteAllLecturesByUser(int userId) {

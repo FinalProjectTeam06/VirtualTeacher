@@ -4,7 +4,6 @@ import com.example.finalprojectvirtualteacher.models.Lecture;
 import com.example.finalprojectvirtualteacher.models.User;
 import com.example.finalprojectvirtualteacher.models.dto.LectureDto;
 import com.example.finalprojectvirtualteacher.repositories.contracts.CourseRepository;
-import com.example.finalprojectvirtualteacher.services.contacts.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -29,11 +28,4 @@ public class LectureMapper {
         return lecture;
     }
 
-    public Lecture fromDtoUpdate (LectureDto lectureDto,Lecture lecture){
-        lecture.setTitle(lectureDto.getTitle());
-        lecture.setDescription(lectureDto.getDescription());
-        lecture.setAssignmentUrl(lectureDto.getAssignmentUrl());
-        lecture.setVideoUrl(lectureDto.getVideoUrl());
-        return  lecture;
-    }
 }

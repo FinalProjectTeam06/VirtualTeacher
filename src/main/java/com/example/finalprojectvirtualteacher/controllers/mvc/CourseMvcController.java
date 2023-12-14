@@ -8,9 +8,7 @@ import com.example.finalprojectvirtualteacher.models.dto.*;
 import com.example.finalprojectvirtualteacher.services.contacts.*;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
-import org.apache.http.protocol.HTTP;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +31,11 @@ public class CourseMvcController {
     private final WikiPageService wikiPageService;
 
     @Autowired
-    public CourseMvcController(CourseService courseService, UserService userService, TopicService topicService, AuthenticationHelper authenticationHelper, LectureService lectureService, AssignmentsHelper assignmentsHelper, AssignmentService assignmentService, EnrollmentService enrollmentService, WikiPageService wikiPageService) {
+    public CourseMvcController(CourseService courseService, UserService userService,
+                               TopicService topicService, AuthenticationHelper authenticationHelper,
+                               LectureService lectureService, AssignmentsHelper assignmentsHelper,
+                               AssignmentService assignmentService, EnrollmentService enrollmentService,
+                               WikiPageService wikiPageService) {
         this.courseService = courseService;
         this.userService = userService;
         this.topicService = topicService;
@@ -218,7 +220,7 @@ public class CourseMvcController {
     @GetMapping("/{courseId}/lecture/{lectureId}")
     public String showLectureView(HttpSession httpSession, Model model, @PathVariable int courseId, @PathVariable int lectureId) {
         try {
-            User user = authenticationHelper.tryGetCurrentUser(httpSession);
+            authenticationHelper.tryGetCurrentUser(httpSession);
             Course course = courseService.getById(courseId);
             Lecture lecture = lectureService.getById(lectureId);
 
@@ -240,7 +242,7 @@ public class CourseMvcController {
                                  @PathVariable int lectureId,
                                  @RequestParam String search) {
         try {
-            User user = authenticationHelper.tryGetCurrentUser(httpSession);
+            authenticationHelper.tryGetCurrentUser(httpSession);
             Course course = courseService.getById(courseId);
             Lecture lecture = lectureService.getById(lectureId);
             List<WikiPage> searchResults = wikiPageService.searchWikiPages(search);
@@ -260,7 +262,7 @@ public class CourseMvcController {
     @GetMapping("/{courseId}/lecture/{lectureId}/assignment")
     public String showSubmitAssignmentView(HttpSession httpSession, Model model, @PathVariable int courseId, @PathVariable int lectureId) {
         try {
-            User user = authenticationHelper.tryGetCurrentUser(httpSession);
+            authenticationHelper.tryGetCurrentUser(httpSession);
             Course course = courseService.getById(courseId);
             Lecture lecture = lectureService.getById(lectureId);
 
@@ -276,7 +278,7 @@ public class CourseMvcController {
     @GetMapping("/{courseId}/lecture/{lectureId}/assignment/show")
     public String showAssignmentDemoConditionView(HttpSession httpSession, Model model, @PathVariable int courseId, @PathVariable int lectureId) {
         try {
-            User user = authenticationHelper.tryGetCurrentUser(httpSession);
+            authenticationHelper.tryGetCurrentUser(httpSession);
             Course course = courseService.getById(courseId);
             Lecture lecture = lectureService.getById(lectureId);
             model.addAttribute("assignmentUrl", lecture.getAssignmentUrl());
