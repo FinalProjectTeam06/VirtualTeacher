@@ -22,4 +22,5 @@ public interface AssignmentService {
 
     Assignment grade(int assignmentId, int gradeId, int courseId, int studentId);
 
+    void deleteAllAssignmentsSubmissionsFromCourse(int courseId);
 }

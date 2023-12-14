@@ -122,9 +122,22 @@ public class LectureRepositoryImpl implements LectureRepository {
     public void deleteAllLecturesByUser(int userId) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            MutationQuery query = session.createMutationQuery("DELETE from Lecture l where l.teacher.id =: userId");
-            query.setParameter("userId", userId);
-            query.executeUpdate();
+            MutationQuery query5 = session.createMutationQuery(
+                    "delete from Lecture l where l.teacher.id= :userId");
+            query5.setParameter("userId", userId);
+            query5.executeUpdate();
+            session.getTransaction().commit();
+        }
+    }
+
+    @Override
+    public void deleteAllLecturesFromCourse(int courseId) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            MutationQuery query3 = session.createMutationQuery(
+                    "delete from Lecture l where l.course.id= :courseId");
+            query3.setParameter("courseId", courseId);
+            query3.executeUpdate();
             session.getTransaction().commit();
         }
     }

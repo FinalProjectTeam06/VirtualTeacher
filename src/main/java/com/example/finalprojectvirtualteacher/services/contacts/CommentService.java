@@ -19,4 +19,5 @@ public interface CommentService {
     List<Comment> getByCourseId(int courseId);
 
     void deleteAllCommentsFromUserAndLecture(int userId);
+    void deleteAllCommentsFromCourse(int courseId);
 }

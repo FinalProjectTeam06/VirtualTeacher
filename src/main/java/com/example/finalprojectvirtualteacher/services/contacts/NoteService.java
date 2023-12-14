@@ -19,4 +19,5 @@ public interface NoteService {
     List<Note> getByUserId(int userId);
 
     void deleteAllNotesByUser(int userId);
+    void deleteAllNotesByCourse(int courseId);
 }

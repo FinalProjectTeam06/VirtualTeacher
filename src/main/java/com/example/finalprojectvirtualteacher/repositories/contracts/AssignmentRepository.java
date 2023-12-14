@@ -24,4 +24,8 @@ public interface AssignmentRepository {
     List<Assignment> getAllAssignmentsForCourse(int courseId);
 
     void deleteAssignmentsFromUserAndLecture(int userId);
+
+    void deleteAllAssignmentsSubmissionsFromCourse(int courseId);
 }
+
+

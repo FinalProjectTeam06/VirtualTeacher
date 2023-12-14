@@ -9,6 +9,7 @@ import com.example.finalprojectvirtualteacher.models.Course;
 import com.example.finalprojectvirtualteacher.models.Lecture;
 import com.example.finalprojectvirtualteacher.models.User;
 import com.example.finalprojectvirtualteacher.repositories.contracts.AssignmentRepository;
+import com.example.finalprojectvirtualteacher.repositories.contracts.CourseRepository;
 import com.example.finalprojectvirtualteacher.services.contacts.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,16 +27,16 @@ public class AssignmentServiceImpl implements AssignmentService {
     private final AssignmentRepository assignmentRepository;
     private final GradeService gradeService;
     private final UserService userService;
-    private final CourseService courseService;
+    private final CourseRepository courseRepository;
 
     @Autowired
-    public AssignmentServiceImpl(LectureService lectureService, AssignmentsHelper assignmentsHelper, AssignmentRepository assignmentRepository, GradeService gradeService, UserService userService, CourseService courseService) {
+    public AssignmentServiceImpl(LectureService lectureService, AssignmentsHelper assignmentsHelper, AssignmentRepository assignmentRepository, GradeService gradeService, UserService userService, CourseRepository courseRepository) {
         this.lectureService = lectureService;
         this.assignmentsHelper = assignmentsHelper;
         this.assignmentRepository = assignmentRepository;
         this.gradeService = gradeService;
         this.userService = userService;
-        this.courseService = courseService;
+        this.courseRepository = courseRepository;
     }
 
     @Override
@@ -94,7 +95,7 @@ public class AssignmentServiceImpl implements AssignmentService {
     }
 
     public double getGradeForCourse(int userId, int courseId) {
-        Course course = courseService.getById(courseId);
+        Course course = courseRepository.getById(courseId);
         List<Assignment> submittedAssignments = assignmentRepository.getByUserSubmittedToCourseAndGraded(userId, courseId);
         int submittedAssignmentsCount = submittedAssignments.size();
         int assignmentsToSubmit = course.getLectures().size();
@@ -108,7 +109,6 @@ public class AssignmentServiceImpl implements AssignmentService {
         return resultCountGrades / assignmentsToSubmit;
     }
 
-    //todo - kude se izpolzva?
     @Override
     public Assignment grade(int assignmentId, int gradeId, int courseId, int studentId) {
         Assignment assignment = getById(assignmentId);
@@ -127,10 +127,15 @@ public class AssignmentServiceImpl implements AssignmentService {
             if (isGraded) {
                 userService.setEnrollmentCourseStatusToFinished(studentId, courseId);
             }
-            if (courseService.getById(courseId).getMinGrade() < getGradeForCourse(studentId, courseId)) {
+            if (courseRepository.getById(courseId).getMinGrade() < getGradeForCourse(studentId, courseId)) {
                 userService.setEnrollmentCourseStatusToGraduated(studentId, courseId);
             }
         }
         return assignment;
+    }
+
+    @Override
+    public void deleteAllAssignmentsSubmissionsFromCourse(int courseId) {
+        assignmentRepository.deleteAllAssignmentsSubmissionsFromCourse(courseId);
     }
 }

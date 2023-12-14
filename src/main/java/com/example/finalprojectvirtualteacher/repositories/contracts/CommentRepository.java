@@ -20,4 +20,6 @@ public interface CommentRepository {
     long getCourseCommentsCount();
 
     void deleteAllCommentsFromUserAndLecture(int userId);
+
+    void deleteAllCommentsFromCourse(int courseId);
 }

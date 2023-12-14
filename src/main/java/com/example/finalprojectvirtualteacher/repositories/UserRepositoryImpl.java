@@ -103,50 +103,19 @@ public class UserRepositoryImpl implements UserRepository {
     public void deleteUser(User user) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-
-            MutationQuery query = session.createMutationQuery(
-                    "delete from Assignment a where a.user.id= :userId or a.lecture.teacher.id= :userId");
-            query.setParameter("userId", user.getId());
-            query.executeUpdate();
+            session.remove(user);
             session.getTransaction().commit();
+        }
+    }
 
-            session.beginTransaction();
-            MutationQuery query1 = session.createMutationQuery(
-                    "delete from Comment c where c.creator.id= :userId or c.lecture.teacher.id= :userId");
-            query1.setParameter("userId", user.getId());
-            query1.executeUpdate();
-            session.getTransaction().commit();
-
-            session.beginTransaction();
-            MutationQuery query2 = session.createMutationQuery(
-                    "delete from Note n where n.userId= :userId or n.lecture.teacher.id= :userId");
-            query2.setParameter("userId", user.getId());
-            query2.executeUpdate();
-            session.getTransaction().commit();
-
+    @Override
+    public void deleteAllRatesByUser(int userId) {
+        try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             MutationQuery query3 = session.createMutationQuery(
                     "delete from Rate r where r.user.id= :userId or r.course.creator.id= :userId");
-            query3.setParameter("userId", user.getId());
+            query3.setParameter("userId", userId);
             query3.executeUpdate();
-            session.getTransaction().commit();
-
-            session.beginTransaction();
-            MutationQuery query5 = session.createMutationQuery(
-                    "delete from Lecture l where l.teacher.id= :userId");
-            query5.setParameter("userId", user.getId());
-            query5.executeUpdate();
-            session.getTransaction().commit();
-
-            session.beginTransaction();
-            MutationQuery query4 = session.createMutationQuery(
-                    "delete from Course c where c.creator.id= :userId");
-            query4.setParameter("userId", user.getId());
-            query4.executeUpdate();
-            session.getTransaction().commit();
-
-            session.beginTransaction();
-            session.remove(user);
             session.getTransaction().commit();
         }
     }

@@ -36,6 +36,7 @@ public interface CourseService {
     Double getCourseRating(Course course);
 
     void deleteAllCoursesFromUser(int userId);
+
     void deleteAllRatesFromUser(int userId);
 
 }

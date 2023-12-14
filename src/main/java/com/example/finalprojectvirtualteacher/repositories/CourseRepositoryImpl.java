@@ -215,48 +215,6 @@ public class CourseRepositoryImpl implements CourseRepository {
         try (Session session = sessionFactory.openSession()) {
 
             session.beginTransaction();
-            MutationQuery query5 = session.createMutationQuery(
-                    "delete from Assignment a where a.lecture.course.id= :courseId");
-            query5.setParameter("courseId", course.getId());
-            query5.executeUpdate();
-            session.getTransaction().commit();
-
-            session.beginTransaction();
-            MutationQuery query4 = session.createMutationQuery(
-                    "delete from Enrollment e where e.course.id= :courseId");
-            query4.setParameter("courseId", course.getId());
-            query4.executeUpdate();
-            session.getTransaction().commit();
-
-            session.beginTransaction();
-            MutationQuery query = session.createMutationQuery(
-                    "delete from Note n where n.lecture.course.id= :courseId");
-            query.setParameter("courseId", course.getId());
-            query.executeUpdate();
-            session.getTransaction().commit();
-
-            session.beginTransaction();
-            MutationQuery query1 = session.createMutationQuery(
-                    "delete from Comment c where c.lecture.course.id= :courseId");
-            query1.setParameter("courseId", course.getId());
-            query1.executeUpdate();
-            session.getTransaction().commit();
-
-            session.beginTransaction();
-            MutationQuery query2 = session.createMutationQuery(
-                    "delete from Rate r where r.course.id= :courseId");
-            query2.setParameter("courseId", course.getId());
-            query2.executeUpdate();
-            session.getTransaction().commit();
-
-            session.beginTransaction();
-            MutationQuery query3 = session.createMutationQuery(
-                    "delete from Lecture l where l.course.id= :courseId");
-            query3.setParameter("courseId", course.getId());
-            query3.executeUpdate();
-            session.getTransaction().commit();
-
-            session.beginTransaction();
             session.remove(course);
             session.getTransaction().commit();
         }
@@ -266,10 +224,22 @@ public class CourseRepositoryImpl implements CourseRepository {
     public void deleteAllCoursesFromUser(int userId) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            Query<?> query = session.createNativeQuery(
-                    "delete from courses where creator_id= :userId", Course.class);
-            query.setParameter("userId", userId);
-            query.executeUpdate();
+            MutationQuery query4 = session.createMutationQuery(
+                    "delete from Course c where c.creator.id= :userId");
+            query4.setParameter("userId", userId);
+            query4.executeUpdate();
+            session.getTransaction().commit();
+        }
+    }
+
+    @Override
+    public void deleteAllEnrollmentsFromCourse(int courseId) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            MutationQuery query4 = session.createMutationQuery(
+                    "delete from Enrollment e where e.course.id= :courseId");
+            query4.setParameter("courseId", courseId);
+            query4.executeUpdate();
             session.getTransaction().commit();
         }
     }
@@ -282,6 +252,18 @@ public class CourseRepositoryImpl implements CourseRepository {
                     "DELETE from Rate r where r.user.id =: userId and r.course.creator.id =: userId");
             query.setParameter("userId", userId);
             query.executeUpdate();
+            session.getTransaction().commit();
+        }
+    }
+
+    @Override
+    public void deleteAllRatesFromCourse(int courseId) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            MutationQuery query2 = session.createMutationQuery(
+                    "delete from Rate r where r.course.id= :courseId");
+            query2.setParameter("courseId", courseId);
+            query2.executeUpdate();
             session.getTransaction().commit();
         }
     }
@@ -324,6 +306,4 @@ public class CourseRepositoryImpl implements CourseRepository {
         }
         return rate.getCourse();
     }
-
-
 }

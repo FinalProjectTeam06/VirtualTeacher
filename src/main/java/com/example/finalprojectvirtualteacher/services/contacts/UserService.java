@@ -22,7 +22,7 @@ public interface UserService {
     void deleteUser(int id, User user);
 
     void deleteAssignmentsFromUserAndLecture(int userId);
-
+    void deleteAllRatesByUser(int userId);
     User enrollCourse(User user, int courseId);
     void setEnrollmentCourseStatusToFinished(int userId, int courseId);
     void setEnrollmentCourseStatusToGraduated(int userId, int courseId);

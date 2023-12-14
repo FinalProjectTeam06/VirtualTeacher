@@ -10,7 +10,7 @@ import com.example.finalprojectvirtualteacher.models.User;
 import com.example.finalprojectvirtualteacher.models.dto.CourseDto;
 import com.example.finalprojectvirtualteacher.models.dto.RateDto;
 import com.example.finalprojectvirtualteacher.repositories.contracts.CourseRepository;
-import com.example.finalprojectvirtualteacher.services.contacts.CourseService;
+import com.example.finalprojectvirtualteacher.services.contacts.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,13 +22,20 @@ public class CourseServiceImpl implements CourseService {
     public static final String PERMISSION_ERROR = "You don't have permission.";
     private final CourseRepository courseRepository;
     private final CourseMapper courseMapper;
+    private final AssignmentService assignmentService;
+    private final NoteService noteService;
+    private final CommentService commentService;
+    private final LectureService lectureService;
 
 
     @Autowired
-    public CourseServiceImpl(CourseRepository courseRepository, CourseMapper courseMapper) {
+    public CourseServiceImpl(CourseRepository courseRepository, CourseMapper courseMapper, AssignmentService assignmentService, NoteService noteService, CommentService commentService, LectureService lectureService) {
         this.courseRepository = courseRepository;
         this.courseMapper = courseMapper;
-
+        this.assignmentService = assignmentService;
+        this.noteService = noteService;
+        this.commentService = commentService;
+        this.lectureService = lectureService;
     }
 
     @Override
@@ -106,6 +113,12 @@ public class CourseServiceImpl implements CourseService {
     public void delete(int courseId, User user) {
         Course course = getById(courseId);
         checkPermission(course, user);
+        assignmentService.deleteAllAssignmentsSubmissionsFromCourse(courseId);
+        courseRepository.deleteAllEnrollmentsFromCourse(courseId);
+        noteService.deleteAllNotesByCourse(courseId);
+        courseRepository.deleteAllRatesFromCourse(courseId);
+        commentService.deleteAllCommentsFromCourse(courseId);
+        lectureService.deleteAllLecturesFromCourse(courseId);
         courseRepository.delete(course);
     }
     @Override
@@ -167,11 +180,11 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public void deleteAllRatesFromUser(int userId) {
-        courseRepository.deleteAllCoursesFromUser(userId);
+        courseRepository.deleteAllRatesFromUser(userId);
     }
 
     public void checkModifyPermission(User user) {
-        if (!user.getRole().getName().equals("admin") && !user.getRole().getName().equals("teacher")) {
+        if (user.getRole().getId()!=3 && user.getRole().getId()!=2) {
             throw new AuthorizationException(PERMISSION_ERROR);
         }
     }

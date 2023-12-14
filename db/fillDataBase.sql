@@ -3,12 +3,9 @@ INSERT INTO virtual_teacher.topics (topic_id, name) VALUES (2, 'Graphic Design')
 INSERT INTO virtual_teacher.topics (topic_id, name) VALUES (3, 'Personal Development');
 INSERT INTO virtual_teacher.topics (topic_id, name) VALUES (4, 'IT and Software');
 
-
 INSERT INTO virtual_teacher.roles (role_id, name) VALUES (1, 'Student');
 INSERT INTO virtual_teacher.roles (role_id, name) VALUES (2, 'Teacher');
 INSERT INTO virtual_teacher.roles (role_id, name) VALUES (3, 'Admin');
-
-
 
 INSERT INTO virtual_teacher.grades (grade_id, grade_name) VALUES (1, 'Not Graded');
 INSERT INTO virtual_teacher.grades (grade_id, grade_name) VALUES (2, 'Unsatisfactory');
@@ -29,8 +26,6 @@ INSERT INTO virtual_teacher.users (user_id, first_name, last_name, email, passwo
 INSERT INTO virtual_teacher.users (user_id, first_name, last_name, email, password, role_id, profile_picture_url, is_activated) VALUES (9, 'Karina', 'Ivanova', 'carrie.ivanova93@gmail.com', 'Karina@123', 3, 'http://res.cloudinary.com/dadyjdpd5/image/upload/v1702403121/profile-photos/yjeahznvoo4q0snsguss.jpg', 1);
 INSERT INTO virtual_teacher.users (user_id, first_name, last_name, email, password, role_id, profile_picture_url, is_activated) VALUES (11, 'Svetlana', 'Petrova', 'svetlana@example.com', 'Svetlana@123', 1, 'https://cdn.actualno.eu/actualno_2013/upload/news/2023/03/18/6415e78cec441f87bf2500e9ae761a7a977f8a21234de_1929864_920x708.webp', 1);
 
-
-
 INSERT INTO virtual_teacher.courses (course_id, title, topic_id, description, creator_id, is_published, start_date, minimum_grade, rating) VALUES (1, 'Web Design Course', 1, 'Learn how to design a website from scratch.
 We will be publishing videos every week to cover everything you need to know to get started as a web designer. If you are already one, you can use this course to recap those concepts you need to get stronger at.
 ', 4, 1, '2023-11-08 16:24:08', 2, 5);
@@ -44,10 +39,7 @@ INSERT INTO virtual_teacher.courses (course_id, title, topic_id, description, cr
 INSERT INTO virtual_teacher.courses (course_id, title, topic_id, description, creator_id, is_published, start_date, minimum_grade, rating) VALUES (8, '', 3, '', 6, 1, '2023-11-11 16:28:05', 3, 5);
 INSERT INTO virtual_teacher.courses (course_id, title, topic_id, description, creator_id, is_published, start_date, minimum_grade, rating) VALUES (9, 'Best Websites on the Internet', 1, 'This is the inspiration you are looking for.
 
-Broaden your horizons of what\'s possible and check out for yourself what the top designers are making for clients in specific industries or with Webflow, the best tool for web design right now.', 4, 0, '2024-01-04 21:51:49', 4, 4);
-
-
-
+Broaden your horizons of whats possible and check out for yourself what the top designers are making for clients in specific industries or with Webflow, the best tool for web design right now.', 4, 0, '2024-01-04 21:51:49', 4, 4);
 INSERT INTO virtual_teacher.lectures (lecture_id, title, description, video_url, assignment_url, teacher_id, course_id) VALUES (1, 'Basic Web Design Software', 'Introduction to Web Design', 'https://www.youtube.com/embed/R_gFhRsWLMw?si=srEZQ24XfPHMdZWN', 'https://study.com/academy/practice/quiz-worksheet-literary-genres.html', 4, 1);
 INSERT INTO virtual_teacher.lectures (lecture_id, title, description, video_url, assignment_url, teacher_id, course_id) VALUES (2, 'Intro to Typography', 'If you really want to know how to design websites, you need to learn how to use typography.
 In this episode, we help you take the first steps to master typography. In web design, typography is super important to make sure you use words in the most powerful way.', 'https://www.youtube.com/embed/OUp7ale49lI?si=soN50AhrScvad3HL', 'https://study.com/academy/practice/quiz-worksheet-literary-genres.html', 4, 1);
@@ -55,10 +47,9 @@ INSERT INTO virtual_teacher.lectures (lecture_id, title, description, video_url,
 When we need to decide what type of imagery are we going to use for our web design, we might consider one of 3 basic choices: Photography, illustration, or 3D.', 'https://www.youtube.com/embed/BN8pC91rJaU?si=LOiin37Mx28xPsvH', 'https://study.com/academy/practice/quiz-worksheet-literary-genres.html', 4, 1);
 INSERT INTO virtual_teacher.lectures (lecture_id, title, description, video_url, assignment_url, teacher_id, course_id) VALUES (4, '5 Incredible websites for you to check out', 'Need inspiration and motivation? Check these out. They are sure to get your creative juices flowing, I especially love it when they have a good sense of humor and make you want to create something unique of your own.', 'https://www.youtube.com/embed/F9wC9R4ELVc?si=Up0xTduNQ4kLjOTU', 'https://blog.burbankids.com/biology-trivia-questions/', 4, 9);
 INSERT INTO virtual_teacher.lectures (lecture_id, title, description, video_url, assignment_url, teacher_id, course_id) VALUES (5, 'Website Redesign', 'In this video, we go over our redesign of a welding machine company called Microweld. The name of the game with this one was "clarification". ', 'https://www.youtube.com/embed/kFXKq_vZM9M?si=_721-IrUe5bBjKmr', 'https://quizizz.com/admin/quiz/5c65816a6850410020576bc4/the-rise-and-fall-of-the-roman-empire', 4, 9);
-INSERT INTO virtual_teacher.lectures (lecture_id, title, description, video_url, assignment_url, teacher_id, course_id) VALUES (6, 'Easily Remove Background in Photoshop', 'Today\'s video answers the question to one of the hard skills that you will almost certainly need as a designer today: How to remove a background and its elements. Work along with Matt on this tutorial. Here is the image he\'s using: https://unsplash.com/photos/aeNg4YA41P8', 'https://www.youtube.com/embed/ntk3IVzfIYs?si=KwaukKTR8QwJ0pBU', 'https://study.com/academy/practice/quiz-worksheet-literary-genres.html', 5, 3);
+INSERT INTO virtual_teacher.lectures (lecture_id, title, description, video_url, assignment_url, teacher_id, course_id) VALUES (6, 'Easily Remove Background in Photoshop', 'Todays video answers the question to one of the hard skills that you will almost certainly need as a designer today: How to remove a background and its elements. Work along with Matt on this tutorial. Here is the image hes using: https://unsplash.com/photos/aeNg4YA41P8', 'https://www.youtube.com/embed/ntk3IVzfIYs?si=KwaukKTR8QwJ0pBU', 'https://study.com/academy/practice/quiz-worksheet-literary-genres.html', 5, 3);
 INSERT INTO virtual_teacher.lectures (lecture_id, title, description, video_url, assignment_url, teacher_id, course_id) VALUES (7, 'Canva Better than InDesign?', 'Instead of InDesign, how about Canva? Many of you will probably think we are joking, but if you do a lot of print related work, you should definitely check out this tool. ', 'https://www.youtube.com/embed/HM6qL4osW6Y?si=kz9lIswr70ffPwKD ', 'https://socialsci.libretexts.org/Bookshelves/Sociology/Introduction_to_Sociology/Sociology_(Boundless)/21%3A_Social_Change/21.03%3A_Social_Movements/21.3B%3A_Types_of_Social_Movements', 5, 3);
 INSERT INTO virtual_teacher.lectures (lecture_id, title, description, video_url, assignment_url, teacher_id, course_id) VALUES (10, 'Editor X (by Wix) VS Webflow', 'By very popular demand: My take on the Editor X (by Wix) vs Webflow situation.
-
 Webflow is obviously my tool of choice and its capabilities are what make it my absolute favourite software when it comes to creating super high-value websites with great customizability.', 'https://www.youtube.com/embed/jddyfp3-TLM?si=6UR_eZEa223kApzr', 'https://blog.burbankids.com/biology-trivia-questions/', 5, 3);
 INSERT INTO virtual_teacher.lectures (lecture_id, title, description, video_url, assignment_url, teacher_id, course_id) VALUES (11, 'Figma carousel animation in 5 minutes', 'Master Figma for web design with our new, in-depth Figma course: https://t.ly/w67Ma
 

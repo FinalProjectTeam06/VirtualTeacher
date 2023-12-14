@@ -84,6 +84,11 @@ public class LectureServiceImpl implements LectureService {
         lectureRepository.deleteAllLecturesByUser(userId);
     }
 
+    @Override
+    public void deleteAllLecturesFromCourse(int courseId) {
+        lectureRepository.deleteAllLecturesFromCourse(courseId);
+    }
+
     public void checkPermission(int id, User user) {
         Lecture lecture = getById(id);
         if (user.getId() == lecture.getTeacher().getId()

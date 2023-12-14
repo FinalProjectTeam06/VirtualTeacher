@@ -55,6 +55,11 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    public void deleteAllCommentsFromCourse(int courseId) {
+        commentRepository.deleteAllCommentsFromCourse(courseId);
+    }
+
+    @Override
     public List<Comment> getByCourseId(int courseId){
         return commentRepository.getByCourseId(courseId);
     }

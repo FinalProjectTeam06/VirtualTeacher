@@ -6,6 +6,7 @@ import com.example.finalprojectvirtualteacher.models.User;
 import com.example.finalprojectvirtualteacher.models.UserFilterOptions;
 import com.example.finalprojectvirtualteacher.models.dto.UserDtoUpdate;
 import com.example.finalprojectvirtualteacher.repositories.contracts.AssignmentRepository;
+import com.example.finalprojectvirtualteacher.repositories.contracts.CourseRepository;
 import com.example.finalprojectvirtualteacher.repositories.contracts.UserRepository;
 import com.example.finalprojectvirtualteacher.services.contacts.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class UserServiceImpl implements UserService {
     private final String REGISTRATION_LINK_TEMPLATE = "http://localhost:8080/auth/login?inviteCode=%s";
 
     private final UserRepository userRepository;
-    private final CourseService courseService;
+    private final CourseRepository courseRepository;
 
     private final AssignmentRepository assignmentRepository;
     private final LectureService lectureService;
@@ -42,9 +43,9 @@ public class UserServiceImpl implements UserService {
     private final Random random;
 
     @Autowired
-    public UserServiceImpl(UserRepository repository, CourseService courseService, AssignmentRepository assignmentRepository, LectureService lectureService, CommentService commentService, NoteService noteService, EmailService emailService) {
+    public UserServiceImpl(UserRepository repository, CourseRepository courseRepository, AssignmentRepository assignmentRepository, LectureService lectureService, CommentService commentService, NoteService noteService, EmailService emailService) {
         this.userRepository = repository;
-        this.courseService = courseService;
+        this.courseRepository = courseRepository;
         this.assignmentRepository = assignmentRepository;
         this.lectureService = lectureService;
         this.commentService = commentService;
@@ -123,14 +124,12 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(int id, User user) {
         checkDeletePermission(user);
         User userToDelete = getById(id);
-//        deleteAssignmentsFromUserAndLecture(user.getId());
-//        commentService.deleteAllCommentsFromUserAndLecture(user.getId());
-//        noteService.deleteAllNotesByUser(user.getId());
-//        user.getRates().clear();
-////        userToDelete.getCourses().clear();
-//        courseService.deleteAllCoursesFromUser(user.getId());
-//        lectureService.deleteAllLecturesByUser(user.getId());
-//        userRepository.updateUser(userToDelete);
+        deleteAssignmentsFromUserAndLecture(user.getId());
+        commentService.deleteAllCommentsFromUserAndLecture(user.getId());
+        noteService.deleteAllNotesByUser(user.getId());
+        courseRepository.deleteAllRatesFromUser(user.getId());
+        lectureService.deleteAllLecturesByUser(user.getId());
+        courseRepository.deleteAllCoursesFromUser(user.getId());
         userRepository.deleteUser(userToDelete);
     }
 
@@ -140,8 +139,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void deleteAllRatesByUser(int userId) {
+        userRepository.deleteAllRatesByUser(userId);
+    }
+
+    @Override
     public User enrollCourse(User user, int courseId) {
-        Course course = courseService.getById(courseId);
+        Course course = courseRepository.getById(courseId);
         user.addCourse(course);
         return userRepository.updateUser(user);
     }

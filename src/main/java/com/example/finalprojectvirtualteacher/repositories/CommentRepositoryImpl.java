@@ -94,10 +94,22 @@ public class CommentRepositoryImpl implements CommentRepository {
     public void deleteAllCommentsFromUserAndLecture(int userId) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            Query<?> query = session.createNativeQuery(
-                    "delete from comments where user_id= :userId", Comment.class);
-            query.setParameter("userId", userId);
-            query.executeUpdate();
+            MutationQuery query1 = session.createMutationQuery(
+                    "delete from Comment c where c.creator.id= :userId or c.lecture.teacher.id= :userId");
+            query1.setParameter("userId", userId);
+            query1.executeUpdate();
+            session.getTransaction().commit();
+        }
+    }
+
+    @Override
+    public void deleteAllCommentsFromCourse(int courseId) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            MutationQuery query1 = session.createMutationQuery(
+                    "delete from Comment c where c.lecture.course.id= :courseId");
+            query1.setParameter("courseId", courseId);
+            query1.executeUpdate();
             session.getTransaction().commit();
         }
     }
