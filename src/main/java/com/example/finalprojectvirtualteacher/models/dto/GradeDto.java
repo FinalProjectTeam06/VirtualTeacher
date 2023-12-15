@@ -10,5 +10,7 @@ public class GradeDto {
         return gradeId;
     }
 
-
+    public void setGradeId(int gradeId) {
+        this.gradeId = gradeId;
+    }
 }
