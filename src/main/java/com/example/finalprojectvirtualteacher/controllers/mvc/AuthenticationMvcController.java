@@ -97,10 +97,10 @@ public class AuthenticationMvcController {
             return "RegisterView";
         }
 
-        if (!registerMvcDto.getPassword().equals(registerMvcDto.getPasswordConfirm())) {
-            bindingResult.rejectValue("passwordConfirm", "password_error", "Password confirmation should match password.");
-            return "RegisterView";
-        }
+//        if (!registerMvcDto.getPassword().equals(registerMvcDto.getPasswordConfirm())) {
+//            bindingResult.rejectValue("passwordConfirm", "password_error", "Password confirmation should match password.");
+//            return "RegisterView";
+//        }
         try {
             User user = userMapper.fromRegisterMvcDto(registerMvcDto);
             userService.create(user);
