@@ -1,4 +1,4 @@
-# Virtual Teacher
+# Virtual Teacher - Gold Project
 
 Virtual Teacher is an online platform for tutoring. Users will be able to register as either a teacher or a student.
 
